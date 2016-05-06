@@ -15,7 +15,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class ProfessorDAO extends DAO {
+public class ProfessorDAO extends ColaboradorDAO {
     
     /**
      * Adiciona Professor a memória
@@ -38,7 +38,7 @@ public class ProfessorDAO extends DAO {
         try {
             List<Professor> professores = memoria.getProfessores();
             int id = 1;
-            if(professores.size() != 0)
+            if(!professores.isEmpty())
                 id = professores.get(professores.size() - 1).getIdentificador();
             prof.setIdentificador(id);
 
@@ -97,6 +97,7 @@ public class ProfessorDAO extends DAO {
      * @param id
      * @return 
      */
+    @Override
     public Professor buscar(int id) {
         List<Professor> professores = memoria.getProfessores();
         for (Professor pesq : professores) {

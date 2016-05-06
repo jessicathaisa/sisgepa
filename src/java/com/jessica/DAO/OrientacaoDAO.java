@@ -49,6 +49,9 @@ public class OrientacaoDAO extends DAO{
             } catch (OutOfMemoryError oomex) {
                 return null;
             }
+            
+            aluno.getProducoes().add(orientacao);
+            professor.getProducoes().add(orientacao);
         }
         
         return orientacao;
@@ -69,7 +72,11 @@ public class OrientacaoDAO extends DAO{
                 break;
             }
         }
+        if(obj == null)
+            return false;
         try {
+            obj.getAluno().getProducoes().remove(obj);
+            obj.getProfessor().getProducoes().remove(obj);
             memoria.getOrientacoes().remove(obj);
         } catch (Exception ex) {
             return false;
@@ -87,7 +94,7 @@ public class OrientacaoDAO extends DAO{
     }
     
     /**
-     * Encontra uma orientacao pelo id do alno e o id do professor
+     * Encontra uma orientacao pelo id do aluno e o id do professor
      * @param idAluno
      * @param idProfessor
      * @return 

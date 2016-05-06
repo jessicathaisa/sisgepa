@@ -21,7 +21,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class AlunoDAO extends DAO{
+public class AlunoDAO extends ColaboradorDAO{
     
     /**
      * Adiciona Aluno na memória
@@ -144,6 +144,7 @@ public class AlunoDAO extends DAO{
      * @param id
      * @return 
      */
+    @Override
     public Aluno buscar(int id) {
         List<Aluno> alunos = memoria.getAlunos();
         for (Aluno aluno : alunos) {

@@ -6,6 +6,8 @@
  */
 package com.jessica.DAO;
 
+import com.jessica.Modelo.Colaborador;
+
 /**
  *
  * @author Jessica
@@ -14,5 +16,9 @@ public class ColaboradorDAO extends DAO {
     public int buscarTotal(){
         return memoria.getAlunos().size() + memoria.getProfessores().size() +
                 memoria.getPesquisadores().size();
+    }
+    
+    public Colaborador buscar(int id){
+        return null;
     }
 }

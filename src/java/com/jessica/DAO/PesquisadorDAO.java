@@ -7,17 +7,15 @@
 package com.jessica.DAO;
 
 import com.jessica.Modelo.Pesquisador;
-import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Usuario;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  *
  * @author Jessica
  */
-public class PesquisadorDAO extends DAO {
+public class PesquisadorDAO extends ColaboradorDAO {
     
     /**
      * Adiciona Pesquisador a memória
@@ -99,6 +97,7 @@ public class PesquisadorDAO extends DAO {
      * @param id
      * @return 
      */
+    @Override
     public Pesquisador buscar(int id) {
         List<Pesquisador> pesquisadores = memoria.getPesquisadores();
         for (Pesquisador pesq : pesquisadores) {

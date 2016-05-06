@@ -6,6 +6,7 @@
  */
 package com.jessica.Modelo;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -15,8 +16,13 @@ import java.util.List;
 public class Publicacao extends ProducaoAcademica {
     private List<Colaborador> autores;
     private int ano;
+    private String conferencia;
     private Projeto projeto;
 
+    public Publicacao() {
+        autores = new ArrayList<>();
+    }
+    
     /**
      * @return the autores
      */
@@ -57,5 +63,19 @@ public class Publicacao extends ProducaoAcademica {
      */
     public void setProjeto(Projeto projeto) {
         this.projeto = projeto;
+    }
+
+    /**
+     * @return the conferencia
+     */
+    public String getConferencia() {
+        return conferencia;
+    }
+
+    /**
+     * @param conferencia the conferencia to set
+     */
+    public void setConferencia(String conferencia) {
+        this.conferencia = conferencia;
     }
 }
