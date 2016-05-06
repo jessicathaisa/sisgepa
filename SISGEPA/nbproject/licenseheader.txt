@@ -1,0 +1,10 @@
+<#if licenseFirst??>
+${licenseFirst}
+</#if>
+${licensePrefix}Projeto SISGEPA - Sistema de Gestao de Producao Academica
+${licensePrefix}Disciplina Projeto de Sistemas de Software
+${licensePrefix}Professor Carlos J. P. de Lucena
+${licensePrefix}PUC-Rio 2016.1
+<#if licenseLast??>
+${licenseLast}
+</#if>
