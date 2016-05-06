@@ -6,6 +6,7 @@
  */
 package com.jessica.Modelo;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class Projeto {
     private List<Colaborador> participantes;
     private List<Publicacao> publicacoes;
 
+    public Projeto() {
+        publicacoes = new ArrayList<>();
+        participantes = new ArrayList<>();
+    }
+    
     /**
      * @return the identificador
      */
