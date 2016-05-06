@@ -79,18 +79,18 @@ public class PesquisadorDAO extends DAO {
      */
     public boolean remPesquisador(int id) {
         List<Pesquisador> pesquisadores = memoria.getPesquisadores();
-
+        Pesquisador obj = null;
         for (Pesquisador pesq : pesquisadores) {
             if (pesq.getIdentificador() == id) {
-                try {
-                    memoria.getPesquisadores().remove(pesq);
-                } catch (Exception ex) {
-                    return false;
-                }
-                return true;
+                obj = pesq;
+                break;
             }
         }
-
+        try {
+            memoria.getPesquisadores().remove(obj);
+        } catch (Exception ex) {
+            return false;
+        }
         return true;
     }
 

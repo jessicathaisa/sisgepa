@@ -7,15 +7,29 @@
 package com.jessica.DAO;
 
 import com.jessica.Modelo.Projeto;
+import java.util.List;
 
 /**
  *
  * @author Jessica
  */
 public class ProjetoDAO extends DAO{
-
+    
+    
+    
+    /**
+     * Busca projeto pelo identificador
+     * @param id
+     * @return 
+     */
     public Projeto buscar(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Projeto> projetos = memoria.getProjetos();
+        for (Projeto proj : projetos) {
+            if (proj.getIdentificador() == id) {
+                return proj;
+            }
+        }
+        return null;
     }
     
 }

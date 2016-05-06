@@ -52,18 +52,17 @@ public class UsuarioDAO extends DAO {
      */
     public boolean remUsuario(String login) {
         List<Usuario> usuarios = memoria.getUsuarios();
-
+        Usuario obj = null;
         for (Usuario user : usuarios) {
             if (user.getLogin().equalsIgnoreCase(login)) {
-                try {
-                    memoria.getUsuarios().remove(user);
-                } catch (Exception ex) {
-                    return false;
-                }
-                return true;
+                obj = user;
             }
         }
-
+        try {
+            memoria.getUsuarios().remove(obj);
+        } catch (Exception ex) {
+            return false;
+        }
         return true;
     }
 

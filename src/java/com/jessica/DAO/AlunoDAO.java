@@ -124,16 +124,17 @@ public class AlunoDAO extends DAO{
      */
     public boolean remAluno(int id) {
         List<Aluno> alunos = memoria.getAlunos();
-
+        Aluno obj = null;
         for (Aluno aluno : alunos) {
             if (aluno.getIdentificador() == id) {
-                try {
-                    memoria.getAlunos().remove(aluno);
-                } catch (Exception ex) {
-                    return false;
-                }
-                return true;
+                obj = aluno;
+                break;
             }
+        }
+        try {
+            memoria.getAlunos().remove(obj);
+        } catch (Exception ex) {
+            return false;
         }
         return true;
     }

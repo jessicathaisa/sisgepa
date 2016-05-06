@@ -77,18 +77,18 @@ public class ProfessorDAO extends DAO {
      */
     public boolean remProfessor(int id) {
         List<Professor> professores = memoria.getProfessores();
-
+        Professor obj = null;
         for (Professor prof : professores) {
             if (prof.getIdentificador() == id) {
-                try {
-                    memoria.getProfessores().remove(prof);
-                } catch (Exception ex) {
-                    return false;
-                }
-                return true;
+                obj = prof;
+                break;
             }
         }
-
+        try {
+            memoria.getProfessores().remove(obj);
+        } catch (Exception ex) {
+            return false;
+        }        
         return true;
     }
 
