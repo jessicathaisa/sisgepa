@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 abstract class ControladorCentral extends HttpServlet {
 
-    private Fachada fachada = null;
+    protected Fachada fachada = null;
     
     /**
      * Processa as chamadas HTTP.
@@ -33,7 +33,9 @@ abstract class ControladorCentral extends HttpServlet {
 
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.service(req, resp); //To change body of generated methods, choose Tools | Templates.
+        //super.service(req, resp); //To change body of generated methods, choose Tools | Templates.
+        verificaLogado(req, resp);
+        processa(req, resp);
     }
 
     /**

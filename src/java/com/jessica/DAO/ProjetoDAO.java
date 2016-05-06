@@ -7,6 +7,7 @@
 package com.jessica.DAO;
 
 import com.jessica.Modelo.Colaborador;
+import com.jessica.Modelo.Professor;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.StatusProjeto;
@@ -274,4 +275,47 @@ public class ProjetoDAO extends DAO{
         return null;
     }
     
+    /**
+     * Buscar numero total de projetos
+     * @return 
+     */
+    public int buscarTotal(){
+        List<Projeto> projetos = memoria.getProjetos();
+        
+        return projetos.size();
+    }
+    
+    /**
+     * Buscar numero total de projetos
+     * @param status
+     * @return 
+     */
+    public int buscarTotal(StatusProjeto status){
+        List<Projeto> projetos = memoria.getProjetos();
+        int quantidade = 0;
+        for (Projeto proj : projetos) {
+            if (proj.getStatus() == status) {
+                quantidade++;
+            }
+        }
+        
+        return quantidade;
+    }
+    
+    /**
+     * Retorna o total de professores existentes no projeto.
+     * @param idProjeto
+     * @return 
+     */
+    public int buscarTotalProfessores(int idProjeto){
+        Projeto projeto = buscar(idProjeto);
+        int quantidade = 0;
+        for (Colaborador col : projeto.getParticipantes()) {
+            if (col instanceof Professor) {
+                quantidade++;
+            }
+        }
+        
+        return quantidade;
+    }
 }
