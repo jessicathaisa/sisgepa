@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--
+Projeto SISGEPA - Sistema de Gestao de Producao Academica
+Disciplina Projeto de Sistemas de Software
+Professor Carlos J. P. de Lucena
+PUC-Rio 2016.1
+-->
+<html ng-app="sisgepa">
+    <head>
+        <title>SISGEPA - Relatório da Produção Acadêmica</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css"/>
+        <link href="css/sticky-footer.css" rel="stylesheet" type="text/css"/>
+        <link href="css/geral.css" rel="stylesheet" type="text/css"/>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/angular.min.js" type="text/javascript"></script>
+
+        <script src="js/geral.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="header"></div>
+            <div id="page-content-wrapper">
+                <div class="container">
+                    <div  ng-controller="RelatorioController" class="col-md-12">
+                        <h1> Relatório da Produção Acadêmica</h1>
+                        <div class="table-responsive">
+                            <table border="1" class="table table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>#Colaboradores</th>
+                                        <th>#Total de Projetos</th>
+                                        <th>#Projetos em Elaboração</th>
+                                        <th>#Projetos em Andamento</th>
+                                        <th>#Projetos Concluídos</th>
+                                        <th>#Orientações</th>
+                                        <th>#Publicações</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{relatorio.totalColaboradores}}</td>
+                                        <td>{{relatorio.totalProjetos}}</td>
+                                        <td>{{relatorio.totalProjetosEmElaboracao}}</td>
+                                        <td>{{relatorio.totalProjetosEmAndamento}}</td>
+                                        <td>{{relatorio.totalProjetosConcluidos}}</td>
+                                        <td>{{relatorio.totalOrientacoes}}</td>
+                                        <td>{{relatorio.totalPublicacoes}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </body>
+</html>

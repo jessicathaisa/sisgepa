@@ -1,0 +1,38 @@
+/*
+Projeto SISGEPA - Sistema de Gestao de Producao Academica
+Disciplina Projeto de Sistemas de Software
+Professor Carlos J. P. de Lucena
+PUC-Rio 2016.1
+*/
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 100px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 100px;
+  background-color: #f5f5f5;
+}
+
+
+/* Custom page CSS
+-------------------------------------------------- */
+/* Not required for template or sticky footer method. */
+
+.footer .container {
+  width: auto;
+  max-width: 680px;
+  padding: 0 15px;
+}
+.footer .container .text-muted {
+  margin: 20px 0;
+}
