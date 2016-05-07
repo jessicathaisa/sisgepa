@@ -26,6 +26,21 @@ function VerificaLoginController($scope, $http, $window) {
         };
         $http(req).success(function (data, status) { $window.location.href = 'index.html';});
     };
+    // calling our submit function.
+    $scope.verificaNaoLogado = function () {
+        var dados = {};
+        dados.comando = "verificaLogado";
+        console.log($scope.form);
+        req = {
+            method: 'POST',
+            url: 'UsuarioServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : dados
+        };
+        $http(req).error(function (data, status) { $window.location.href = 'login.html';});
+    };
 }
 
 
