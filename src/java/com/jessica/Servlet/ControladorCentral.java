@@ -12,6 +12,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletResponse;
 abstract class ControladorCentral extends HttpServlet {
 
     protected Fachada fachada = null;
+    protected boolean logado = false;
     
     /**
      * Processa as chamadas HTTP.
@@ -34,7 +36,7 @@ abstract class ControladorCentral extends HttpServlet {
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //super.service(req, resp); //To change body of generated methods, choose Tools | Templates.
-        verificaLogado(req, resp);
+        logado = verificaLogado(req, resp);
         processa(req, resp);
     }
 
@@ -46,8 +48,14 @@ abstract class ControladorCentral extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    private boolean verificaLogado(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
-        
+    protected boolean verificaLogado(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException{
+        HttpSession sessao = null;
+        sessao = request.getSession();
+        if(sessao != null){
+            Boolean estaLogado = (Boolean) sessao.getAttribute("logado");
+            if(estaLogado != null)
+                return estaLogado;
+        }
         return false;
     }
 }

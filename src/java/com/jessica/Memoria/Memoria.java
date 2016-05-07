@@ -12,6 +12,7 @@ import com.jessica.Modelo.Pesquisador;
 import com.jessica.Modelo.Professor;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
+import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,6 +40,13 @@ public class Memoria {
         projetos = new ArrayList<>();
         publicacoes = new ArrayList<>();
         orientacoes = new ArrayList<>();
+        
+        Usuario usuario = new Usuario();
+        usuario.setLogin("jessica");
+        usuario.setSenha("jessica");
+        usuario.setIdentificador(1);
+        usuario.setTipo(TipoUsuario.ADMINISTRADOR);
+        usuarios.add(usuario);
     }
 
     /**
