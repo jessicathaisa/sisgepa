@@ -29,9 +29,8 @@ public class UsuarioServlet extends ControladorCentral {
         Gson gson = new Gson();
         Retorno obj = (Retorno) gson.fromJson(request.getReader(), Retorno.class );
         
-        UsuarioFachada usuarioFachada = new UsuarioFachada();
-        
         if(obj.comando != null && obj.comando.equals("realizarLogin")){
+            UsuarioFachada usuarioFachada = new UsuarioFachada();
             boolean conseguiuLogin = usuarioFachada.verificarPermissaoAcesso(obj.usuario, obj.senha);
             
             if(!conseguiuLogin)
@@ -48,8 +47,20 @@ public class UsuarioServlet extends ControladorCentral {
             else
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+        else if(obj.comando != null && obj.comando.equals("realizarLogout")){
+            if(logado){
+                realizarLogout(request, response);
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+            else
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
         else
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     }
 
+    private void realizarLogout(HttpServletRequest request, HttpServletResponse response){
+        request.getSession().setAttribute("logado", false);
+        request.getSession().invalidate();
+    }
 }
