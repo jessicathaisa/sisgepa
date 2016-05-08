@@ -5,9 +5,10 @@
  * PUC-Rio 2016.1
  */
 var app = angular.module('sisgepa', []);
-app.controller('RelatorioController', RelatorioController);
-app.controller('SendLoginController', SendLoginController);
 app.controller('VerificaLoginController', VerificaLoginController);
+app.controller('SendLoginController', SendLoginController);
+app.controller('SendLogoutController', SendLogoutController);
+app.controller('RelatorioController', RelatorioController);
 
 
 function VerificaLoginController($scope, $http, $window) {
@@ -28,6 +29,7 @@ function VerificaLoginController($scope, $http, $window) {
     };
     // calling our submit function.
     $scope.verificaNaoLogado = function () {
+        console.log("VERIFICAR SE NÃO ESTÁ LOGADO");
         var dados = {};
         dados.comando = "verificaLogado";
         console.log($scope.form);
@@ -72,6 +74,27 @@ function SendLoginController($scope, $http, $window) {
                 });
     };
 }
+
+
+function SendLogoutController($scope, $http, $window) {
+    $scope.realizarLogout = function () {
+        $scope.mensagem = "Realizando o Logout...";
+        var dados = {};
+        dados.comando = "realizarLogout";
+        console.log($scope.form);
+        req = {
+            method: 'POST',
+            url: 'UsuarioServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data : dados
+        };
+        $http(req).success(function (data, status) { $window.location.href = 'login.html';})
+                .error(function (data, status) { if(status === 401)$window.location.href = 'login.html'; else $scope.mensagem="Erro ao realizar logout.";});
+    };
+}
+
 
 function RelatorioController($scope, $http) {
     this.relatorio = {};

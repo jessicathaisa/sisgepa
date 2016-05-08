@@ -3,8 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group name="trabalho">
+            <file>file:/C:/PSS/SISGEPA/src/java/com/jessica/Fachada/UsuarioFachada.java</file>
             <file>file:/C:/PSS/SISGEPA/web/js/app.js</file>
-            <file>file:/C:/PSS/SISGEPA/web/login.html</file>
+            <file>file:/C:/PSS/SISGEPA/src/java/com/jessica/DAO/ProjetoDAO.java</file>
+            <file>file:/C:/PSS/SISGEPA/src/java/com/jessica/Fachada/Relatorio.java</file>
+            <file>file:/C:/PSS/SISGEPA/src/java/com/jessica/Fachada/RelatorioFachada.java</file>
+            <file>file:/C:/PSS/SISGEPA/src/java/com/jessica/DAO/UsuarioDAO.java</file>
             <file>file:/C:/PSS/SISGEPA/src/java/com/jessica/Servlet/UsuarioServlet.java</file>
         </group>
     </open-files>
