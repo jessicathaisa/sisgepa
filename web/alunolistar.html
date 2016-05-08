@@ -36,7 +36,7 @@ PUC-Rio 2016.1
                     <div class="row">
                         <div class="col-md-12">
                             <div class="table-responsive">
-                                <table border="1" class="table table-bordered">
+                                <table border="1" class="table table-hover">
                                     <thead>
                                         <tr>
                                             <th>Identificador</th>
@@ -55,7 +55,7 @@ PUC-Rio 2016.1
                                             <td>{{aluno.email}}</td>
                                             <td>{{aluno.tipoAluno}}</td>
                                             <td>{{aluno.regimeCurso}}</td>
-                                            <td>{{aluno.dataIngresso}}</td>
+                                            <td>{{aluno.dataIngresso | date:'yyyy-MM-dd'}}</td>
                                             <td>{{aluno.orientador.nome}}</td>
                                         </tr>
                                         <tr ng-hide="alunos.length">
