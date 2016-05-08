@@ -14,8 +14,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,7 +44,18 @@ public class AlunoServlet extends ControladorCentral {
         Gson gson = new Gson();
         Retorno obj = (Retorno) gson.fromJson(request.getReader(), Retorno.class);
 
-        if (obj.comando != null && obj.comando.equals("cadastrarAluno")) {
+        
+        if (obj.comando != null && obj.comando.equals("listarAlunos")) {
+            AlunoFachada fachada = new AlunoFachada();
+            List<Aluno> alunos = fachada.listarAlunos();
+            String json = gson.toJson(alunos);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+            response.setStatus(HttpServletResponse.SC_OK);
+        }
+        else if (obj.comando != null && obj.comando.equals("cadastrarAluno")) {
             AlunoFachada fachada = new AlunoFachada();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Aluno aluno = null;

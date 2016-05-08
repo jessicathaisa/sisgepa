@@ -128,26 +128,23 @@ function AlunoController($scope, $http, $window) {
     this.mensagem = "";
 
     this.professores = {};
+    this.alunos = {};
     this.chamada = {};
     this.chamada.comando = "listarProfessores";
-    /*req = {
-     method: 'POST',
-     url: 'ProfessorServlet',
-     headers: {
-     'Content-Type': 'application/json'
-     },
-     data: this.chamada
-     };
-     $http(req)
-     .success(function (data, status) {
-     this.professores = data;
-     });
-     */
-
 
     $http.post('ProfessorServlet', this.chamada).
             success(function (data) {
                 $scope.professores = data;
+            }).
+            error(function (data) {
+                // log error
+            });
+            
+    this.chamada = {};
+    this.chamada.comando = "listarAlunos";
+    $http.post('AlunoServlet', this.chamada).
+            success(function (data) {
+                $scope.alunos = data;
             }).
             error(function (data) {
                 // log error

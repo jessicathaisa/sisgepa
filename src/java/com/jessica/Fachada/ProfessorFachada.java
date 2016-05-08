@@ -15,6 +15,10 @@ import java.util.List;
  * @author Jessica
  */
 public class ProfessorFachada extends Fachada{
+    /**
+     * Lista os professores existentes no sistema
+     * @return 
+     */
     public List<Professor> listarProfessores(){
         ProfessorDAO dao = new ProfessorDAO();
         return dao.listar();

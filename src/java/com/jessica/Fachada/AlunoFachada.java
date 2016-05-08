@@ -15,6 +15,7 @@ import com.jessica.Modelo.TipoAluno;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
 import java.util.Date;
+import java.util.List;
 
 /**
  *
@@ -22,16 +23,32 @@ import java.util.Date;
  */
 public class AlunoFachada extends Fachada {
 
+    /**
+     * Cadastra um aluno
+     * @param nome
+     * @param email
+     * @param tipoAluno
+     * @param idOrientador
+     * @param dataIngresso
+     * @param regimeCurso
+     * @param loginUsuario
+     * @param senhaUsuario
+     * @param tipoUsuario
+     * @return
+     * @throws UsuarioDuplicadoException 
+     */
     public Aluno cadastrarAluno(String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
         Aluno aluno = null;
         AlunoDAO dao = new AlunoDAO();
         UsuarioDAO usdao = new UsuarioDAO();
         Usuario usuario = null;
         
+        // Verifica se o usuário já existe no sistema
         usuario = usdao.buscar(loginUsuario);
         if(usuario != null)
             throw new UsuarioDuplicadoException();
         
+        // Tenta parsear os dados vindos do cliente
         try {
             TipoUsuario tipoUser = TipoUsuario.valueOf(tipoUsuario);
             usuario = usdao.addUsuario(email, email, tipoUser);
@@ -49,5 +66,14 @@ public class AlunoFachada extends Fachada {
         }
         
         return aluno;
+    }
+    
+    /**
+     * lista os alunos existentes no sistema
+     * @return 
+     */
+    public List<Aluno> listarAlunos(){
+        AlunoDAO dao = new AlunoDAO();
+        return dao.listar();
     }
 }
