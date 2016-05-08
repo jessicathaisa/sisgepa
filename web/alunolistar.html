@@ -14,7 +14,6 @@ PUC-Rio 2016.1
         <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
         <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css"/>
         <link href="css/sticky-footer.css" rel="stylesheet" type="text/css"/>
-        <link href="css/geral.css" rel="stylesheet" type="text/css"/>
 
         <script src="js/jquery.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
@@ -29,42 +28,41 @@ PUC-Rio 2016.1
             <div id="header"></div>
             <div id="page-content-wrapper">
                 <div class="container" ng-controller="AlunoController">
+                    <div class="page-header">
+                        <h1>Alunos <small><a href="alunocadastrar.html">Novo Aluno</a></small></h1>
+                    </div>
+                    <div class="row">&nbsp;</div>
                     <div class="row">
                         <div class="col-md-12">
-                            <h1> Alunos </h1>
-                        </div>                        
-                    </div>
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a class="btn btn-primary btn-lg" href="alunocadastrar.html" role="button">Novo Aluno</a>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="table-responsive">
-                            <table border="1" class="table table-bordered">
-                                <thead>
-                                    <tr>
-                                        <th>Identificador</th>
-                                        <th>Nome</th>
-                                        <th>Email</th>
-                                        <th>Tipo</th>
-                                        <th>Regime</th>
-                                        <th>Data Ingresso</th>
-                                        <th>Orientador</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr ng-repeat="aluno in alunos">
-                                        <td>{{aluno.identificador}}</td>
-                                        <td>{{aluno.nome}}</td>
-                                        <td>{{aluno.email}}</td>
-                                        <td>{{aluno.tipo}}</td>
-                                        <td>{{aluno.regime}}</td>
-                                        <td>{{aluno.dataIngresso}}</td>
-                                        <td>{{aluno.orientador.nome}}</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <div class="table-responsive">
+                                <table border="1" class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th>Identificador</th>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                            <th>Tipo</th>
+                                            <th>Regime</th>
+                                            <th>Data Ingresso</th>
+                                            <th>Orientador</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="aluno in alunos">
+                                            <td>{{aluno.identificador}}</td>
+                                            <td>{{aluno.nome}}</td>
+                                            <td>{{aluno.email}}</td>
+                                            <td>{{aluno.tipoAluno}}</td>
+                                            <td>{{aluno.regimeCurso}}</td>
+                                            <td>{{aluno.dataIngresso}}</td>
+                                            <td>{{aluno.orientador.nome}}</td>
+                                        </tr>
+                                        <tr ng-hide="alunos isEmpty">
+                                            <td colspan="7">Não existem alunos cadastrados.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
