@@ -8,6 +8,7 @@ package com.jessica.Fachada;
 
 import com.jessica.DAO.AlunoDAO;
 import com.jessica.DAO.UsuarioDAO;
+import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.RegimeCurso;
 import com.jessica.Modelo.TipoAluno;
@@ -21,11 +22,16 @@ import java.util.Date;
  */
 public class AlunoFachada extends Fachada {
 
-    public Aluno cadastrarAluno(String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) {
+    public Aluno cadastrarAluno(String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
         Aluno aluno = null;
         AlunoDAO dao = new AlunoDAO();
         UsuarioDAO usdao = new UsuarioDAO();
         Usuario usuario = null;
+        
+        usuario = usdao.buscar(loginUsuario);
+        if(usuario != null)
+            throw new UsuarioDuplicadoException();
+        
         try {
             TipoUsuario tipoUser = TipoUsuario.valueOf(tipoUsuario);
             usuario = usdao.addUsuario(email, email, tipoUser);

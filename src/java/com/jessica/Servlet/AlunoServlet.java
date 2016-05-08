@@ -7,12 +7,15 @@
 package com.jessica.Servlet;
 
 import com.google.gson.Gson;
+import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.AlunoFachada;
 import com.jessica.Modelo.Aluno;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -50,12 +53,14 @@ public class AlunoServlet extends ControladorCentral {
             try {
                 Date dataIngresso = sdf.parse(obj.dataIngresso);
                 aluno = fachada.cadastrarAluno(obj.nome, obj.email, obj.tipo, Integer.parseInt(obj.orientador), dataIngresso, obj.regime, obj.usuario, obj.senha, obj.tipoUsuario);
-            } catch (ParseException pe) {
-            }
-            if (aluno == null) {
-                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-            } else {
+                
                 response.setStatus(HttpServletResponse.SC_CREATED);
+            } catch (ParseException pe) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (UsuarioDuplicadoException ex) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            } catch (Exception e){
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

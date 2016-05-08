@@ -183,6 +183,9 @@ function AlunoController($scope, $http, $window) {
                     else if (status === 500) {
                         $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
                     }
+                    else if (status === 409) {
+                        $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+                    }
                 });
     };
 }
