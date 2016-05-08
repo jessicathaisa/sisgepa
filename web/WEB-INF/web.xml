@@ -8,6 +8,14 @@
         <servlet-name>UsuarioServlet</servlet-name>
         <servlet-class>com.jessica.Servlet.UsuarioServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProfessorServlet</servlet-name>
+        <servlet-class>com.jessica.Servlet.ProfessorServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>AlunoServlet</servlet-name>
+        <servlet-class>com.jessica.Servlet.AlunoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RelatorioServlet</servlet-name>
         <url-pattern>/RelatorioServlet</url-pattern>
@@ -15,6 +23,14 @@
     <servlet-mapping>
         <servlet-name>UsuarioServlet</servlet-name>
         <url-pattern>/UsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProfessorServlet</servlet-name>
+        <url-pattern>/ProfessorServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AlunoServlet</servlet-name>
+        <url-pattern>/AlunoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

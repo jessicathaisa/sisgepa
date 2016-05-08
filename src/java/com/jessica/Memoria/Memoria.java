@@ -41,12 +41,54 @@ public class Memoria {
         publicacoes = new ArrayList<>();
         orientacoes = new ArrayList<>();
         
+        /*Administrador Inicial*/
         Usuario usuario = new Usuario();
         usuario.setLogin("jessica");
         usuario.setSenha("jessica");
         usuario.setIdentificador(1);
         usuario.setTipo(TipoUsuario.ADMINISTRADOR);
         usuarios.add(usuario);
+        
+        /*Professores*/
+        Usuario usuariop1 = new Usuario();
+        usuariop1.setLogin("professor1");
+        usuariop1.setSenha("professor1");
+        usuariop1.setIdentificador(2);
+        usuariop1.setTipo(TipoUsuario.COLABORADOR);
+        usuarios.add(usuariop1);
+        Usuario usuariop2 = new Usuario();
+        usuariop2.setLogin("professor2");
+        usuariop2.setSenha("professor2");
+        usuariop2.setIdentificador(3);
+        usuariop2.setTipo(TipoUsuario.GERENTE);
+        usuarios.add(usuariop2);
+        Usuario usuariop3 = new Usuario();
+        usuariop3.setLogin("professor3");
+        usuariop3.setSenha("professor3");
+        usuariop3.setIdentificador(4);
+        usuariop3.setTipo(TipoUsuario.COLABORADOR);
+        usuarios.add(usuariop3);
+        
+        Professor professor1 = new Professor();
+        professor1.setNome("Prof. Carlos");
+        professor1.setEmail("carlos@email.br");
+        professor1.setIdentificador(100);
+        professor1.setUsuario(usuariop1);
+        professores.add(professor1);
+        
+        Professor professor2 = new Professor();
+        professor2.setNome("Prof. Arnaldo");
+        professor2.setEmail("arnaldo@email.br");
+        professor2.setIdentificador(101);
+        professor2.setUsuario(usuariop2);
+        professores.add(professor2);
+        
+        Professor professor3 = new Professor();
+        professor3.setNome("Prof. Paulo");
+        professor3.setEmail("paulo@email.br");
+        professor3.setIdentificador(102);
+        professor3.setUsuario(usuariop3);
+        professores.add(professor3);
     }
 
     /**
