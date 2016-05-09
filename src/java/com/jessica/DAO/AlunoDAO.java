@@ -64,8 +64,8 @@ public class AlunoDAO extends ColaboradorDAO{
         try {
             List<Aluno> alunos = memoria.getAlunos();
             int id = 1;
-            if(alunos.size() != 0)
-                id = alunos.get(alunos.size() - 1).getIdentificador();
+            if(!alunos.isEmpty())
+                id = alunos.get(alunos.size() - 1).getIdentificador() + 1;
             aluno.setIdentificador(id);
 
             memoria.getAlunos().add(aluno);

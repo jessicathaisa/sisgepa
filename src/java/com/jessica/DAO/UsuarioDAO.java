@@ -34,7 +34,7 @@ public class UsuarioDAO extends DAO {
             List<Usuario> usuarios = memoria.getUsuarios();
             int id = 1;
             if(usuarios.size() != 0)
-                id = usuarios.get(usuarios.size() - 1).getIdentificador();
+                id = usuarios.get(usuarios.size() - 1).getIdentificador() + 1;
             usuario.setIdentificador(id);
 
             memoria.getUsuarios().add(usuario);

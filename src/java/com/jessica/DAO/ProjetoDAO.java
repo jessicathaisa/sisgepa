@@ -47,7 +47,7 @@ public class ProjetoDAO extends DAO{
             List<Projeto> projetos = memoria.getProjetos();
             int id = 1;
             if(!projetos.isEmpty())
-                id = projetos.get(projetos.size() - 1).getIdentificador();
+                id = projetos.get(projetos.size() - 1).getIdentificador() + 1;
             projeto.setIdentificador(id);
 
             memoria.getProjetos().add(projeto);

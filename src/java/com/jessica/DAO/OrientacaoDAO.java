@@ -42,7 +42,7 @@ public class OrientacaoDAO extends DAO{
                 List<Orientacao> orientacoes = memoria.getOrientacoes();
                 int id = 1;
                 if(!orientacoes.isEmpty())
-                    id = orientacoes.get(orientacoes.size() - 1).getIdentificador();
+                    id = orientacoes.get(orientacoes.size() - 1).getIdentificador() + 1;
                 orientacao.setIdentificador(id);
 
                 memoria.getOrientacoes().add(orientacao);

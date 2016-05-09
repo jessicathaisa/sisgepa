@@ -38,8 +38,8 @@ public class PesquisadorDAO extends ColaboradorDAO {
         try {
             List<Pesquisador> pesquisadores = memoria.getPesquisadores();
             int id = 1;
-            if(pesquisadores.size() != 0)
-                id = pesquisadores.get(pesquisadores.size() - 1).getIdentificador();
+            if(!pesquisadores.isEmpty())
+                id = pesquisadores.get(pesquisadores.size() - 1).getIdentificador() + 1;
             pesq.setIdentificador(id);
 
             memoria.getPesquisadores().add(pesq);

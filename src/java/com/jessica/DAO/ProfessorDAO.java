@@ -39,7 +39,7 @@ public class ProfessorDAO extends ColaboradorDAO {
             List<Professor> professores = memoria.getProfessores();
             int id = 1;
             if(!professores.isEmpty())
-                id = professores.get(professores.size() - 1).getIdentificador();
+                id = professores.get(professores.size() - 1).getIdentificador() + 1;
             prof.setIdentificador(id);
 
             memoria.getProfessores().add(prof);

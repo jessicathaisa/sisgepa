@@ -35,7 +35,7 @@ public class PublicacaoDAO extends DAO {
             List<Publicacao> publicacoes = memoria.getPublicacoes();
             int id = 1;
             if (!publicacoes.isEmpty()) {
-                id = publicacoes.get(publicacoes.size() - 1).getIdentificador();
+                id = publicacoes.get(publicacoes.size() - 1).getIdentificador() + 1;
             }
             pub.setIdentificador(id);
 
