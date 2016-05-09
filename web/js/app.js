@@ -124,8 +124,9 @@ function RelatorioController($scope, $http) {
 
 
 
-function AlunoController($scope, $http, $window) {
+function AlunoController($scope, $http, $window, $location) {
     this.mensagem = "";
+    var idAluno = $location.search().id;
 
     this.professores = {};
     this.alunos = {};
@@ -139,7 +140,7 @@ function AlunoController($scope, $http, $window) {
             error(function (data) {
                 // log error
             });
-            
+
     this.chamada = {};
     this.chamada.comando = "listarAlunos";
     $http.post('AlunoServlet', this.chamada).
@@ -152,10 +153,22 @@ function AlunoController($scope, $http, $window) {
 
 
     $scope.form = {};
-    // calling our submit function.
+
+    // Buscar pelo id
+    this.chamada = {};
+    this.chamada.comando = "buscarAluno";
+    this.chamada.identificador = idAluno;
+    $http.post('AlunoServlet', this.chamada).
+            success(function (data) {
+                $scope.form = data;
+            }).
+            error(function (data) {
+                // log error
+            });
+
     $scope.submitForm = function () {
         $scope.mensagem = "";
-        $scope.form.comando = "cadastrarAluno";
+        $scope.form.comando = "editarAluno";
         console.log($scope.form);
         req = {
             method: 'POST',
@@ -169,8 +182,8 @@ function AlunoController($scope, $http, $window) {
         $http(req)
                 .success(function (data, status) {
                     if (status === 201) {
-                    alert("Cadastro realizado com sucesso!");
-                    $window.location.href = 'alunolistar.html';
+                        alert("Cadastro realizado com sucesso!");
+                        $window.location.href = 'alunolistar.html';
                     }
                 })
                 .error(function (data, status) {

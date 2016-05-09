@@ -68,6 +68,11 @@ public class AlunoFachada extends Fachada {
         return aluno;
     }
     
+    public Aluno buscarAluno(int id){
+        AlunoDAO dao = new AlunoDAO();
+        return dao.buscar(id);
+    }
+    
     /**
      * lista os alunos existentes no sistema
      * @return 

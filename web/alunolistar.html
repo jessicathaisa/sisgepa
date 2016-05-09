@@ -39,6 +39,7 @@ PUC-Rio 2016.1
                                 <table border="1" class="table table-hover">
                                     <thead>
                                         <tr>
+                                            <th>Ver</th>
                                             <th>Identificador</th>
                                             <th>Nome</th>
                                             <th>Email</th>
@@ -50,6 +51,7 @@ PUC-Rio 2016.1
                                     </thead>
                                     <tbody>
                                         <tr ng-repeat="aluno in alunos">
+                                            <td><a href="alunover.html#/?id={{aluno.identificador}}">Ver</a></td>
                                             <td>{{aluno.identificador}}</td>
                                             <td>{{aluno.nome}}</td>
                                             <td>{{aluno.email}}</td>

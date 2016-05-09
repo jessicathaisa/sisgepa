@@ -27,6 +27,7 @@ public class AlunoServlet extends ControladorCentral {
 
     class Retorno {
 
+        public String identificador;
         public String nome;
         public String email;
         public String tipo;
@@ -44,7 +45,6 @@ public class AlunoServlet extends ControladorCentral {
         Gson gson = new Gson();
         Retorno obj = (Retorno) gson.fromJson(request.getReader(), Retorno.class);
 
-        
         if (obj.comando != null && obj.comando.equals("listarAlunos")) {
             AlunoFachada fachada = new AlunoFachada();
             List<Aluno> alunos = fachada.listarAlunos();
@@ -54,8 +54,26 @@ public class AlunoServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
-        }
-        else if (obj.comando != null && obj.comando.equals("cadastrarAluno")) {
+        } else if (obj.comando != null && obj.comando.equals("buscarAluno")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                AlunoFachada fachada = new AlunoFachada();
+                Aluno aluno = null;
+                
+                try{
+                    aluno = fachada.buscarAluno(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(aluno);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
+        } else if (obj.comando != null && obj.comando.equals("cadastrarAluno")) {
             AlunoFachada fachada = new AlunoFachada();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             Aluno aluno = null;
@@ -63,18 +81,18 @@ public class AlunoServlet extends ControladorCentral {
             try {
                 Date dataIngresso = sdf.parse(obj.dataIngresso);
                 aluno = fachada.cadastrarAluno(obj.nome, obj.email, obj.tipo, Integer.parseInt(obj.orientador), dataIngresso, obj.regime, obj.usuario, obj.senha, obj.tipoUsuario);
-                
+
                 response.setStatus(HttpServletResponse.SC_CREATED);
             } catch (ParseException pe) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             } catch (UsuarioDuplicadoException ex) {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
-            } catch (Exception e){
+            } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+        }
     }
-}
 
 }
