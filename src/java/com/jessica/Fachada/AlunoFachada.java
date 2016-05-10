@@ -27,6 +27,7 @@ public class AlunoFachada extends Fachada {
 
     /**
      * Cadastra um aluno
+     *
      * @param nome
      * @param email
      * @param tipoAluno
@@ -37,65 +38,115 @@ public class AlunoFachada extends Fachada {
      * @param senhaUsuario
      * @param tipoUsuario
      * @return
-     * @throws UsuarioDuplicadoException 
+     * @throws UsuarioDuplicadoException
      */
     public Aluno cadastrarAluno(String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
         Aluno aluno = null;
         AlunoDAO dao = new AlunoDAO();
         UsuarioDAO usdao = new UsuarioDAO();
         Usuario usuario = null;
-        
+
         // Verifica se o usuário já existe no sistema
         usuario = usdao.buscar(loginUsuario);
-        if(usuario != null)
+        if (usuario != null) {
             throw new UsuarioDuplicadoException();
-        
+        }
+
         // Tenta parsear os dados vindos do cliente
         try {
             TipoUsuario tipoUser = TipoUsuario.valueOf(tipoUsuario);
-            usuario = usdao.addUsuario(email, email, tipoUser);
-            
+            usuario = usdao.addUsuario(loginUsuario, senhaUsuario, tipoUser);
+
             TipoAluno tipoAl = TipoAluno.valueOf(tipoAluno);
             RegimeCurso regime = RegimeCurso.NAO_SE_APLICA;
-            if(regimeCurso != null)
+            if (regimeCurso != null) {
                 regime = RegimeCurso.valueOf(regimeCurso);
-            
+            }
+
             aluno = dao.addAluno(nome, email, tipoAl, idOrientador, dataIngresso, regime, usuario.getIdentificador());
-            
-        }catch(IllegalArgumentException ilg){
-            if(usuario != null){
+
+        } catch (IllegalArgumentException ilg) {
+            if (usuario != null) {
                 usdao.remUsuario(usuario.getIdentificador());
             }
             return null;
         }
-        
+
         return aluno;
     }
-    
-    public Aluno buscarAluno(int id){
+
+    public Aluno editarAluno(int identificador, String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
+        Aluno aluno = null;
+        AlunoDAO dao = new AlunoDAO();
+        UsuarioDAO usdao = new UsuarioDAO();
+        Usuario usuario = null;
+
+        aluno = dao.buscar(identificador);
+        Usuario usuarioaluno = aluno.getUsuario();
+
+        if (loginUsuario.equals(usuarioaluno.getLogin())) {
+            // Não quero mudar.
+        } else {
+            // Verifica se o usuário já existe no sistema
+            usuario = usdao.buscar(loginUsuario);
+            if (usuario != null) {
+                throw new UsuarioDuplicadoException();
+            } else {
+                usdao.remUsuario(usuarioaluno.getIdentificador());
+                
+                TipoUsuario tipoUser = TipoUsuario.valueOf(tipoUsuario);
+                usuario = usdao.addUsuario(loginUsuario, senhaUsuario, tipoUser);
+            }
+
+        }
+        
+        // Tenta parsear os dados vindos do cliente
+        try {
+
+            TipoAluno tipoAl = TipoAluno.valueOf(tipoAluno);
+            RegimeCurso regime = RegimeCurso.NAO_SE_APLICA;
+            if (regimeCurso != null) {
+                regime = RegimeCurso.valueOf(regimeCurso);
+            }
+
+            aluno = dao.editarAluno(identificador, nome, email, tipoAl, idOrientador, dataIngresso, regime);
+            aluno.setUsuario(usuario);
+
+        } catch (IllegalArgumentException ilg) {
+            if (usuario != null) {
+                usdao.remUsuario(usuario.getIdentificador());
+            }
+            return null;
+        }
+
+        return aluno;
+    }
+
+    public Aluno buscarAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
         return dao.buscar(id);
     }
-    
+
     /**
      * lista os alunos existentes no sistema
-     * @return 
+     *
+     * @return
      */
-    public List<Aluno> listarAlunos(){
+    public List<Aluno> listarAlunos() {
         AlunoDAO dao = new AlunoDAO();
-        
+
         List<Aluno> lista = dao.listar();
         List<Aluno> listaAuxiliar = new ArrayList<>();
-        
-        if(lista != null){
-            for(Aluno a : lista){
-                for(Projeto p : a.getProjetos()){
+
+        if (lista != null) {
+            for (Aluno a : lista) {
+                for (Projeto p : a.getProjetos()) {
                     p.setParticipantes(null);
                 }
                 listaAuxiliar.add(a);
             }
         }
-        
+
         return listaAuxiliar;
     }
 }

@@ -96,6 +96,23 @@ public class AlunoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("editarAluno")) {
+            AlunoFachada fachada = new AlunoFachada();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            Aluno aluno = null;
+
+            try {
+                Date dataIngresso = sdf.parse(obj.dataIngresso);
+                aluno = fachada.editarAluno(Integer.parseInt(obj.identificador), obj.nome, obj.email, obj.tipo, Integer.parseInt(obj.orientador), dataIngresso, obj.regime, obj.usuario, obj.senha, obj.tipoUsuario);
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (ParseException pe) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            } catch (UsuarioDuplicadoException ex) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

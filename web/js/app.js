@@ -244,4 +244,37 @@ function AlunoController($scope, $http, $window, $location) {
                     }
                 });
     };
+
+    $scope.submitFormEditar = function () {
+        $scope.mensagem = "";
+        $scope.form.comando = "editarAluno";
+        $scope.form.orientador = $scope.form.orientador.identificador;
+        req = {
+            method: 'POST',
+            url: 'AlunoServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: $scope.form
+        };
+
+        $http(req)
+                .success(function (data, status) {
+                    if (status === 200) {
+                        alert("Edição realizada com sucesso!");
+                        $window.location.href = 'alunolistar.html';
+                    }
+                })
+                .error(function (data, status) {
+                    if (status === 401) {
+                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                    }
+                    else if (status === 500) {
+                        $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
+                    }
+                    else if (status === 409) {
+                        $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+                    }
+                });
+    };
 }
