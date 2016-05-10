@@ -11,6 +11,7 @@ app.controller('SendLoginController', SendLoginController);
 app.controller('SendLogoutController', SendLogoutController);
 app.controller('RelatorioController', RelatorioController);
 app.controller('AlunoController', AlunoController);
+app.controller('ProfessorController', AlunoController);
 
 
 function VerificaLoginController($scope, $http, $window) {
@@ -348,4 +349,27 @@ function AlunoController($scope, $http, $window, $location) {
                     });
         }
     };
+}
+
+
+/**************************************************/
+
+
+function ProfessorController($scope, $http, $window, $location) {
+    this.mensagem = "";
+    var idProfessor = $location.search().id;
+    var listar = $location.absUrl();
+
+    if (listar.indexOf("professorlistar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "listarProfessores";
+        $http.post('ProfessorServlet', this.chamada).
+                success(function (data) {
+                    $scope.professores = data;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
 }
