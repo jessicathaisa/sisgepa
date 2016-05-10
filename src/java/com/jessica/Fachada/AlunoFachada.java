@@ -10,10 +10,12 @@ import com.jessica.DAO.AlunoDAO;
 import com.jessica.DAO.UsuarioDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Modelo.Aluno;
+import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.RegimeCurso;
 import com.jessica.Modelo.TipoAluno;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -54,7 +56,9 @@ public class AlunoFachada extends Fachada {
             usuario = usdao.addUsuario(email, email, tipoUser);
             
             TipoAluno tipoAl = TipoAluno.valueOf(tipoAluno);
-            RegimeCurso regime = RegimeCurso.valueOf(regimeCurso);
+            RegimeCurso regime = RegimeCurso.NAO_SE_APLICA;
+            if(regimeCurso != null)
+                regime = RegimeCurso.valueOf(regimeCurso);
             
             aluno = dao.addAluno(nome, email, tipoAl, idOrientador, dataIngresso, regime, usuario.getIdentificador());
             
@@ -79,6 +83,19 @@ public class AlunoFachada extends Fachada {
      */
     public List<Aluno> listarAlunos(){
         AlunoDAO dao = new AlunoDAO();
-        return dao.listar();
+        
+        List<Aluno> lista = dao.listar();
+        List<Aluno> listaAuxiliar = new ArrayList<>();
+        
+        if(lista != null){
+            for(Aluno a : lista){
+                for(Projeto p : a.getProjetos()){
+                    p.setParticipantes(null);
+                }
+                listaAuxiliar.add(a);
+            }
+        }
+        
+        return listaAuxiliar;
     }
 }

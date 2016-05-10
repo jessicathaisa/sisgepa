@@ -48,12 +48,18 @@ public class AlunoServlet extends ControladorCentral {
         if (obj.comando != null && obj.comando.equals("listarAlunos")) {
             AlunoFachada fachada = new AlunoFachada();
             List<Aluno> alunos = fachada.listarAlunos();
-            String json = gson.toJson(alunos);
+            try{
+                String json = gson.toJson(alunos);
 
-            response.setContentType("application/json");
-            response.setCharacterEncoding("UTF-8");
-            response.getWriter().write(json);
-            response.setStatus(HttpServletResponse.SC_OK);
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+                response.setStatus(HttpServletResponse.SC_OK);
+            }
+            catch(Exception ex){
+                System.out.println(ex.getMessage());
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else if (obj.comando != null && obj.comando.equals("buscarAluno")) {
             if (obj.identificador != null && obj.identificador.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

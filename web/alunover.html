@@ -16,6 +16,7 @@ PUC-Rio 2016.1
         <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css"/>
         <link href="css/sticky-footer.css" rel="stylesheet" type="text/css"/>
         <link href="css/geral.css" rel="stylesheet" type="text/css"/>
+        <link href="css/callout.css" rel="stylesheet" type="text/css"/>
 
         <script src="js/jquery.min.js" type="text/javascript"></script>
         <script src="js/bootstrap.min.js" type="text/javascript"></script>
@@ -39,74 +40,57 @@ PUC-Rio 2016.1
                         <div class="alert alert-danger" role="alert" ng-show="mensagem">
                             {{mensagem}}
                         </div>
-                        <form name="formulario" ng-submit="submitForm()">
-                            <div class="form-group">
-                                <label for="nomeAluno">Nome</label>
-                                <input type="text" class="form-control" id="nomeAluno" ng-model="form.nome" placeholder="Nome do aluno" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="emailAluno">Email</label>
-                                <input type="email" class="form-control" id="emailAluno" ng-model="form.email" placeholder="Email do aluno" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Tipo de Aluno</label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="tipoAluno" ng-model="form.tipoAluno" id="tipoAlunoGraduacao" value="GRADUACAO" required> Graduação
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="tipoAluno" ng-model="form.tipoAluno" id="tipoAlunoMestrado" value="MESTRADO" required> Mestrado
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="tipoAluno" ng-model="form.tipoAluno" id="tipoAlunoDoutorado" value="DOUTORADO" required> Doutorado
-                                </label>
-                            </div>
+                    </div>
 
-                            <div class="form-group">
-                                <label>Orientador</label>
-                                <select class="form-control" ng-model="form.orientador" required>
-                                    <option ng-repeat="professor in professores"
-                                            ng-selected="{{professor.identificador === form.orientador.identificador}}"
-                                            value="{{professor.identificador}}"> {{professor.nome}}
-                                    </option>
-                                </select>
+                    <div class="row">
+                        <div class="bs-callout bs-callout-primary" id="callout-glyphicons-location">
+                            <h4>Dados básicos</h4>
+                            <br>
+                            <div class="container">
+                                <div class="row">
+                                    <ul class="list-group col-md-6">
+                                        <li class="list-group-item list-group-item-heading"><strong>Nome:</strong> <span>{{form.nome}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Tipo Aluno:</strong> <span>{{form.tipo}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Data Ingresso:</strong> <span>{{form.dataIngresso}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Usuário:</strong> <span>{{form.usuario}}</span></li>
+                                    </ul>
+                                    <ul class="list-group col-md-6">
+                                        <li class="list-group-item list-group-item-heading"><strong>Email:</strong> <span>{{form.email}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Orientador:</strong> <span>{{form.orientador.nome}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Regime Curso:</strong> <span>{{form.regime}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Tipo de Usuário:</strong> <span>{{form.tipoUsuario}}</span></li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <a class="btn btn-primary col-md-2" href="alunoeditar.html#/?id={{form.identificador}}" role="button">Editar</a>
+                                </div>
                             </div>
+                        </div>
+                    </div>
 
-                            <div class="form-group">
-                                <label for="dataIngressoAluno">Data Ingresso</label>
-                                <input type="date" class="form-control" ng-model="form.dataIngresso" id="dataIngressoAluno" required>
+                    <div class="row">
+                        <div class="bs-callout bs-callout-primary" id="callout-glyphicons-location">
+                            <h4>Projetos em que participou</h4>
+                            <br>
+                            <div ng-show="form.projetos.length" ng-repeat="projeto in form.projetos"  ng-class="verCorProjeto(projeto)">
+
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{projeto.titulo}} - {{projeto.status}}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p> <strong>Identificador: </strong> {{projeto.identificador}}</p>
+                                    <p> <strong>Título </strong> {{projeto.titulo}}</p>
+                                    <p> <strong>Data de início</strong> {{projeto.dataInicio}}</p>
+                                    <p> <strong>Data de término: </strong> {{projeto.dataTermino}}</p>
+                                    <p> <strong>Agência financiadora: </strong> {{projeto.agenciaFinanciadora}}</p>
+                                    <p> <strong>Valor financiado: </strong> {{projeto.valorFinanciado}}</p>
+                                    <p> <strong>Objetivo: </strong> {{projeto.objetivo}}</p>
+                                    <p> <strong>Descrição: </strong> {{projeto.descricao}}</p>
+                                    <p> <strong>Status: </strong> {{projeto.status}}</p>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label>Regime Curso</label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regimeCurso" id="regimeCursoAlunoParcial" value="PARCIAL" required> Parcial
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regimeCurso" id="regimeCursoAlunoIntegral" value="INTEGRAL" required> Integral
-                                </label>
-                            </div>
-                            <hr>
-                            <div class="form-group">
-                                <label for="usuarioAluno">Usuário</label>
-                                <input type="text" class="form-control" ng-model="form.usuario.login" id="usuarioAluno" placeholder="Nome de usuário" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="senhaAluno">Password</label>
-                                <input type="password" class="form-control" ng-model="form.usuario.senha" id="senhaAluno" placeholder="Senha de acesso" required>
-                            </div>
-                            <div class="form-group">
-                                <label>Tipo de Usuário</label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="tipoUsuario" ng-model="form.usuario.tipo" id="tipoUsuarioColaborador" value="COLABORADOR" required> Colaborador
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="tipoUsuario" ng-model="form.usuario.tipo" id="tipoUsuarioGerente" value="GERENTE" required> Gerente
-                                </label>
-                                <label class="radio-inline">
-                                    <input type="radio" name="tipoUsuario" ng-model="form.usuario.tipo" id="tipoUsuarioAdministrador" value="ADMINISTRADOR" required> Administrador
-                                </label>
-                            </div>
-                            <button type="submit" class="btn btn-default">Salvar</button>
-                        </form>
+                            <p ng-hide="form.projetos.length">Não existem projetos para este colaborador.</p>
+                        </div>
                     </div>
                 </div>
             </div>

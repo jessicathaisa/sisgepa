@@ -17,7 +17,6 @@ function VerificaLoginController($scope, $http, $window) {
     $scope.verificaLogin = function () {
         var dados = {};
         dados.comando = "verificaLogado";
-        console.log($scope.form);
         req = {
             method: 'POST',
             url: 'UsuarioServlet',
@@ -32,10 +31,8 @@ function VerificaLoginController($scope, $http, $window) {
     };
     // calling our submit function.
     $scope.verificaNaoLogado = function () {
-        console.log("VERIFICAR SE NÃO ESTÁ LOGADO");
         var dados = {};
         dados.comando = "verificaLogado";
-        console.log($scope.form);
         req = {
             method: 'POST',
             url: 'UsuarioServlet',
@@ -58,7 +55,6 @@ function SendLoginController($scope, $http, $window) {
     $scope.submitForm = function () {
         $scope.mensagem = "";
         $scope.form.comando = "realizarLogin";
-        console.log($scope.form);
         req = {
             method: 'POST',
             url: 'UsuarioServlet',
@@ -86,7 +82,6 @@ function SendLogoutController($scope, $http, $window) {
         $scope.mensagem = "Realizando o Logout...";
         var dados = {};
         dados.comando = "realizarLogout";
-        console.log($scope.form);
         req = {
             method: 'POST',
             url: 'UsuarioServlet',
@@ -127,12 +122,12 @@ function RelatorioController($scope, $http) {
 function AlunoController($scope, $http, $window, $location) {
     this.mensagem = "";
     var idAluno = $location.search().id;
+    var listar = $location.absUrl();
 
     this.professores = {};
     this.alunos = {};
     this.chamada = {};
     this.chamada.comando = "listarProfessores";
-
     $http.post('ProfessorServlet', this.chamada).
             success(function (data) {
                 $scope.professores = data;
@@ -141,35 +136,86 @@ function AlunoController($scope, $http, $window, $location) {
                 // log error
             });
 
-    this.chamada = {};
-    this.chamada.comando = "listarAlunos";
-    $http.post('AlunoServlet', this.chamada).
-            success(function (data) {
-                $scope.alunos = data;
-            }).
-            error(function (data) {
-                // log error
-            });
-
+    if (listar.indexOf("alunolistar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "listarAlunos";
+        $http.post('AlunoServlet', this.chamada).
+                success(function (data) {
+                    $scope.alunos = data;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
 
     $scope.form = {};
 
-    // Buscar pelo id
-    this.chamada = {};
-    this.chamada.comando = "buscarAluno";
-    this.chamada.identificador = idAluno;
-    $http.post('AlunoServlet', this.chamada).
-            success(function (data) {
-                $scope.form = data;
-            }).
-            error(function (data) {
-                // log error
-            });
+    if (listar.indexOf("alunoeditar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "buscarAluno";
+        this.chamada.identificador = idAluno;
+        this.orientador = "";
+        // Buscar pelo id
+        $http.post('AlunoServlet', this.chamada).
+                success(function (data) {
+                    $scope.form.identificador = data.identificador;
+                    $scope.form.nome = data.nome;
+                    $scope.form.email = data.email;
+                    $scope.form.tipo = data.tipoAluno;
+                    $scope.form.regime = data.regimeCurso;
+                    $scope.form.tipoUsuario = data.usuario.tipo;
+                    $scope.form.senha = data.usuario.senha;
+                    $scope.form.usuario = data.usuario.login;
+                    $scope.form.orientador = $scope.orientador = data.orientador;
+                    var d = new Date(data.dataIngresso);
+                    $scope.form.dataIngresso = d;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
 
-    $scope.submitForm = function () {
+    if (listar.indexOf("alunover.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "buscarAluno";
+        this.chamada.identificador = idAluno;
+        this.orientador = "";
+        // Buscar pelo id
+        $http.post('AlunoServlet', this.chamada).
+                success(function (data) {
+                    $scope.form.identificador = data.identificador;
+                    $scope.form.nome = data.nome;
+                    $scope.form.email = data.email;
+                    $scope.form.tipo = data.tipoAluno;
+                    $scope.form.regime = data.regimeCurso;
+                    $scope.form.tipoUsuario = data.usuario.tipo;
+                    $scope.form.senha = data.usuario.senha;
+                    $scope.form.usuario = data.usuario.login;
+                    $scope.form.orientador = $scope.orientador = data.orientador;
+                    var d = new Date(data.dataIngresso);
+                    $scope.form.dataIngresso = d.getDate() + "/" + d.getMonth() + "/" + (d.getYear() + 1900);
+
+                    $scope.form.projetos = data.projetos;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+    $scope.verCorProjeto = function (projeto) {
+        var classe = "";
+        if (projeto.status === "CONCLUIDO")
+            classe = "panel-success";
+        else if (projeto.status === "EM_ELABORACAO")
+            classe = "panel-warning";
+        else if (projeto.status === "EM_ANDAMENTO")
+            classe = "panel-info";
+        
+        return "panel " + classe;
+    };
+
+    $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
-        $scope.form.comando = "editarAluno";
-        console.log($scope.form);
+        $scope.form.comando = "cadastrarAluno";
         req = {
             method: 'POST',
             url: 'AlunoServlet',

@@ -7,7 +7,7 @@ PUC-Rio 2016.1
 -->
 <html ng-app="sisgepa">
     <head>
-        <title>SISGEPA - Novo Aluno</title>
+        <title>SISGEPA - Editar Aluno</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -32,14 +32,14 @@ PUC-Rio 2016.1
                 <div class="container" ng-controller="AlunoController">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1> Cadastro de Aluno </h1>
+                            <h1> Editar Aluno </h1>
                         </div>                        
                     </div>
                     <div class="row">
                         <div class="alert alert-danger" role="alert" ng-show="mensagem">
                             {{mensagem}}
                         </div>
-                        <form name="formulario" ng-submit="submitFormCadastrar()">
+                        <form name="formulario" ng-submit="submitForm()">
                             <div class="form-group">
                                 <label for="nomeAluno">Nome</label>
                                 <input type="text" class="form-control" id="nomeAluno" ng-model="form.nome" placeholder="Nome do aluno" required>
@@ -65,6 +65,7 @@ PUC-Rio 2016.1
                                 <label>Orientador</label>
                                 <select class="form-control" ng-model="form.orientador" required>
                                     <option ng-repeat="professor in professores"
+                                            ng-selected="professor.identificador == orientador.identificador"
                                             value="{{professor.identificador}}"> {{professor.nome}}
                                     </option>
                                 </select>
@@ -77,10 +78,10 @@ PUC-Rio 2016.1
                             <div class="form-group" ng-show="form.tipo !== 'GRADUACAO'">
                                 <label>Regime Curso</label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoParcial" value="PARCIAL" ng-required="form.tipo !== 'GRADUACAO'"> Parcial
+                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoParcial" value="PARCIAL" ng-required="!form.tipo.equals('GRADUACAO')"> Parcial
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoIntegral" value="INTEGRAL" ng-required="form.tipo !== 'GRADUACAO'"> Integral
+                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoIntegral" value="INTEGRAL" ng-required="!form.tipo.equals('GRADUACAO')"> Integral
                                 </label>
                             </div>
                             <hr>
@@ -104,7 +105,7 @@ PUC-Rio 2016.1
                                     <input type="radio" name="tipoUsuario" ng-model="form.tipoUsuario" id="tipoUsuarioAdministrador" value="ADMINISTRADOR" required> Administrador
                                 </label>
                             </div>
-                            <button type="submit" class="btn btn-default">Salvar</button>
+                            <button type="submit" class="btn btn-primary">Salvar</button>
                         </form>
                     </div>
                 </div>
