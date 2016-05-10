@@ -113,6 +113,14 @@ public class AlunoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("excluirAluno")) {
+            AlunoFachada fachada = new AlunoFachada();
+            try {
+                fachada.apagarAluno(Integer.parseInt(obj.identificador));
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

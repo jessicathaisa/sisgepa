@@ -142,6 +142,12 @@ function AlunoController($scope, $http, $window, $location) {
         $http.post('AlunoServlet', this.chamada).
                 success(function (data) {
                     $scope.alunos = data;
+                    for(var i = 0; i < $scope.alunos.length; i++ ){
+                        var aluno = $scope.alunos[i];
+                        
+                        var di = new Date(aluno.dataIngresso);
+                        aluno.dataIngresso = di.getTime();
+                    }
                 }).
                 error(function (data) {
                     // log error
@@ -193,9 +199,21 @@ function AlunoController($scope, $http, $window, $location) {
                     $scope.form.usuario = data.usuario.login;
                     $scope.form.orientador = $scope.orientador = data.orientador;
                     var d = new Date(data.dataIngresso);
-                    $scope.form.dataIngresso = d.getDate() + "/" + (d.getMonth()+1) + "/" + (d.getYear() + 1900);
+                    $scope.form.dataIngresso = d.getTime();
 
                     $scope.form.projetos = data.projetos;
+                    for(var i = 0; i < $scope.form.projetos.length; i++ ){
+                        var proj = $scope.form.projetos[i];
+                        var di = new Date(proj.dataInicio);
+                        proj.dataInicio = di.getTime();
+                        var dt = new Date(proj.dataTermino);
+                        proj.dataTermino = dt.getTime();
+                        
+                        if(!proj.dataInicio)
+                            proj.dataInicio = "NÃO DEFINIDO";
+                        if(!proj.dataTermino)
+                            proj.dataTermino = "NÃO DEFINIDO";
+                    }
                 }).
                 error(function (data) {
                     // log error
@@ -274,6 +292,37 @@ function AlunoController($scope, $http, $window, $location) {
                     }
                     else if (status === 409) {
                         $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+                    }
+                });
+    };
+
+    $scope.submitFormExcluir = function () {
+        $scope.mensagem = "";
+        this.chamada = {};
+        this.chamada.comando = "excluirAluno";
+        this.chamada.identificador = idAluno;
+        req = {
+            method: 'POST',
+            url: 'AlunoServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: $scope.chamada
+        };
+
+        $http(req)
+                .success(function (data, status) {
+                    if (status === 200) {
+                        alert("Exclusão realizada com sucesso!");
+                        $window.location.href = 'alunolistar.html';
+                    }
+                })
+                .error(function (data, status) {
+                    if (status === 401) {
+                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                    }
+                    else if (status === 500) {
+                        $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
                     }
                 });
     };

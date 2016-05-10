@@ -57,7 +57,7 @@ PUC-Rio 2016.1
                                             <td>{{aluno.email}}</td>
                                             <td>{{aluno.tipoAluno}}</td>
                                             <td>{{aluno.regimeCurso}}</td>
-                                            <td>{{aluno.dataIngresso | date:'yyyy-MM-dd'}}</td>
+                                            <td>{{aluno.dataIngresso | date : "dd/MM/yyyy"}}</td>
                                             <td>{{aluno.orientador.nome}}</td>
                                         </tr>
                                         <tr ng-hide="alunos.length">

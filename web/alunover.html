@@ -51,7 +51,7 @@ PUC-Rio 2016.1
                                     <ul class="list-group col-md-6">
                                         <li class="list-group-item list-group-item-heading"><strong>Nome:</strong> <span>{{form.nome}}</span></li>
                                         <li class="list-group-item list-group-item-heading"><strong>Tipo Aluno:</strong> <span>{{form.tipo}}</span></li>
-                                        <li class="list-group-item list-group-item-heading"><strong>Data Ingresso:</strong> <span>{{form.dataIngresso}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Data Ingresso:</strong> <span>{{form.dataIngresso | date : "dd/MM/yyyy"}}</span></li>
                                         <li class="list-group-item list-group-item-heading"><strong>Usuário:</strong> <span>{{form.usuario}}</span></li>
                                     </ul>
                                     <ul class="list-group col-md-6">
@@ -72,7 +72,7 @@ PUC-Rio 2016.1
                         <div class="bs-callout bs-callout-primary" id="callout-glyphicons-location">
                             <h4>Projetos em que participou</h4>
                             <br>
-                            <div ng-show="form.projetos.length" ng-repeat="projeto in form.projetos"  ng-class="verCorProjeto(projeto)">
+                            <div ng-show="form.projetos.length" ng-repeat="projeto in form.projetos | orderBy:'-dataTermino'"  ng-class="verCorProjeto(projeto)">
 
                                 <div class="panel-heading">
                                     <h3 class="panel-title">{{projeto.titulo}} - {{projeto.status}}</h3>
@@ -80,8 +80,8 @@ PUC-Rio 2016.1
                                 <div class="panel-body">
                                     <p> <strong>Identificador: </strong> {{projeto.identificador}}</p>
                                     <p> <strong>Título </strong> {{projeto.titulo}}</p>
-                                    <p> <strong>Data de início</strong> {{projeto.dataInicio}}</p>
-                                    <p> <strong>Data de término: </strong> {{projeto.dataTermino}}</p>
+                                    <p> <strong>Data de início</strong> {{projeto.dataInicio | date : "dd/MM/yyyy"}}</p>
+                                    <p> <strong>Data de término: </strong> {{projeto.dataTermino | date : "dd/MM/yyyy"}}</p>
                                     <p> <strong>Agência financiadora: </strong> {{projeto.agenciaFinanciadora}}</p>
                                     <p> <strong>Valor financiado: </strong> {{projeto.valorFinanciado}}</p>
                                     <p> <strong>Objetivo: </strong> {{projeto.objetivo}}</p>

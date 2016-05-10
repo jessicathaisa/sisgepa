@@ -7,10 +7,16 @@
 package com.jessica.Fachada;
 
 import com.jessica.DAO.AlunoDAO;
+import com.jessica.DAO.OrientacaoDAO;
+import com.jessica.DAO.ProjetoDAO;
+import com.jessica.DAO.PublicacaoDAO;
 import com.jessica.DAO.UsuarioDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Modelo.Aluno;
+import com.jessica.Modelo.Orientacao;
+import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Projeto;
+import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.RegimeCurso;
 import com.jessica.Modelo.TipoAluno;
 import com.jessica.Modelo.TipoUsuario;
@@ -75,13 +81,28 @@ public class AlunoFachada extends Fachada {
         return aluno;
     }
 
-    public Aluno editarAluno(int identificador, String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
+    /**
+     * Editar os dados do aluno
+     * @param id
+     * @param nome
+     * @param email
+     * @param tipoAluno
+     * @param idOrientador
+     * @param dataIngresso
+     * @param regimeCurso
+     * @param loginUsuario
+     * @param senhaUsuario
+     * @param tipoUsuario
+     * @return
+     * @throws UsuarioDuplicadoException 
+     */
+    public Aluno editarAluno(int id, String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
         Aluno aluno = null;
         AlunoDAO dao = new AlunoDAO();
         UsuarioDAO usdao = new UsuarioDAO();
         Usuario usuario = null;
 
-        aluno = dao.buscar(identificador);
+        aluno = dao.buscar(id);
         Usuario usuarioaluno = aluno.getUsuario();
 
         if (loginUsuario.equals(usuarioaluno.getLogin())) {
@@ -110,7 +131,7 @@ public class AlunoFachada extends Fachada {
                 regime = RegimeCurso.valueOf(regimeCurso);
             }
 
-            aluno = dao.editarAluno(identificador, nome, email, tipoAl, idOrientador, dataIngresso, regime);
+            aluno = dao.editarAluno(id, nome, email, tipoAl, idOrientador, dataIngresso, regime);
             aluno.setUsuario(usuario);
 
         } catch (IllegalArgumentException ilg) {
@@ -121,6 +142,34 @@ public class AlunoFachada extends Fachada {
         }
 
         return aluno;
+    }
+    
+    public boolean apagarAluno(int id){
+        AlunoDAO dao = new AlunoDAO();
+        ProjetoDAO projdao = new ProjetoDAO();
+        PublicacaoDAO pubdao = new PublicacaoDAO();
+        OrientacaoDAO oridao = new OrientacaoDAO();
+        try{
+            Aluno aluno = dao.buscar(id);
+            
+            for(Projeto projeto : aluno.getProjetos()){
+                projdao.remParticipante(projeto.getIdentificador(), aluno.getIdentificador());
+            }
+            
+            for(ProducaoAcademica producao : aluno.getProducoes()){
+                if(producao instanceof Publicacao)
+                    pubdao.remAutor(producao.getIdentificador(), aluno.getIdentificador());
+                else if(producao instanceof Orientacao){
+                    Orientacao orientacao = (Orientacao) producao;
+                    oridao.remOrientacao(orientacao.getAluno().getIdentificador(), orientacao.getProfessor().getIdentificador());
+                }
+            }
+            
+            dao.remAluno(id);
+        }catch(Exception ex){
+            return false;
+        }
+        return true;
     }
 
     public Aluno buscarAluno(int id) {

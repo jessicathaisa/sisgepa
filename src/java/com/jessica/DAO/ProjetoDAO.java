@@ -173,7 +173,7 @@ public class ProjetoDAO extends DAO{
         
         if(participanteEstaNoProjeto){
             p.getParticipantes().remove(participante);
-            participante.getProducoes().remove(p);
+            participante.getProjetos().remove(p);
         }
         
         return p;
