@@ -193,7 +193,7 @@ function AlunoController($scope, $http, $window, $location) {
                     $scope.form.usuario = data.usuario.login;
                     $scope.form.orientador = $scope.orientador = data.orientador;
                     var d = new Date(data.dataIngresso);
-                    $scope.form.dataIngresso = d.getDate() + "/" + d.getMonth() + "/" + (d.getYear() + 1900);
+                    $scope.form.dataIngresso = d.getDate() + "/" + (d.getMonth()+1) + "/" + (d.getYear() + 1900);
 
                     $scope.form.projetos = data.projetos;
                 }).

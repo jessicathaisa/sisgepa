@@ -86,6 +86,7 @@ public class AlunoFachada extends Fachada {
 
         if (loginUsuario.equals(usuarioaluno.getLogin())) {
             // Não quero mudar.
+            usuario = usuarioaluno;
         } else {
             // Verifica se o usuário já existe no sistema
             usuario = usdao.buscar(loginUsuario);
