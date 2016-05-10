@@ -84,10 +84,10 @@ PUC-Rio 2016.1
                             <div class="form-group" ng-show="form.tipo !== 'GRADUACAO'">
                                 <label>Regime Curso</label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoParcial" value="PARCIAL" ng-required="!form.tipo.equals('GRADUACAO')"> Parcial
+                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoParcial" value="PARCIAL"  ng-required="form.tipo !== 'GRADUACAO'"> Parcial
                                 </label>
                                 <label class="radio-inline">
-                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoIntegral" value="INTEGRAL" ng-required="!form.tipo.equals('GRADUACAO')"> Integral
+                                    <input type="radio" name="regimeCursoAluno" ng-model="form.regime" id="regimeCursoAlunoIntegral" value="INTEGRAL"  ng-required="form.tipo !== 'GRADUACAO'"> Integral
                                 </label>
                             </div>
                             <hr>

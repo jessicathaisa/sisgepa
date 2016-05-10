@@ -24,7 +24,7 @@ public class ProfessorDAO extends ColaboradorDAO {
      * @param idUsuario
      * @return 
      */
-    public Professor addProfessor(String nome, String email, String idUsuario) {
+    public Professor addProfessor(String nome, String email, int idUsuario) {
         UsuarioDAO userDao = new UsuarioDAO();
         Usuario usuario = userDao.buscar(idUsuario);
         if(usuario == null)
