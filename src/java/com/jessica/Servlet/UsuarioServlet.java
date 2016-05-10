@@ -39,10 +39,20 @@ public class UsuarioServlet extends ControladorCentral {
                 response.setStatus(HttpServletResponse.SC_OK);
                 request.getSession(true);
                 request.getSession().setAttribute("logado", true);
+                request.getSession().setAttribute("usuario", obj.usuario);
             }
         }
         else if(obj.comando != null && obj.comando.equals("verificaLogado")){
             if(logado)
+                response.setStatus(HttpServletResponse.SC_OK);
+            else
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
+        else if(obj.comando != null && obj.comando.equals("verificaAdministrador")){
+            UsuarioFachada usuarioFachada = new UsuarioFachada();
+            boolean sim = usuarioFachada.verificaEhAdministrador((String)request.getSession().getAttribute("usuario"));
+            
+            if(sim)
                 response.setStatus(HttpServletResponse.SC_OK);
             else
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -61,6 +71,7 @@ public class UsuarioServlet extends ControladorCentral {
 
     private void realizarLogout(HttpServletRequest request, HttpServletResponse response){
         request.getSession().setAttribute("logado", false);
+        request.getSession().setAttribute("usuario", false);
         request.getSession().invalidate();
     }
 }

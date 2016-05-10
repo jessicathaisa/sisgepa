@@ -6,6 +6,7 @@
  */
 var app = angular.module('sisgepa', []);
 app.controller('VerificaLoginController', VerificaLoginController);
+app.controller('VerificaPermissaoController', VerificaPermissaoController);
 app.controller('SendLoginController', SendLoginController);
 app.controller('SendLogoutController', SendLogoutController);
 app.controller('RelatorioController', RelatorioController);
@@ -47,6 +48,24 @@ function VerificaLoginController($scope, $http, $window) {
     };
 }
 
+function VerificaPermissaoController($scope, $http, $window) {
+    $scope.verificaEhAdministrador = function () {
+        var dados = {};
+        dados.comando = "verificaAdministrador";
+        req = {
+            method: 'POST',
+            url: 'UsuarioServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: dados
+        };
+        $http(req).error(function (data, status) {
+            alert("Você não tem permissão para realizar esta ação. Será redirecionado para a página inicial.");
+            $window.location.href = 'index.html';
+        });
+    }
+}
 
 function SendLoginController($scope, $http, $window) {
     this.mensagem = "";
@@ -142,9 +161,9 @@ function AlunoController($scope, $http, $window, $location) {
         $http.post('AlunoServlet', this.chamada).
                 success(function (data) {
                     $scope.alunos = data;
-                    for(var i = 0; i < $scope.alunos.length; i++ ){
+                    for (var i = 0; i < $scope.alunos.length; i++) {
                         var aluno = $scope.alunos[i];
-                        
+
                         var di = new Date(aluno.dataIngresso);
                         aluno.dataIngresso = di.getTime();
                     }
@@ -202,16 +221,16 @@ function AlunoController($scope, $http, $window, $location) {
                     $scope.form.dataIngresso = d.getTime();
 
                     $scope.form.projetos = data.projetos;
-                    for(var i = 0; i < $scope.form.projetos.length; i++ ){
+                    for (var i = 0; i < $scope.form.projetos.length; i++) {
                         var proj = $scope.form.projetos[i];
                         var di = new Date(proj.dataInicio);
                         proj.dataInicio = di.getTime();
                         var dt = new Date(proj.dataTermino);
                         proj.dataTermino = dt.getTime();
-                        
-                        if(!proj.dataInicio)
+
+                        if (!proj.dataInicio)
                             proj.dataInicio = "NÃO DEFINIDO";
-                        if(!proj.dataTermino)
+                        if (!proj.dataTermino)
                             proj.dataTermino = "NÃO DEFINIDO";
                     }
                 }).
@@ -227,7 +246,7 @@ function AlunoController($scope, $http, $window, $location) {
             classe = "panel-warning";
         else if (projeto.status === "EM_ANDAMENTO")
             classe = "panel-info";
-        
+
         return "panel " + classe;
     };
 
@@ -297,33 +316,36 @@ function AlunoController($scope, $http, $window, $location) {
     };
 
     $scope.submitFormExcluir = function () {
-        $scope.mensagem = "";
-        this.chamada = {};
-        this.chamada.comando = "excluirAluno";
-        this.chamada.identificador = idAluno;
-        req = {
-            method: 'POST',
-            url: 'AlunoServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: $scope.chamada
-        };
+        var resposta = confirm("Confirmar exclusão do colaborador?");
+        if (resposta == true) {
+            $scope.mensagem = "";
+            this.chamada = {};
+            this.chamada.comando = "excluirAluno";
+            this.chamada.identificador = idAluno;
+            req = {
+                method: 'POST',
+                url: 'AlunoServlet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: $scope.chamada
+            };
 
-        $http(req)
-                .success(function (data, status) {
-                    if (status === 200) {
-                        alert("Exclusão realizada com sucesso!");
-                        $window.location.href = 'alunolistar.html';
-                    }
-                })
-                .error(function (data, status) {
-                    if (status === 401) {
-                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
-                    }
-                    else if (status === 500) {
-                        $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
-                    }
-                });
+            $http(req)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            alert("Exclusão realizada com sucesso!");
+                            $window.location.href = 'alunolistar.html';
+                        }
+                    })
+                    .error(function (data, status) {
+                        if (status === 401) {
+                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                        }
+                        else if (status === 500) {
+                            $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
+                        }
+                    });
+        }
     };
 }

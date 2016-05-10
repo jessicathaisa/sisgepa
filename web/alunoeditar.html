@@ -27,16 +27,17 @@ PUC-Rio 2016.1
     </head>
     <body>
         <div ng-controller="VerificaLoginController" ng-init="verificaNaoLogado()"></div>
+        <div ng-controller="VerificaPermissaoController" ng-init="verificaEhAdministrador()"></div>
         <div id="wrapper">
             <div id="header"></div>
             <div id="page-content-wrapper">
                 <div class="container" ng-controller="AlunoController">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1> Editar Aluno </h1>
-                            
                             <form name="formulario" ng-submit="submitFormExcluir()">
-                                <button type="submit" class="btn btn-primary">Excluir este aluno</button>
+                                <h1> Editar Aluno 
+                                    <button type="submit" class="btn btn-primary">Excluir este aluno</button>
+                                </h1>
                             </form>
                         </div>                        
                     </div>
