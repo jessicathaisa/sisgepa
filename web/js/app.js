@@ -359,45 +359,55 @@ function ProfessorController($scope, $http, $window, $location) {
     this.mensagem = "";
     var idProfessor = $location.search().id;
     var listar = $location.absUrl();
-    this.professores = {};
+
+    this.professores;
     this.chamada = {};
 
     this.chamada.comando = "listarProfessores";
     $http.post('ProfessorServlet', this.chamada).
             success(function (data) {
+                console.log("Busquei!");
                 $scope.professores = data;
             }).
             error(function (data) {
                 // log error
             });
 
+    if (listar.indexOf("professorlistar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "listarProfessores";
+        $http.post('ProfessorServlet', this.chamada).
+                success(function (data) {
+                    $scope.professores = data;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
+
     $scope.form = {};
-    /*
-     if (listar.indexOf("alunoeditar.html") >= 0) {
-     this.chamada = {};
-     this.chamada.comando = "buscarAluno";
-     this.chamada.identificador = idAluno;
-     this.orientador = "";
-     // Buscar pelo id
-     $http.post('AlunoServlet', this.chamada).
-     success(function (data) {
-     $scope.form.identificador = data.identificador;
-     $scope.form.nome = data.nome;
-     $scope.form.email = data.email;
-     $scope.form.tipo = data.tipoAluno;
-     $scope.form.regime = data.regimeCurso;
-     $scope.form.tipoUsuario = data.usuario.tipo;
-     $scope.form.senha = data.usuario.senha;
-     $scope.form.usuario = data.usuario.login;
-     $scope.form.orientador = $scope.orientador = data.orientador;
-     var d = new Date(data.dataIngresso);
-     $scope.form.dataIngresso = d;
-     }).
-     error(function (data) {
-     // log error
-     });
-     }
-     */
+
+    if (listar.indexOf("professoreditar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "buscarProfessor";
+        this.chamada.identificador = idProfessor;
+        this.orientador = "";
+        // Buscar pelo id
+        $http.post('ProfessorServlet', this.chamada).
+                success(function (data) {
+                    $scope.form.identificador = data.identificador;
+                    $scope.form.nome = data.nome;
+                    $scope.form.email = data.email;
+                    $scope.form.tipoUsuario = data.usuario.tipo;
+                    $scope.form.senha = data.usuario.senha;
+                    $scope.form.usuario = data.usuario.login;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
     if (listar.indexOf("professorver.html") >= 0) {
         this.chamada = {};
         this.chamada.comando = "buscarProfessor";
@@ -474,72 +484,74 @@ function ProfessorController($scope, $http, $window, $location) {
                     }
                 });
     };
-    /*
-     $scope.submitFormEditar = function () {
-     $scope.mensagem = "";
-     $scope.form.comando = "editarAluno";
-     $scope.form.orientador = $scope.form.orientador.identificador;
-     req = {
-     method: 'POST',
-     url: 'AlunoServlet',
-     headers: {
-     'Content-Type': 'application/json'
-     },
-     data: $scope.form
-     };
-     
-     $http(req)
-     .success(function (data, status) {
-     if (status === 200) {
-     alert("Edição realizada com sucesso!");
-     $window.location.href = 'alunolistar.html';
-     }
-     })
-     .error(function (data, status) {
-     if (status === 401) {
-     $scope.mensagem = "Você não tem permissão para realizar esta ação.";
-     }
-     else if (status === 500) {
-     $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
-     }
-     else if (status === 409) {
-     $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
-     }
-     });
-     };
-     
-     $scope.submitFormExcluir = function () {
-     var resposta = confirm("Confirmar exclusão do colaborador?");
-     if (resposta == true) {
-     $scope.mensagem = "";
-     this.chamada = {};
-     this.chamada.comando = "excluirAluno";
-     this.chamada.identificador = idAluno;
-     req = {
-     method: 'POST',
-     url: 'AlunoServlet',
-     headers: {
-     'Content-Type': 'application/json'
-     },
-     data: $scope.chamada
-     };
-     
-     $http(req)
-     .success(function (data, status) {
-     if (status === 200) {
-     alert("Exclusão realizada com sucesso!");
-     $window.location.href = 'alunolistar.html';
-     }
-     })
-     .error(function (data, status) {
-     if (status === 401) {
-     $scope.mensagem = "Você não tem permissão para realizar esta ação.";
-     }
-     else if (status === 500) {
-     $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
-     }
-     });
-     }
-     };
-     */
+
+    $scope.submitFormEditar = function () {
+        $scope.mensagem = "";
+        $scope.form.comando = "editarProfessor";
+        req = {
+            method: 'POST',
+            url: 'ProfessorServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: $scope.form
+        };
+
+        $http(req)
+                .success(function (data, status) {
+                    if (status === 200) {
+                        alert("Edição realizada com sucesso!");
+                        $window.location.href = 'professorlistar.html';
+                    }
+                })
+                .error(function (data, status) {
+                    if (status === 401) {
+                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                    }
+                    else if (status === 500) {
+                        $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
+                    }
+                    else if (status === 409) {
+                        $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+                    }
+                });
+    };
+
+    $scope.submitFormExcluir = function () {
+        var resposta = confirm("Confirmar exclusão do colaborador?");
+        if (resposta == true) {
+            $scope.mensagem = "";
+            this.chamada = {};
+            this.chamada.comando = "excluirProfessor";
+            this.chamada.identificador = idProfessor;
+            req = {
+                method: 'POST',
+                url: 'ProfessorServlet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: $scope.chamada
+            };
+
+            $http(req)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            alert("Exclusão realizada com sucesso!");
+                            $window.location.href = 'professorlistar.html';
+                        }
+                    })
+                    .error(function (data, status) {
+                        if (status === 401) {
+                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                        }
+                        else if (status === 500) {
+                            $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
+                        }
+                        else if (status === 409) {
+                            $scope.mensagem = "Este professor possui orientandos. Para excluí-lo mude o orientador dos seus alunos.";
+                        }
+                    });
+        }
+    };
+
 }

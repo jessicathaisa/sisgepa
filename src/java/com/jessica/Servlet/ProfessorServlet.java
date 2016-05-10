@@ -7,6 +7,7 @@
 package com.jessica.Servlet;
 
 import com.google.gson.Gson;
+import com.jessica.Excecao.PossuiOrientandosException;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.ProfessorFachada;
 import com.jessica.Modelo.Professor;
@@ -66,7 +67,7 @@ public class ProfessorServlet extends ControladorCentral {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
             }
-        } else if (obj.comando != null && obj.comando.equals("cadastrarProfessor")) {
+        }  else if (obj.comando != null && obj.comando.equals("cadastrarProfessor")) {
             ProfessorFachada fachada = new ProfessorFachada();
             Professor professor = null;
 
@@ -76,6 +77,28 @@ public class ProfessorServlet extends ControladorCentral {
                     throw new Exception();
                 response.setStatus(HttpServletResponse.SC_CREATED);
             } catch (UsuarioDuplicadoException ex) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else if (obj.comando != null && obj.comando.equals("editarProfessor")) {
+            ProfessorFachada fachada = new ProfessorFachada();
+            Professor professor = null;
+
+            try {
+                professor = fachada.editarProfessor(Integer.parseInt(obj.identificador), obj.nome, obj.email, obj.usuario, obj.senha, obj.tipoUsuario);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (UsuarioDuplicadoException ex) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else if (obj.comando != null && obj.comando.equals("excluirProfessor")) {
+            ProfessorFachada fachada = new ProfessorFachada();
+            try {
+                fachada.apagarProfessor(Integer.parseInt(obj.identificador));
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch(PossuiOrientandosException pex){
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
