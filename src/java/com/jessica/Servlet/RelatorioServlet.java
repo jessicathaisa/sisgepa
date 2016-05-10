@@ -26,13 +26,13 @@ public class RelatorioServlet extends ControladorCentral {
         RelatorioFachada fRel =  new RelatorioFachada();
         Relatorio relatorio = fRel.buscaRelatorio();
         Gson gson = new Gson();
-        relatorio.setTotalColaboradores(55);
+        /*relatorio.setTotalColaboradores(55);
         relatorio.setTotalOrientacoes(12);
         relatorio.setTotalPublicacoes(25);
         relatorio.setTotalProjetos(100);
         relatorio.setTotalProjetosEmElaboracao(20);
         relatorio.setTotalProjetosEmAndamento(50);
-        relatorio.setTotalProjetosConcluidos(30);
+        relatorio.setTotalProjetosConcluidos(30);*/
         String json = gson.toJson(relatorio);
         
         response.setContentType("application/json");
