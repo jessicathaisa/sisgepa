@@ -7,7 +7,7 @@ PUC-Rio 2016.1
 -->
 <html ng-app="sisgepa">
     <head>
-        <title>SISGEPA - Visualizar Aluno</title>
+        <title>SISGEPA - Visualizar Professor</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,10 +30,10 @@ PUC-Rio 2016.1
         <div id="wrapper">
             <div id="header"></div>
             <div id="page-content-wrapper">
-                <div class="container" ng-controller="AlunoController">
+                <div class="container" ng-controller="ProfessorController">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1> Visualização de Aluno </h1>
+                            <h1> Visualização de Professor </h1>
                         </div>                        
                     </div>
                     <div class="row">
@@ -50,19 +50,15 @@ PUC-Rio 2016.1
                                 <div class="row">
                                     <ul class="list-group col-md-6">
                                         <li class="list-group-item list-group-item-heading"><strong>Nome:</strong> <span>{{form.nome}}</span></li>
-                                        <li class="list-group-item list-group-item-heading"><strong>Tipo Aluno:</strong> <span>{{form.tipo}}</span></li>
-                                        <li class="list-group-item list-group-item-heading"><strong>Data Ingresso:</strong> <span>{{form.dataIngresso | date : "dd/MM/yyyy"}}</span></li>
                                         <li class="list-group-item list-group-item-heading"><strong>Usuário:</strong> <span>{{form.usuario}}</span></li>
                                     </ul>
                                     <ul class="list-group col-md-6">
                                         <li class="list-group-item list-group-item-heading"><strong>Email:</strong> <span>{{form.email}}</span></li>
-                                        <li class="list-group-item list-group-item-heading"><strong>Orientador:</strong> <span>{{form.orientador.nome}}</span></li>
-                                        <li class="list-group-item list-group-item-heading"><strong>Regime Curso:</strong> <span>{{form.regime}}</span></li>
                                         <li class="list-group-item list-group-item-heading"><strong>Tipo de Usuário:</strong> <span>{{form.tipoUsuario}}</span></li>
                                     </ul>
                                 </div>
                                 <div class="row">
-                                    <a class="btn btn-primary col-md-2" href="alunoeditar.html#/?id={{form.identificador}}" role="button">Editar</a>
+                                    <a class="btn btn-primary col-md-2" href="professoreditar.html#/?id={{form.identificador}}" role="button">Editar</a>
                                 </div>
                             </div>
                         </div>

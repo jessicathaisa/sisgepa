@@ -47,6 +47,25 @@ public class ProfessorServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
+        }  else if (obj.comando != null && obj.comando.equals("buscarProfessor")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                ProfessorFachada fachada = new ProfessorFachada();
+                Professor professor = null;
+                
+                try{
+                    professor = fachada.buscarProfessor(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(professor);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
         } else if (obj.comando != null && obj.comando.equals("cadastrarProfessor")) {
             ProfessorFachada fachada = new ProfessorFachada();
             Professor professor = null;

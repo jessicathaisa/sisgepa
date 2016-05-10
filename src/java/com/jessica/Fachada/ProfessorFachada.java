@@ -10,8 +10,6 @@ import com.jessica.DAO.ProfessorDAO;
 import com.jessica.DAO.UsuarioDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Modelo.Professor;
-import com.jessica.Modelo.RegimeCurso;
-import com.jessica.Modelo.TipoAluno;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
 import java.util.List;
@@ -30,6 +28,16 @@ public class ProfessorFachada extends Fachada{
         return dao.listar();
     }
     
+    /**
+     * Cadastrar o professor no sistema
+     * @param nome
+     * @param email
+     * @param loginUsuario
+     * @param senhaUsuario
+     * @param tipoUsuario
+     * @return
+     * @throws UsuarioDuplicadoException 
+     */
     public Professor cadastrarProfessor(String nome, String email, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
         Professor professor = null;
         ProfessorDAO dao = new ProfessorDAO();
@@ -58,4 +66,16 @@ public class ProfessorFachada extends Fachada{
 
         return professor;
     }
+    
+
+    /**
+     * Buscar um professor pelo id
+     * @param id
+     * @return 
+     */
+    public Professor buscarProfessor(int id) {
+        ProfessorDAO dao = new ProfessorDAO();
+        return dao.buscar(id);
+    }
+
 }
