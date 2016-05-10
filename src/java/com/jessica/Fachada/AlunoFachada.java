@@ -144,6 +144,11 @@ public class AlunoFachada extends Fachada {
         return aluno;
     }
     
+    /**
+     * Apagar um aluno do sistema
+     * @param id
+     * @return 
+     */
     public boolean apagarAluno(int id){
         AlunoDAO dao = new AlunoDAO();
         ProjetoDAO projdao = new ProjetoDAO();
@@ -172,6 +177,11 @@ public class AlunoFachada extends Fachada {
         return true;
     }
 
+    /**
+     * Buscar um aluno pelo id
+     * @param id
+     * @return 
+     */
     public Aluno buscarAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
         return dao.buscar(id);
