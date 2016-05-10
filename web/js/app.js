@@ -359,8 +359,7 @@ function ProfessorController($scope, $http, $window, $location) {
     this.mensagem = "";
     var idProfessor = $location.search().id;
     var listar = $location.absUrl();
-
-    this.professores;
+    var professores = {}
     this.chamada = {};
 
     this.chamada.comando = "listarProfessores";
