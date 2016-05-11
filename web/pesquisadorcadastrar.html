@@ -2,12 +2,12 @@
 <!--
 Projeto SISGEPA - Sistema de Gestao de Producao Academica
 Disciplina Projeto de Sistemas de Software
-Professor Carlos J. P. de Lucena
+Pesquisador Carlos J. P. de Lucena
 PUC-Rio 2016.1
 -->
 <html ng-app="sisgepa">
     <head>
-        <title>SISGEPA - Novo Professor</title>
+        <title>SISGEPA - Novo Pesquisador</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,10 +30,10 @@ PUC-Rio 2016.1
         <div id="wrapper">
             <div id="header"></div>
             <div id="page-content-wrapper">
-                <div class="container" ng-controller="ProfessorController">
+                <div class="container" ng-controller="PesquisadorController">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1> Cadastro de Professor </h1>
+                            <h1> Cadastro de Pesquisador </h1>
                         </div>                        
                     </div>
                     <div class="row">
@@ -42,21 +42,21 @@ PUC-Rio 2016.1
                         </div>
                         <form name="formulario" ng-submit="submitFormCadastrar()">
                             <div class="form-group">
-                                <label for="nomeProfessor">Nome</label>
-                                <input type="text" class="form-control" id="nomeProfessor" ng-model="form.nome" placeholder="Nome do professor" required>
+                                <label for="nomePesquisador">Nome</label>
+                                <input type="text" class="form-control" id="nomePesquisador" ng-model="form.nome" placeholder="Nome do pesquisador" required>
                             </div>
                             <div class="form-group">
-                                <label for="emailProfessor">Email</label>
-                                <input type="email" class="form-control" id="emailProfessor" ng-model="form.email" placeholder="Email do professor" required>
+                                <label for="emailPesquisador">Email</label>
+                                <input type="email" class="form-control" id="emailPesquisador" ng-model="form.email" placeholder="Email do pesquisador" required>
                             </div>
                             <hr>
                             <div class="form-group">
-                                <label for="usuarioProfessor">Usuário</label>
-                                <input type="text" class="form-control" ng-model="form.usuario" id="usuarioProfessor" placeholder="Nome de usuário" required>
+                                <label for="usuarioPesquisador">Usuário</label>
+                                <input type="text" class="form-control" ng-model="form.usuario" id="usuarioPesquisador" placeholder="Nome de usuário" required>
                             </div>
                             <div class="form-group">
-                                <label for="senhaProfessor">Password</label>
-                                <input type="password" class="form-control" ng-model="form.senha" id="senhaProfessor" placeholder="Senha de acesso" required>
+                                <label for="senhaPesquisador">Password</label>
+                                <input type="password" class="form-control" ng-model="form.senha" id="senhaPesquisador" placeholder="Senha de acesso" required>
                             </div>
                             <div class="form-group">
                                 <label>Tipo de Usuário</label>
@@ -71,7 +71,7 @@ PUC-Rio 2016.1
                                 </label>
                             </div>
                             <button type="submit" class="btn btn-primary">Salvar</button>
-                            <a href="professorlistar.html" role="button" class="btn btn-danger">Cancelar</a>
+                            <a href="pesquisadorlistar.html" role="button" class="btn btn-danger">Cancelar</a>
                         </form>
                     </div>
                 </div>

@@ -145,7 +145,7 @@ function AlunoController($scope, $http, $window, $location) {
     var idAluno = $location.search().id;
     var listar = $location.absUrl();
 
-    this.professores = {};
+    $scope.professores = {};
     this.alunos = {};
     this.chamada = {};
     this.chamada.comando = "listarProfessores";
@@ -360,7 +360,7 @@ function ProfessorController($scope, $http, $window, $location) {
     this.mensagem = "";
     var idProfessor = $location.search().id;
     var listar = $location.absUrl();
-    var professores = {}
+    $scope.professores = {}
     this.chamada = {};
 
     this.chamada.comando = "listarProfessores";

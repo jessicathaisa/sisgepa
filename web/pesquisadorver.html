@@ -2,12 +2,12 @@
 <!--
 Projeto SISGEPA - Sistema de Gestao de Producao Academica
 Disciplina Projeto de Sistemas de Software
-Professor Carlos J. P. de Lucena
+Pesquisador Carlos J. P. de Lucena
 PUC-Rio 2016.1
 -->
 <html ng-app="sisgepa">
     <head>
-        <title>SISGEPA - Visualizar Professor</title>
+        <title>SISGEPA - Visualizar Pesquisador</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -30,10 +30,10 @@ PUC-Rio 2016.1
         <div id="wrapper">
             <div id="header"></div>
             <div id="page-content-wrapper">
-                <div class="container" ng-controller="ProfessorController">
+                <div class="container" ng-controller="PesquisadorController">
                     <div class="row">
                         <div class="col-md-12">
-                            <h1> Visualização de Professor </h1>
+                            <h1> Visualização de Pesquisador </h1>
                         </div>                        
                     </div>
                     <div class="row">
@@ -58,7 +58,7 @@ PUC-Rio 2016.1
                                     </ul>
                                 </div>
                                 <div class="row">
-                                    <a class="btn btn-primary col-md-2" href="professoreditar.html#/?id={{form.identificador}}" role="button">Editar</a>
+                                    <a class="btn btn-primary col-md-2" href="pesquisadoreditar.html#/?id={{form.identificador}}" role="button">Editar</a>
                                 </div>
                             </div>
                         </div>
