@@ -23,66 +23,54 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class OrientacaoFachada extends Fachada{
+public class OrientacaoFachada extends Fachada {
 
     /**
      * Listar as orientações
-     * @return 
+     *
+     * @return
      */
-    public List<Orientacao> listarOrientacoes(){
+    public List<Orientacao> listarOrientacoes() {
         OrientacaoDAO dao = new OrientacaoDAO();
         List<Orientacao> auxiliar = new ArrayList<>();
         List<Orientacao> lista = dao.listar();
-        
-        for(Orientacao o : lista){     
-            Orientacao aux = o.copiar();
-            
-            aux.getAluno().setProducoes(null);
-            aux.getProfessor().setProducoes(null);
-            aux.getAluno().setProjetos(null);
-            aux.getProfessor().setProjetos(null);
+
+        for (Orientacao o : lista) {
+            Orientacao aux = o.copiaSimples();
             auxiliar.add(aux);
         }
-        
+
         return auxiliar;
     }
 
     /**
      * Buscar uma orientação pelo id
+     *
      * @param id
-     * @return 
+     * @return
      */
     public Orientacao buscarOrientacao(int id) {
         OrientacaoDAO dao = new OrientacaoDAO();
         Orientacao auxiliar = dao.buscar(id);
-        Orientacao o = new Orientacao();
-        
-        o.setAluno(auxiliar.getAluno());
-        o.setProfessor(auxiliar.getProfessor());
-        o.setIdentificador(auxiliar.getIdentificador());
-        o.setTitulo(auxiliar.getTitulo());
-        
-        o.getAluno().setProducoes(null);
-        o.getProfessor().setProducoes(null);
-        o.getAluno().setProjetos(null);
-        o.getProfessor().setProjetos(null);
-            
+        Orientacao o = auxiliar.copiaSimples();
+
         return o;
     }
-    
+
     /**
      * Cadastrar uma orientação
+     *
      * @param idAluno
      * @param idProfessor
      * @param titulo
      * @return
-     * @throws UsuarioDuplicadoException 
+     * @throws UsuarioDuplicadoException
      */
     public Orientacao cadastrarOrientacao(int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
         OrientacaoDAO dao = new OrientacaoDAO();
 
         // Verifica se o usuário já existe no sistema
-        Orientacao auxiliar = dao.buscar(idAluno,idProfessor);
+        Orientacao auxiliar = dao.buscar(idAluno, idProfessor);
         if (auxiliar != null) {
             throw new UsuarioDuplicadoException();
         }
@@ -91,6 +79,32 @@ public class OrientacaoFachada extends Fachada{
         try {
             auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo);
         } catch (IllegalArgumentException ilg) {
+        }
+
+        return auxiliar;
+    }
+
+    /**
+     * Editar uma orientação
+     *
+     * @param idAluno
+     * @param idProfessor
+     * @param titulo
+     * @return
+     * @throws UsuarioDuplicadoException
+     */
+    public Orientacao editarOrientacao(int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
+        OrientacaoDAO dao = new OrientacaoDAO();
+
+        // Verifica se o usuário já existe no sistema
+        Orientacao auxiliar = dao.buscar(idAluno, idProfessor);
+        if (auxiliar == null) {
+            return null;
+        }
+
+        // Tenta parsear os dados vindos do cliente
+        if (dao.remOrientacao(idAluno, idProfessor)) {
+            auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo);
         }
 
         return auxiliar;

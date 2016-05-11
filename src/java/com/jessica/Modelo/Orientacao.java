@@ -56,4 +56,18 @@ public class Orientacao extends ProducaoAcademica {
         
         return novo;
     }
+
+    public Orientacao copiaSimples(){
+        Orientacao novo = new Orientacao();
+        
+        Aluno aluno = this.getAluno().copiaSimples();
+        Professor professor = this.getProfessor().copiaSimples();
+        
+        novo.setAluno(aluno);
+        novo.setProfessor(professor);
+        novo.setIdentificador(this.getIdentificador());
+        novo.setTitulo(this.getTitulo());
+        
+        return novo;
+    }
 }

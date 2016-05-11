@@ -115,6 +115,23 @@ public class Aluno extends Colaborador {
         }
        return novo;
     }
+    public Aluno copiaSimples(){
+       Aluno novo = new Aluno();
+       
+       novo.setIdentificador(this.getIdentificador());
+       novo.setNome(this.getNome());
+       novo.setEmail(this.getEmail());
+       novo.setDataIngresso(this.getDataIngresso());
+       novo.setTipoAluno(this.getTipoAluno());
+       novo.setRegimeCurso(this.getRegimeCurso());
+       
+       novo.setTipoProjeto(this.getTipoProjeto());
+       novo.setOrientador(this.getOrientador().copiaSimples());
+       
+       novo.setUsuario(this.getUsuario().copiar());
+       
+       return novo;
+    }
     
     
 }

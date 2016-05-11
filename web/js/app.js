@@ -866,6 +866,15 @@ function OrientacaoController($scope, $http, $window, $location) {
 
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
+        
+        if(!$scope.form.aluno){
+            $scope.mensagem = "Campo Aluno é orbrigatório!";
+            return;
+        }
+        if(!$scope.form.aluno){
+            $scope.mensagem = "Campo Professor é orbrigatório!";
+            return;
+        }
         $scope.form.comando = "cadastrarOrientacao";
         req = {
             method: 'POST',
