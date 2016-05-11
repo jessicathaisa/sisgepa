@@ -24,7 +24,7 @@ public class PesquisadorDAO extends ColaboradorDAO {
      * @param idUsuario
      * @return 
      */
-    public Pesquisador addPesquisador(String nome, String email, String idUsuario) {
+    public Pesquisador addPesquisador(String nome, String email, int idUsuario) {
         UsuarioDAO userDao = new UsuarioDAO();
         Usuario usuario = userDao.buscar(idUsuario);
         if(usuario == null)

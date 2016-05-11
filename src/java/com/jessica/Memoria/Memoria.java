@@ -386,6 +386,49 @@ public class Memoria {
         aluno7.getProjetos().add(projeto5);
         aluno9.getProjetos().add(projeto5);
         projetos.add(projeto5);
+        
+        
+        /*Pesquisadores*/
+        Usuario usuarioq1 = new Usuario();
+        usuarioq1.setLogin("pesquisador1");
+        usuarioq1.setSenha("pesquisador1");
+        usuarioq1.setIdentificador(2);
+        usuarioq1.setTipo(TipoUsuario.COLABORADOR);
+        usuarios.add(usuarioq1);
+        Usuario usuarioq2 = new Usuario();
+        usuarioq2.setLogin("pesquisador2");
+        usuarioq2.setSenha("pesquisador2");
+        usuarioq2.setIdentificador(3);
+        usuarioq2.setTipo(TipoUsuario.GERENTE);
+        usuarios.add(usuarioq2);
+        Usuario usuarioq3 = new Usuario();
+        usuarioq3.setLogin("pesquisador3");
+        usuarioq3.setSenha("pesquisador3");
+        usuarioq3.setIdentificador(4);
+        usuarioq3.setTipo(TipoUsuario.COLABORADOR);
+        usuarios.add(usuarioq3);
+        
+        Pesquisador pesquisador1 = new Pesquisador();
+        pesquisador1.setNome("Pesq. Jacob");
+        pesquisador1.setEmail("jacob@email.br");
+        pesquisador1.setIdentificador(10000);
+        pesquisador1.setUsuario(usuarioq1);
+        pesquisadores.add(pesquisador1);
+        
+        Pesquisador pesquisador2 = new Pesquisador();
+        pesquisador2.setNome("Pesq. Julian");
+        pesquisador2.setEmail("julian@email.br");
+        pesquisador2.setIdentificador(10001);
+        pesquisador2.setUsuario(usuarioq2);
+        pesquisadores.add(pesquisador2);
+        
+        Pesquisador pesquisador3 = new Pesquisador();
+        pesquisador3.setNome("Pesq. Martina");
+        pesquisador3.setEmail("martina@email.br");
+        pesquisador3.setIdentificador(10002);
+        pesquisador3.setUsuario(usuarioq3);
+        pesquisadores.add(pesquisador3);
+        
     }
 
     /**

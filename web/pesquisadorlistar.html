@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<!--
+Projeto SISGEPA - Sistema de Gestao de Producao Academica
+Disciplina Projeto de Sistemas de Software
+Professor Carlos J. P. de Lucena
+PUC-Rio 2016.1
+-->
+<html ng-app="sisgepa">
+    <head>
+        <title>SISGEPA - Professores</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="img/favicon.ico">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css"/>
+        <link href="css/sticky-footer.css" rel="stylesheet" type="text/css"/>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/angular.min.js" type="text/javascript"></script>
+
+        <script src="js/geral.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div ng-controller="VerificaLoginController" ng-init="verificaNaoLogado()"></div>
+        <div id="wrapper">
+            <div id="header"></div>
+            <div id="page-content-wrapper">
+                <div class="container" ng-controller="ProfessorController">
+                    <div class="page-header">
+                        <h1>Professores <small><a href="professorcadastrar.html">Novo Professor</a></small></h1>
+                    </div>
+                    <div class="row">&nbsp;</div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <table border="1" class="table table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>Ver</th>
+                                            <th>Identificador</th>
+                                            <th>Nome</th>
+                                            <th>Email</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr ng-repeat="professor in professores">
+                                            <td><a href="professorver.html#/?id={{professor.identificador}}">Ver</a></td>
+                                            <td>{{professor.identificador}}</td>
+                                            <td>{{professor.nome}}</td>
+                                            <td>{{professor.email}}</td>
+                                        </tr>
+                                        <tr ng-hide="professores.length">
+                                            <td colspan="4">Não existem professores cadastrados.</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </body>
+</html>
