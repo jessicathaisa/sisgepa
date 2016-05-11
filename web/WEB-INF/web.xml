@@ -13,6 +13,10 @@
         <servlet-class>com.jessica.Servlet.ProfessorServlet</servlet-class>
     </servlet>
     <servlet>
+        <servlet-name>PesquisadorServlet</servlet-name>
+        <servlet-class>com.jessica.Servlet.PesquisadorServlet</servlet-class>
+    </servlet>
+    <servlet>
         <servlet-name>AlunoServlet</servlet-name>
         <servlet-class>com.jessica.Servlet.AlunoServlet</servlet-class>
     </servlet>
@@ -23,6 +27,10 @@
     <servlet-mapping>
         <servlet-name>UsuarioServlet</servlet-name>
         <url-pattern>/UsuarioServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PesquisadorServlet</servlet-name>
+        <url-pattern>/PesquisadorServlet</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>ProfessorServlet</servlet-name>

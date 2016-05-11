@@ -2,12 +2,12 @@
 <!--
 Projeto SISGEPA - Sistema de Gestao de Producao Academica
 Disciplina Projeto de Sistemas de Software
-Professor Carlos J. P. de Lucena
+Pesquisador Carlos J. P. de Lucena
 PUC-Rio 2016.1
 -->
 <html ng-app="sisgepa">
     <head>
-        <title>SISGEPA - Professores</title>
+        <title>SISGEPA - Pesquisadores</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -28,9 +28,9 @@ PUC-Rio 2016.1
         <div id="wrapper">
             <div id="header"></div>
             <div id="page-content-wrapper">
-                <div class="container" ng-controller="ProfessorController">
+                <div class="container" ng-controller="PesquisadorController">
                     <div class="page-header">
-                        <h1>Professores <small><a href="professorcadastrar.html">Novo Professor</a></small></h1>
+                        <h1>Pesquisadores <small><a href="pesquisadorcadastrar.html">Novo Pesquisador</a></small></h1>
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
@@ -46,14 +46,14 @@ PUC-Rio 2016.1
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="professor in professores">
-                                            <td><a href="professorver.html#/?id={{professor.identificador}}">Ver</a></td>
-                                            <td>{{professor.identificador}}</td>
-                                            <td>{{professor.nome}}</td>
-                                            <td>{{professor.email}}</td>
+                                        <tr ng-repeat="pesquisador in pesquisadores">
+                                            <td><a href="pesquisadorver.html#/?id={{pesquisador.identificador}}">Ver</a></td>
+                                            <td>{{pesquisador.identificador}}</td>
+                                            <td>{{pesquisador.nome}}</td>
+                                            <td>{{pesquisador.email}}</td>
                                         </tr>
-                                        <tr ng-hide="professores.length">
-                                            <td colspan="4">Não existem professores cadastrados.</td>
+                                        <tr ng-hide="pesquisadores.length">
+                                            <td colspan="4">Não existem pesquisadores cadastrados.</td>
                                         </tr>
                                     </tbody>
                                 </table>
