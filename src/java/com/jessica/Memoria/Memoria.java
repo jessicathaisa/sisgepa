@@ -15,6 +15,7 @@ import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.RegimeCurso;
 import com.jessica.Modelo.StatusProjeto;
 import com.jessica.Modelo.TipoAluno;
+import com.jessica.Modelo.TipoProjetoAluno;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
 import java.util.ArrayList;
@@ -158,6 +159,7 @@ public class Memoria {
         aluno1.setOrientador(professor1);
         aluno1.setTipoAluno(TipoAluno.GRADUACAO);
         aluno1.setRegimeCurso(RegimeCurso.NAO_SE_APLICA);
+        aluno1.setTipoProjeto(TipoProjetoAluno.TRABALHO_CONCLUSAO_CURSO);
         aluno1.setUsuario(usuarioa1);
         alunos.add(aluno1);
         
@@ -169,6 +171,7 @@ public class Memoria {
         aluno2.setOrientador(professor2);
         aluno2.setTipoAluno(TipoAluno.GRADUACAO);
         aluno2.setRegimeCurso(RegimeCurso.NAO_SE_APLICA);
+        aluno2.setTipoProjeto(TipoProjetoAluno.TRABALHO_CONCLUSAO_CURSO);
         aluno2.setUsuario(usuarioa2);
         alunos.add(aluno2);
         
@@ -180,6 +183,7 @@ public class Memoria {
         aluno3.setOrientador(professor2);
         aluno3.setTipoAluno(TipoAluno.GRADUACAO);
         aluno3.setRegimeCurso(RegimeCurso.NAO_SE_APLICA);
+        aluno3.setTipoProjeto(TipoProjetoAluno.TRABALHO_CONCLUSAO_CURSO);
         aluno3.setUsuario(usuarioa3);
         alunos.add(aluno3);
         
@@ -191,6 +195,7 @@ public class Memoria {
         aluno4.setOrientador(professor1);
         aluno4.setTipoAluno(TipoAluno.MESTRADO);
         aluno4.setRegimeCurso(RegimeCurso.PARCIAL);
+        aluno4.setTipoProjeto(TipoProjetoAluno.DISSERTACAO);
         aluno4.setUsuario(usuarioa4);
         alunos.add(aluno4);
         
@@ -202,6 +207,7 @@ public class Memoria {
         aluno5.setOrientador(professor3);
         aluno5.setTipoAluno(TipoAluno.MESTRADO);
         aluno5.setRegimeCurso(RegimeCurso.PARCIAL);
+        aluno5.setTipoProjeto(TipoProjetoAluno.DISSERTACAO);
         aluno5.setUsuario(usuarioa5);
         alunos.add(aluno5);
         
@@ -213,6 +219,7 @@ public class Memoria {
         aluno6.setOrientador(professor3);
         aluno6.setTipoAluno(TipoAluno.MESTRADO);
         aluno6.setRegimeCurso(RegimeCurso.INTEGRAL);
+        aluno6.setTipoProjeto(TipoProjetoAluno.DISSERTACAO);
         aluno6.setUsuario(usuarioa6);
         alunos.add(aluno6);
         
@@ -224,6 +231,7 @@ public class Memoria {
         aluno7.setOrientador(professor3);
         aluno7.setTipoAluno(TipoAluno.MESTRADO);
         aluno7.setRegimeCurso(RegimeCurso.INTEGRAL);
+        aluno7.setTipoProjeto(TipoProjetoAluno.DISSERTACAO);
         aluno7.setUsuario(usuarioa7);
         alunos.add(aluno7);
         
@@ -235,6 +243,7 @@ public class Memoria {
         aluno8.setOrientador(professor1);
         aluno8.setTipoAluno(TipoAluno.DOUTORADO);
         aluno8.setRegimeCurso(RegimeCurso.INTEGRAL);
+        aluno8.setTipoProjeto(TipoProjetoAluno.TESE);
         aluno8.setUsuario(usuarioa8);
         alunos.add(aluno8);
         
@@ -246,11 +255,12 @@ public class Memoria {
         aluno9.setOrientador(professor1);
         aluno9.setTipoAluno(TipoAluno.DOUTORADO);
         aluno9.setRegimeCurso(RegimeCurso.INTEGRAL);
+        aluno9.setTipoProjeto(TipoProjetoAluno.TESE);
         aluno9.setUsuario(usuarioa9);
         alunos.add(aluno9);
         
-        /* Projetos */
         
+        /* Projetos */        
         Projeto projeto1 = new Projeto();
         projeto1.setIdentificador(20);
         projeto1.setTitulo("Engenharia de Software para Sistemas Multi-Agentes (ESMA)");
@@ -393,7 +403,7 @@ public class Memoria {
         usuarioq1.setLogin("pesquisador1");
         usuarioq1.setSenha("pesquisador1");
         usuarioq1.setIdentificador(2);
-        usuarioq1.setTipo(TipoUsuario.COLABORADOR);
+        usuarioq1.setTipo(TipoUsuario.GERENTE);
         usuarios.add(usuarioq1);
         Usuario usuarioq2 = new Usuario();
         usuarioq2.setLogin("pesquisador2");
@@ -429,6 +439,42 @@ public class Memoria {
         pesquisador3.setUsuario(usuarioq3);
         pesquisadores.add(pesquisador3);
         
+        
+        /* Orientações */
+        Orientacao orientacao1 = new Orientacao();
+        orientacao1.setProfessor(professor1);
+        orientacao1.setAluno(aluno1);
+        orientacao1.setTitulo("Usabilidade no Portal do Banco do Brasil");
+        orientacao1.setIdentificador(1);
+        orientacoes.add(orientacao1);
+        
+        Orientacao orientacao2 = new Orientacao();
+        orientacao2.setProfessor(professor1);
+        orientacao2.setAluno(aluno4);
+        orientacao2.setTitulo("Framework para o Cálculo de Reputação de Agentes");
+        orientacao2.setIdentificador(2);
+        orientacoes.add(orientacao2);
+        
+        Orientacao orientacao3 = new Orientacao();
+        orientacao3.setProfessor(professor3);
+        orientacao3.setAluno(aluno5);
+        orientacao3.setTitulo("Arquitetura para catálogos de Objetos baseado em Ontologias");
+        orientacao3.setIdentificador(3);
+        orientacoes.add(orientacao3);
+        
+        Orientacao orientacao4 = new Orientacao();
+        orientacao4.setProfessor(professor3);
+        orientacao4.setAluno(aluno7);
+        orientacao4.setTitulo("Framwork para Smart Cards");
+        orientacao4.setIdentificador(4);
+        orientacoes.add(orientacao4);
+        
+        Orientacao orientacao5 = new Orientacao();
+        orientacao5.setProfessor(professor1);
+        orientacao5.setAluno(aluno9);
+        orientacao5.setTitulo("Linguagem de modelagem para Sistemas baseados em Agentes");
+        orientacao5.setIdentificador(5);
+        orientacoes.add(orientacao5);
     }
 
     /**

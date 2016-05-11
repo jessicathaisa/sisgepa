@@ -20,6 +20,10 @@
         <servlet-name>AlunoServlet</servlet-name>
         <servlet-class>com.jessica.Servlet.AlunoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>OrientacaoServlet</servlet-name>
+        <servlet-class>com.jessica.Servlet.OrientacaoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RelatorioServlet</servlet-name>
         <url-pattern>/RelatorioServlet</url-pattern>
@@ -39,6 +43,10 @@
     <servlet-mapping>
         <servlet-name>AlunoServlet</servlet-name>
         <url-pattern>/AlunoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>OrientacaoServlet</servlet-name>
+        <url-pattern>/OrientacaoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
