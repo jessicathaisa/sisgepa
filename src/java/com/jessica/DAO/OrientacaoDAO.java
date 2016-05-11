@@ -113,6 +113,24 @@ public class OrientacaoDAO extends DAO{
     }
     
     /**
+     * Encontra uma orientacao pelo id da orientação
+     * @param id
+     * @return 
+     */
+    public Orientacao buscar(int id){
+        List<Orientacao> orientacoes = memoria.getOrientacoes();
+        Orientacao obj = null;
+        for(Orientacao o : orientacoes){
+            if(o.getIdentificador() == id){
+                obj = o;
+                break;
+            }
+        }
+        
+        return obj;
+    }
+    
+    /**
      * traz a lista de orientacoes dado um aluno
      * @param idAluno
      * @return 

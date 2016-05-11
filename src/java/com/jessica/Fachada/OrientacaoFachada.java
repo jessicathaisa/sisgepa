@@ -17,7 +17,10 @@ import java.util.List;
  */
 public class OrientacaoFachada extends Fachada{
 
-    
+    /**
+     * Listar as orientações
+     * @return 
+     */
     public List<Orientacao> listarOrientacoes(){
         OrientacaoDAO dao = new OrientacaoDAO();
         List<Orientacao> auxiliar = new ArrayList<>();
@@ -32,6 +35,29 @@ public class OrientacaoFachada extends Fachada{
         }
         
         return auxiliar;
+    }
+
+    /**
+     * Buscar uma orientação pelo id
+     * @param id
+     * @return 
+     */
+    public Orientacao buscarOrientacao(int id) {
+        OrientacaoDAO dao = new OrientacaoDAO();
+        Orientacao auxiliar = dao.buscar(id);
+        Orientacao o = new Orientacao();
+        
+        o.setAluno(auxiliar.getAluno());
+        o.setProfessor(auxiliar.getProfessor());
+        o.setIdentificador(auxiliar.getIdentificador());
+        o.setTitulo(auxiliar.getTitulo());
+        
+        o.getAluno().setProducoes(null);
+        o.getProfessor().setProducoes(null);
+        o.getAluno().setProjetos(null);
+        o.getProfessor().setProjetos(null);
+            
+        return o;
     }
 
 }

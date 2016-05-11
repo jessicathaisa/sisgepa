@@ -814,6 +814,7 @@ function OrientacaoController($scope, $http, $window, $location) {
                     // log error
                 });
     }
+*/
 
     if (listar.indexOf("orientacaover.html") >= 0) {
         this.chamada = {};
@@ -823,42 +824,23 @@ function OrientacaoController($scope, $http, $window, $location) {
         // Buscar pelo id
         $http.post('OrientacaoServlet', this.chamada).
                 success(function (data) {
-                    $scope.form.identificador = data.identificador;
-                    $scope.form.nome = data.nome;
-                    $scope.form.email = data.email;
-                    $scope.form.tipoUsuario = data.usuario.tipo;
-                    $scope.form.senha = data.usuario.senha;
-                    $scope.form.usuario = data.usuario.login;
-
-                    $scope.form.projetos = data.projetos;
-                    for (var i = 0; i < $scope.form.projetos.length; i++) {
-                        var proj = $scope.form.projetos[i];
-                        var di = new Date(proj.dataInicio);
-                        proj.dataInicio = di.getTime();
-                        var dt = new Date(proj.dataTermino);
-                        proj.dataTermino = dt.getTime();
-
-                        if (!proj.dataInicio)
-                            proj.dataInicio = "NÃO DEFINIDO";
-                        if (!proj.dataTermino)
-                            proj.dataTermino = "NÃO DEFINIDO";
-                    }
+                    $scope.form = data;
+                    $scope.form.tipoProjeto = data.aluno.tipoProjeto;
+                    
+                    if($scope.form.tipoProjeto === "TRABALHO_CONCLUSAO_CURSO")
+                        $scope.form.tipoProjeto = "Trabalho de Conclusão de Curso";
+                    else if($scope.form.tipoProjeto === "DISSERTACAO")
+                        $scope.form.tipoProjeto = "Dissertação";
+                    else
+                        $scope.form.tipoProjeto = "Tese";
                 }).
                 error(function (data) {
                     // log error
                 });
     }
-    $scope.verCorProjeto = function (projeto) {
-        var classe = "";
-        if (projeto.status === "CONCLUIDO")
-            classe = "panel-success";
-        else if (projeto.status === "EM_ELABORACAO")
-            classe = "panel-warning";
-        else if (projeto.status === "EM_ANDAMENTO")
-            classe = "panel-info";
-
-        return "panel " + classe;
-    };
+    
+    /*
+    
 
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
