@@ -110,4 +110,21 @@ public class OrientacaoFachada extends Fachada {
         return auxiliar;
     }
 
+    /**
+     * Apagar uma orientação
+     * @param id
+     * @return
+     */
+    public boolean apagarOrientacao(int id) {
+        OrientacaoDAO dao = new OrientacaoDAO();
+
+        // Verifica se a orientação já existe no sistema
+        Orientacao auxiliar = dao.buscar(id);
+        if (auxiliar == null) {
+            return false;
+        }
+
+        return dao.remOrientacao(auxiliar.getAluno().getIdentificador(), auxiliar.getProfessor().getIdentificador());
+    }
+
 }

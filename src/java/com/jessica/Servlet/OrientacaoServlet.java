@@ -89,6 +89,14 @@ public class OrientacaoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("excluirOrientacao")) {
+            OrientacaoFachada fachada = new OrientacaoFachada();
+            try {
+                fachada.apagarOrientacao(Integer.parseInt(obj.identificador));
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

@@ -901,11 +901,11 @@ function OrientacaoController($scope, $http, $window, $location) {
         $scope.mensagem = "";
 
         if (!$scope.form.aluno) {
-            $scope.mensagem = "Campo Aluno é orbrigatório!";
+            $scope.mensagem = "Campo Aluno é obrigatório!";
             return;
         }
         if (!$scope.form.aluno) {
-            $scope.mensagem = "Campo Professor é orbrigatório!";
+            $scope.mensagem = "Campo Professor é obrigatório!";
             return;
         }
         $scope.form.comando = "cadastrarOrientacao";
@@ -941,6 +941,16 @@ function OrientacaoController($scope, $http, $window, $location) {
 
     $scope.submitFormEditar = function () {
         $scope.mensagem = "";
+        
+        if (!$scope.form.aluno) {
+            $scope.mensagem = "Campo Aluno é obrigatório!";
+            return;
+        }
+        if (!$scope.form.aluno) {
+            $scope.mensagem = "Campo Professor é obrigatório!";
+            return;
+        }
+        
         $scope.form.comando = "editarOrientacao";
         $scope.form.aluno = ($scope.form.aluno.identificador) ? $scope.form.aluno.identificador+"" : $scope.form.aluno + "";
         $scope.form.professor = ($scope.form.professor.identificador) ? $scope.form.professor.identificador+"" : $scope.form.professor+"";
@@ -969,13 +979,13 @@ function OrientacaoController($scope, $http, $window, $location) {
                         $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
                     }
                     else if (status === 409) {
-                        $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+                        $scope.mensagem = "Já existe uma orientação este aluno e este professor.";
                     }
                 });
     };
 
     $scope.submitFormExcluir = function () {
-        var resposta = confirm("Confirmar exclusão do colaborador?");
+        var resposta = confirm("Confirmar exclusão da orientação?");
         if (resposta == true) {
             $scope.mensagem = "";
             this.chamada = {};
@@ -1003,9 +1013,6 @@ function OrientacaoController($scope, $http, $window, $location) {
                         }
                         else if (status === 500) {
                             $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
-                        }
-                        else if (status === 409) {
-                            $scope.mensagem = "Este orientacao possui orientandos. Para excluí-lo mude o orientador dos seus alunos.";
                         }
                     });
         }
