@@ -216,7 +216,7 @@ public class AlunoFachada extends Fachada {
 
         if (lista != null) {
             for (Aluno aluno : lista) {
-                Aluno a = aluno.copiar();
+                Aluno a = aluno.copiaSimples();
                 if (a.getProjetos() != null) {
                     for (Projeto p : a.getProjetos()) {
                         p.setParticipantes(null);

@@ -41,7 +41,7 @@ public class ProfessorFachada extends Fachada{
 
         if (lista != null) {
             for (Professor pesq : lista) {
-                Professor a = pesq.copiar();
+                Professor a = pesq.copiaSimples();
                 if (a.getProjetos() != null) {
                     for (Projeto p : a.getProjetos()) {
                         p.setParticipantes(null);

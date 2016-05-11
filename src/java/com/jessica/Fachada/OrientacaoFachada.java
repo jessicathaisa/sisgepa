@@ -86,24 +86,24 @@ public class OrientacaoFachada extends Fachada {
 
     /**
      * Editar uma orientação
-     *
+     * @param id
      * @param idAluno
      * @param idProfessor
      * @param titulo
      * @return
      * @throws UsuarioDuplicadoException
      */
-    public Orientacao editarOrientacao(int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
+    public Orientacao editarOrientacao(int id, int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
         OrientacaoDAO dao = new OrientacaoDAO();
 
-        // Verifica se o usuário já existe no sistema
-        Orientacao auxiliar = dao.buscar(idAluno, idProfessor);
+        // Verifica se a orientação já existe no sistema
+        Orientacao auxiliar = dao.buscar(id);
         if (auxiliar == null) {
             return null;
         }
 
         // Tenta parsear os dados vindos do cliente
-        if (dao.remOrientacao(idAluno, idProfessor)) {
+        if (dao.remOrientacao(auxiliar.getAluno().getIdentificador(), auxiliar.getProfessor().getIdentificador())) {
             auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo);
         }
 
