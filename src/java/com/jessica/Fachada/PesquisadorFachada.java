@@ -17,6 +17,7 @@ import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,7 +31,30 @@ public class PesquisadorFachada extends Fachada{
      */
     public List<Pesquisador> listarPesquisadores(){
         PesquisadorDAO dao = new PesquisadorDAO();
-        return dao.listar();
+
+        List<Pesquisador> lista = dao.listar();
+        List<Pesquisador> listaAuxiliar = new ArrayList<>();
+
+        if (lista != null) {
+            for (Pesquisador pesq : lista) {
+                Pesquisador a = pesq.copiar();
+                if (a.getProjetos() != null) {
+                    for (Projeto p : a.getProjetos()) {
+                        p.setParticipantes(null);
+                    }
+                }
+                if (a.getProducoes() != null) {
+                    for (ProducaoAcademica p : a.getProducoes()) {
+                        if (p instanceof Publicacao) {
+                            ((Publicacao) p).setAutores(null);
+                        }
+                    }
+                }
+                listaAuxiliar.add(a);
+            }
+        }
+
+        return listaAuxiliar;
     }
     
     /**
@@ -157,7 +181,20 @@ public class PesquisadorFachada extends Fachada{
      */
     public Pesquisador buscarPesquisador(int id) {
         PesquisadorDAO dao = new PesquisadorDAO();
-        return dao.buscar(id);
+        Pesquisador a = dao.buscar(id).copiar();
+        if (a.getProjetos() != null) {
+            for (Projeto p : a.getProjetos()) {
+                p.setParticipantes(null);
+            }
+        }
+        if (a.getProducoes() != null) {
+            for (ProducaoAcademica p : a.getProducoes()) {
+                if (p instanceof Publicacao) {
+                    ((Publicacao) p).setAutores(null);
+                }
+            }
+        }
+        return a;
     }
 
 }

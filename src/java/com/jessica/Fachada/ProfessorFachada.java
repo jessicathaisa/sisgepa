@@ -21,6 +21,7 @@ import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -34,7 +35,30 @@ public class ProfessorFachada extends Fachada{
      */
     public List<Professor> listarProfessores(){
         ProfessorDAO dao = new ProfessorDAO();
-        return dao.listar();
+
+        List<Professor> lista = dao.listar();
+        List<Professor> listaAuxiliar = new ArrayList<>();
+
+        if (lista != null) {
+            for (Professor pesq : lista) {
+                Professor a = pesq.copiar();
+                if (a.getProjetos() != null) {
+                    for (Projeto p : a.getProjetos()) {
+                        p.setParticipantes(null);
+                    }
+                }
+                if (a.getProducoes() != null) {
+                    for (ProducaoAcademica p : a.getProducoes()) {
+                        if (p instanceof Publicacao) {
+                            ((Publicacao) p).setAutores(null);
+                        }
+                    }
+                }
+                listaAuxiliar.add(a);
+            }
+        }
+
+        return listaAuxiliar;
     }
     
     /**
@@ -180,9 +204,22 @@ public class ProfessorFachada extends Fachada{
      * @param id
      * @return 
      */
-    public Professor buscarProfessor(int id) {
+    public Professor buscarProfessor(int id) {        
         ProfessorDAO dao = new ProfessorDAO();
-        return dao.buscar(id);
+        Professor a = dao.buscar(id).copiar();
+        if (a.getProjetos() != null) {
+            for (Projeto p : a.getProjetos()) {
+                p.setParticipantes(null);
+            }
+        }
+        if (a.getProducoes() != null) {
+            for (ProducaoAcademica p : a.getProducoes()) {
+                if (p instanceof Publicacao) {
+                    ((Publicacao) p).setAutores(null);
+                }
+            }
+        }
+        return a;
     }
 
 }

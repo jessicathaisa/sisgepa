@@ -78,4 +78,27 @@ public class Publicacao extends ProducaoAcademica {
     public void setConferencia(String conferencia) {
         this.conferencia = conferencia;
     }
+
+    public Publicacao copiar() {
+        Publicacao novo = new Publicacao();
+        
+        novo.setIdentificador(novo.getIdentificador());
+        novo.setTitulo(novo.getTitulo());
+        novo.setAno(novo.getAno());
+        novo.setConferencia(novo.getConferencia());
+        
+        
+        for(Colaborador p: this.getAutores()){
+            if(p instanceof Aluno)
+                novo.getAutores().add(((Aluno)p).copiar());
+            if(p instanceof Professor)
+                novo.getAutores().add(((Professor)p).copiar());
+            if(p instanceof Pesquisador)
+                novo.getAutores().add(((Pesquisador)p).copiar());
+        }
+        
+        return novo;
+    }
+    
+    
 }

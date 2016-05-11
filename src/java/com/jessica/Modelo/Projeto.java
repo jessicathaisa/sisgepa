@@ -15,6 +15,7 @@ import java.util.List;
  * @author Jessica
  */
 public class Projeto {
+
     private int identificador;
     private String titulo;
     private Date dataInicio;
@@ -31,7 +32,7 @@ public class Projeto {
         publicacoes = new ArrayList<>();
         participantes = new ArrayList<>();
     }
-    
+
     /**
      * @return the identificador
      */
@@ -185,4 +186,23 @@ public class Projeto {
     public void setPublicacoes(List<Publicacao> publicacoes) {
         this.publicacoes = publicacoes;
     }
+
+    public Projeto copiar(){
+        Projeto novo = new Projeto();
+        novo.setIdentificador(this.getIdentificador());
+        novo.setTitulo(this.getTitulo());
+        novo.setDataInicio(this.getDataInicio());
+        novo.setDataTermino(this.getDataTermino());
+        novo.setAgenciaFinanciadora(this.getAgenciaFinanciadora());
+        novo.setValorFinanciado(this.getValorFinanciado());
+        novo.setDescricao(this.getDescricao());
+        novo.setObjetivo(this.getObjetivo());
+        novo.setStatus(this.getStatus());
+        
+        novo.setPublicacoes(new ArrayList());
+        novo.setParticipantes(new ArrayList());
+        
+        return novo;
+    }
+
 }

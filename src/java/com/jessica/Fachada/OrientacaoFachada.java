@@ -6,8 +6,16 @@
  */
 package com.jessica.Fachada;
 
+import com.jessica.DAO.AlunoDAO;
 import com.jessica.DAO.OrientacaoDAO;
+import com.jessica.DAO.ProfessorDAO;
+import com.jessica.Excecao.UsuarioDuplicadoException;
+import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.Orientacao;
+import com.jessica.Modelo.Professor;
+import com.jessica.Modelo.RegimeCurso;
+import com.jessica.Modelo.TipoAluno;
+import com.jessica.Modelo.TipoUsuario;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,12 +34,14 @@ public class OrientacaoFachada extends Fachada{
         List<Orientacao> auxiliar = new ArrayList<>();
         List<Orientacao> lista = dao.listar();
         
-        for(Orientacao o : lista){
-            o.getAluno().setProducoes(null);
-            o.getProfessor().setProducoes(null);
-            o.getAluno().setProjetos(null);
-            o.getProfessor().setProjetos(null);
-            auxiliar.add(o);
+        for(Orientacao o : lista){     
+            Orientacao aux = o.copiar();
+            
+            aux.getAluno().setProducoes(null);
+            aux.getProfessor().setProducoes(null);
+            aux.getAluno().setProjetos(null);
+            aux.getProfessor().setProjetos(null);
+            auxiliar.add(aux);
         }
         
         return auxiliar;
@@ -58,6 +68,32 @@ public class OrientacaoFachada extends Fachada{
         o.getProfessor().setProjetos(null);
             
         return o;
+    }
+    
+    /**
+     * Cadastrar uma orientação
+     * @param idAluno
+     * @param idProfessor
+     * @param titulo
+     * @return
+     * @throws UsuarioDuplicadoException 
+     */
+    public Orientacao cadastrarOrientacao(int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
+        OrientacaoDAO dao = new OrientacaoDAO();
+
+        // Verifica se o usuário já existe no sistema
+        Orientacao auxiliar = dao.buscar(idAluno,idProfessor);
+        if (auxiliar != null) {
+            throw new UsuarioDuplicadoException();
+        }
+
+        // Tenta parsear os dados vindos do cliente
+        try {
+            auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo);
+        } catch (IllegalArgumentException ilg) {
+        }
+
+        return auxiliar;
     }
 
 }

@@ -7,6 +7,7 @@
 package com.jessica.Servlet;
 
 import com.google.gson.Gson;
+import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.OrientacaoFachada;
 import com.jessica.Modelo.Orientacao;
 import java.io.IOException;
@@ -61,6 +62,20 @@ public class OrientacaoServlet extends ControladorCentral {
                 }catch(NumberFormatException pe){
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
+            }
+        } else if (obj.comando != null && obj.comando.equals("cadastrarOrientacao")) {
+            OrientacaoFachada fachada = new OrientacaoFachada();
+            Orientacao orientacao = null;
+
+            try {
+                orientacao = fachada.cadastrarOrientacao(Integer.parseInt(obj.aluno), Integer.parseInt(obj.professor), obj.titulo);
+                if(orientacao == null)
+                    throw new Exception();
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } catch (UsuarioDuplicadoException ex) {
+                response.setStatus(HttpServletResponse.SC_CONFLICT);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

@@ -10,7 +10,8 @@ package com.jessica.Modelo;
  *
  * @author Jessica
  */
-public class Orientacao extends ProducaoAcademica{
+public class Orientacao extends ProducaoAcademica {
+
     private Aluno aluno;
     private Professor professor;
 
@@ -40,5 +41,19 @@ public class Orientacao extends ProducaoAcademica{
      */
     public void setProfessor(Professor professor) {
         this.professor = professor;
+    }
+
+    public Orientacao copiar(){
+        Orientacao novo = new Orientacao();
+        
+        Aluno aluno = this.getAluno().copiar();
+        Professor professor = this.getProfessor().copiar();
+        
+        novo.setAluno(aluno);
+        novo.setProfessor(professor);
+        novo.setIdentificador(this.getIdentificador());
+        novo.setTitulo(this.getTitulo());
+        
+        return novo;
     }
 }

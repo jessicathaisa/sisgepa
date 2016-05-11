@@ -83,6 +83,7 @@ public class AlunoFachada extends Fachada {
 
     /**
      * Editar os dados do aluno
+     *
      * @param id
      * @param nome
      * @param email
@@ -94,7 +95,7 @@ public class AlunoFachada extends Fachada {
      * @param senhaUsuario
      * @param tipoUsuario
      * @return
-     * @throws UsuarioDuplicadoException 
+     * @throws UsuarioDuplicadoException
      */
     public Aluno editarAluno(int id, String nome, String email, String tipoAluno, int idOrientador, Date dataIngresso, String regimeCurso, String loginUsuario, String senhaUsuario, String tipoUsuario) throws UsuarioDuplicadoException {
         Aluno aluno = null;
@@ -115,13 +116,13 @@ public class AlunoFachada extends Fachada {
                 throw new UsuarioDuplicadoException();
             } else {
                 usdao.remUsuario(usuarioaluno.getIdentificador());
-                
+
                 TipoUsuario tipoUser = TipoUsuario.valueOf(tipoUsuario);
                 usuario = usdao.addUsuario(loginUsuario, senhaUsuario, tipoUser);
             }
 
         }
-        
+
         // Tenta parsear os dados vindos do cliente
         try {
 
@@ -143,35 +144,36 @@ public class AlunoFachada extends Fachada {
 
         return aluno;
     }
-    
+
     /**
      * Apagar um aluno do sistema
+     *
      * @param id
-     * @return 
+     * @return
      */
-    public boolean apagarAluno(int id){
+    public boolean apagarAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
         ProjetoDAO projdao = new ProjetoDAO();
         PublicacaoDAO pubdao = new PublicacaoDAO();
         OrientacaoDAO oridao = new OrientacaoDAO();
-        try{
+        try {
             Aluno aluno = dao.buscar(id);
-            
-            for(Projeto projeto : aluno.getProjetos()){
+
+            for (Projeto projeto : aluno.getProjetos()) {
                 projdao.remParticipante(projeto.getIdentificador(), aluno.getIdentificador());
             }
-            
-            for(ProducaoAcademica producao : aluno.getProducoes()){
-                if(producao instanceof Publicacao)
+
+            for (ProducaoAcademica producao : aluno.getProducoes()) {
+                if (producao instanceof Publicacao) {
                     pubdao.remAutor(producao.getIdentificador(), aluno.getIdentificador());
-                else if(producao instanceof Orientacao){
+                } else if (producao instanceof Orientacao) {
                     Orientacao orientacao = (Orientacao) producao;
                     oridao.remOrientacao(orientacao.getAluno().getIdentificador(), orientacao.getProfessor().getIdentificador());
                 }
             }
-            
+
             dao.remAluno(id);
-        }catch(Exception ex){
+        } catch (Exception ex) {
             return false;
         }
         return true;
@@ -179,12 +181,26 @@ public class AlunoFachada extends Fachada {
 
     /**
      * Buscar um aluno pelo id
+     *
      * @param id
-     * @return 
+     * @return
      */
     public Aluno buscarAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
-        return dao.buscar(id);
+        Aluno a = dao.buscar(id).copiar();
+        if (a.getProjetos() != null) {
+            for (Projeto p : a.getProjetos()) {
+                p.setParticipantes(null);
+            }
+        }
+        if (a.getProducoes() != null) {
+            for (ProducaoAcademica p : a.getProducoes()) {
+                if (p instanceof Publicacao) {
+                    ((Publicacao) p).setAutores(null);
+                }
+            }
+        }
+        return a;
     }
 
     /**
@@ -199,9 +215,19 @@ public class AlunoFachada extends Fachada {
         List<Aluno> listaAuxiliar = new ArrayList<>();
 
         if (lista != null) {
-            for (Aluno a : lista) {
-                for (Projeto p : a.getProjetos()) {
-                    p.setParticipantes(null);
+            for (Aluno aluno : lista) {
+                Aluno a = aluno.copiar();
+                if (a.getProjetos() != null) {
+                    for (Projeto p : a.getProjetos()) {
+                        p.setParticipantes(null);
+                    }
+                }
+                if (a.getProducoes() != null) {
+                    for (ProducaoAcademica p : a.getProducoes()) {
+                        if (p instanceof Publicacao) {
+                            ((Publicacao) p).setAutores(null);
+                        }
+                    }
                 }
                 listaAuxiliar.add(a);
             }

@@ -7,7 +7,6 @@
 package com.jessica.Modelo;
 
 import java.util.Date;
-import java.util.List;
 
 /**
  *
@@ -89,4 +88,33 @@ public class Aluno extends Colaborador {
     public void setDataIngresso(Date dataIngresso) {
         this.dataIngresso = dataIngresso;
     }
+
+    public Aluno copiar(){
+       Aluno novo = new Aluno();
+       
+       novo.setIdentificador(this.getIdentificador());
+       novo.setNome(this.getNome());
+       novo.setEmail(this.getEmail());
+       novo.setDataIngresso(this.getDataIngresso());
+       novo.setTipoAluno(this.getTipoAluno());
+       novo.setRegimeCurso(this.getRegimeCurso());
+       
+       novo.setTipoProjeto(this.getTipoProjeto());
+       novo.setOrientador(this.getOrientador().copiar());
+       
+       novo.setUsuario(this.getUsuario().copiar());
+       
+        for(Projeto p: this.getProjetos()){
+            novo.getProjetos().add(p.copiar());
+        }
+        for(ProducaoAcademica p: this.getProducoes()){
+            if(p instanceof Publicacao)
+                novo.getProducoes().add(((Publicacao)p).copiar());
+            if(p instanceof Orientacao)
+                novo.getProducoes().add(((Orientacao)p).copiar());
+        }
+       return novo;
+    }
+    
+    
 }

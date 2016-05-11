@@ -70,4 +70,14 @@ public class Usuario {
     public void setTipo(TipoUsuario tipo) {
         this.tipo = tipo;
     }
+    
+    public Usuario copiar(){
+        Usuario novo = new Usuario();
+        novo.setIdentificador(this.identificador);
+        novo.setLogin(this.login);
+        novo.setSenha(this.senha);
+        novo.setTipo(this.tipo);
+        
+        return novo;
+    }
 }

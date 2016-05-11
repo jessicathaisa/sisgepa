@@ -791,30 +791,30 @@ function OrientacaoController($scope, $http, $window, $location) {
                 });
     }
 
-/*
-
-    $scope.form = {};
-
-    if (listar.indexOf("orientacaoeditar.html") >= 0) {
-        this.chamada = {};
-        this.chamada.comando = "buscarOrientacao";
-        this.chamada.identificador = idOrientacao;
-        this.orientador = "";
-        // Buscar pelo id
-        $http.post('OrientacaoServlet', this.chamada).
-                success(function (data) {
-                    $scope.form.identificador = data.identificador;
-                    $scope.form.nome = data.nome;
-                    $scope.form.email = data.email;
-                    $scope.form.tipoUsuario = data.usuario.tipo;
-                    $scope.form.senha = data.usuario.senha;
-                    $scope.form.usuario = data.usuario.login;
-                }).
-                error(function (data) {
-                    // log error
-                });
-    }
-*/
+    /*
+     
+     $scope.form = {};
+     
+     if (listar.indexOf("orientacaoeditar.html") >= 0) {
+     this.chamada = {};
+     this.chamada.comando = "buscarOrientacao";
+     this.chamada.identificador = idOrientacao;
+     this.orientador = "";
+     // Buscar pelo id
+     $http.post('OrientacaoServlet', this.chamada).
+     success(function (data) {
+     $scope.form.identificador = data.identificador;
+     $scope.form.nome = data.nome;
+     $scope.form.email = data.email;
+     $scope.form.tipoUsuario = data.usuario.tipo;
+     $scope.form.senha = data.usuario.senha;
+     $scope.form.usuario = data.usuario.login;
+     }).
+     error(function (data) {
+     // log error
+     });
+     }
+     */
 
     if (listar.indexOf("orientacaover.html") >= 0) {
         this.chamada = {};
@@ -826,10 +826,10 @@ function OrientacaoController($scope, $http, $window, $location) {
                 success(function (data) {
                     $scope.form = data;
                     $scope.form.tipoProjeto = data.aluno.tipoProjeto;
-                    
-                    if($scope.form.tipoProjeto === "TRABALHO_CONCLUSAO_CURSO")
+
+                    if ($scope.form.tipoProjeto === "TRABALHO_CONCLUSAO_CURSO")
                         $scope.form.tipoProjeto = "Trabalho de Conclusão de Curso";
-                    else if($scope.form.tipoProjeto === "DISSERTACAO")
+                    else if ($scope.form.tipoProjeto === "DISSERTACAO")
                         $scope.form.tipoProjeto = "Dissertação";
                     else
                         $scope.form.tipoProjeto = "Tese";
@@ -838,9 +838,31 @@ function OrientacaoController($scope, $http, $window, $location) {
                     // log error
                 });
     }
-    
-    /*
-    
+
+    if (listar.indexOf("orientacaocadastrar.html") >= 0 || listar.indexOf("orientacaoeditar.html") >= 0) {
+        $scope.professores = {};
+        this.chamada = {};
+        this.chamada.comando = "listarProfessores";
+        $http.post('ProfessorServlet', this.chamada).
+                success(function (data) {
+                    $scope.professores = data;
+                }).
+                error(function (data) {
+                    // log error
+                });
+                
+        $scope.alunos = {};
+        this.chamada = {};
+        this.chamada.comando = "listarAlunos";
+        $http.post('AlunoServlet', this.chamada).
+                success(function (data) {
+                    $scope.alunos = data;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
 
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
@@ -869,78 +891,80 @@ function OrientacaoController($scope, $http, $window, $location) {
                         $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
                     }
                     else if (status === 409) {
-                        $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+                        $scope.mensagem = "Já existe uma orientação este aluno e este professor.";
                     }
                 });
     };
 
-    $scope.submitFormEditar = function () {
-        $scope.mensagem = "";
-        $scope.form.comando = "editarOrientacao";
-        req = {
-            method: 'POST',
-            url: 'OrientacaoServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: $scope.form
-        };
 
-        $http(req)
-                .success(function (data, status) {
-                    if (status === 200) {
-                        alert("Edição realizada com sucesso!");
-                        $window.location.href = 'orientacaolistar.html';
-                    }
-                })
-                .error(function (data, status) {
-                    if (status === 401) {
-                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
-                    }
-                    else if (status === 500) {
-                        $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
-                    }
-                    else if (status === 409) {
-                        $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
-                    }
-                });
-    };
-
-    $scope.submitFormExcluir = function () {
-        var resposta = confirm("Confirmar exclusão do colaborador?");
-        if (resposta == true) {
-            $scope.mensagem = "";
-            this.chamada = {};
-            this.chamada.comando = "excluirOrientacao";
-            this.chamada.identificador = idOrientacao;
-            req = {
-                method: 'POST',
-                url: 'OrientacaoServlet',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                data: $scope.chamada
-            };
-
-            $http(req)
-                    .success(function (data, status) {
-                        if (status === 200) {
-                            alert("Exclusão realizada com sucesso!");
-                            $window.location.href = 'orientacaolistar.html';
-                        }
-                    })
-                    .error(function (data, status) {
-                        if (status === 401) {
-                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
-                        }
-                        else if (status === 500) {
-                            $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
-                        }
-                        else if (status === 409) {
-                            $scope.mensagem = "Este orientacao possui orientandos. Para excluí-lo mude o orientador dos seus alunos.";
-                        }
-                    });
-        }
-    };
-*/
+    /*
+     $scope.submitFormEditar = function () {
+     $scope.mensagem = "";
+     $scope.form.comando = "editarOrientacao";
+     req = {
+     method: 'POST',
+     url: 'OrientacaoServlet',
+     headers: {
+     'Content-Type': 'application/json'
+     },
+     data: $scope.form
+     };
+     
+     $http(req)
+     .success(function (data, status) {
+     if (status === 200) {
+     alert("Edição realizada com sucesso!");
+     $window.location.href = 'orientacaolistar.html';
+     }
+     })
+     .error(function (data, status) {
+     if (status === 401) {
+     $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+     }
+     else if (status === 500) {
+     $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
+     }
+     else if (status === 409) {
+     $scope.mensagem = "Já existe um usuário com este login, favor informar outro login.";
+     }
+     });
+     };
+     
+     $scope.submitFormExcluir = function () {
+     var resposta = confirm("Confirmar exclusão do colaborador?");
+     if (resposta == true) {
+     $scope.mensagem = "";
+     this.chamada = {};
+     this.chamada.comando = "excluirOrientacao";
+     this.chamada.identificador = idOrientacao;
+     req = {
+     method: 'POST',
+     url: 'OrientacaoServlet',
+     headers: {
+     'Content-Type': 'application/json'
+     },
+     data: $scope.chamada
+     };
+     
+     $http(req)
+     .success(function (data, status) {
+     if (status === 200) {
+     alert("Exclusão realizada com sucesso!");
+     $window.location.href = 'orientacaolistar.html';
+     }
+     })
+     .error(function (data, status) {
+     if (status === 401) {
+     $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+     }
+     else if (status === 500) {
+     $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
+     }
+     else if (status === 409) {
+     $scope.mensagem = "Este orientacao possui orientandos. Para excluí-lo mude o orientador dos seus alunos.";
+     }
+     });
+     }
+     };
+     */
 }
