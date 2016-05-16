@@ -27,6 +27,7 @@ public class RelatorioFachada extends Fachada {
         
         relatorio.setTotalColaboradores(daocol.buscarTotal());
         relatorio.setTotalOrientacoes(daoori.buscarTotal());
+        relatorio.setTotalPublicacoes(daopub.buscarTotal());
         relatorio.setTotalProjetos(daoproj.buscarTotal());
         relatorio.setTotalProjetosEmElaboracao(daoproj.buscarTotal(StatusProjeto.EM_ELABORACAO));
         relatorio.setTotalProjetosEmAndamento(daoproj.buscarTotal(StatusProjeto.EM_ANDAMENTO));

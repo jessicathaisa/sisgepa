@@ -480,6 +480,83 @@ public class Memoria {
         orientacao5.setIdentificador(5);
         orientacao5.setAno(2000);
         orientacoes.add(orientacao5);
+        
+        
+        /* Publicações */
+        Publicacao publicacao1 = new Publicacao();
+        publicacao1.setTitulo("Abordagem Quantitativa para Desenvolvimento de Software Orientado a Aspectos");
+        publicacao1.getAutores().add(aluno4);
+        publicacao1.getAutores().add(aluno8);
+        publicacao1.getAutores().add(professor1);
+        publicacao1.setConferencia("SBQS");
+        publicacao1.setAno(2006);
+        publicacao1.setProjeto(projeto2);
+        publicacoes.add(publicacao1);
+        
+        Publicacao publicacao2 = new Publicacao();
+        publicacao2.setTitulo("Refactoring Product Lines");
+        publicacao2.getAutores().add(aluno1);
+        publicacao2.getAutores().add(aluno9);
+        publicacao2.getAutores().add(professor2);
+        publicacao2.setConferencia("GPCE");
+        publicacao2.setAno(2007);
+        publicacao2.setProjeto(null);
+        publicacoes.add(publicacao2);
+        
+        Publicacao publicacao3 = new Publicacao();
+        publicacao3.setTitulo("Tratamento de Exceções Sensível ao Contexto");
+        publicacao3.getAutores().add(aluno6);
+        publicacao3.getAutores().add(professor3);
+        publicacao3.setConferencia("SBES");
+        publicacao3.setAno(2006);
+        publicacao3.setProjeto(null);
+        publicacoes.add(publicacao3);
+        
+        Publicacao publicacao4 = new Publicacao();
+        publicacao4.setTitulo("Integrating MAS in component-based groupware environment");
+        publicacao4.getAutores().add(aluno6);
+        publicacao4.getAutores().add(aluno7);
+        publicacao4.getAutores().add(professor3);
+        publicacao4.setConferencia("AOSE");
+        publicacao4.setAno(2006);
+        publicacao4.setProjeto(projeto1);
+        publicacoes.add(publicacao4);
+        
+        Publicacao publicacao5 = new Publicacao();
+        publicacao5.setTitulo("Reputing Model Based on Testimonies");
+        publicacao5.getAutores().add(aluno1);
+        publicacao5.getAutores().add(aluno9);
+        publicacao5.getAutores().add(professor1);
+        publicacao5.setConferencia("AAMAS");
+        publicacao5.setAno(2006);
+        publicacao5.setProjeto(projeto1);
+        publicacoes.add(publicacao5);
+        
+        Publicacao publicacao6 = new Publicacao();
+        publicacao6.setTitulo("Extensions on Interacrion Laws in Open Multi-Agent Systems");
+        publicacao6.getAutores().add(aluno8);
+        publicacao6.setConferencia("SEAS");
+        publicacao6.setAno(2005);
+        publicacao6.setProjeto(null);
+        publicacoes.add(publicacao6);
+        
+        Publicacao publicacao7 = new Publicacao();
+        publicacao7.setTitulo("Aspect-oriented Patterns");
+        publicacao7.getAutores().add(aluno4);
+        publicacao7.getAutores().add(professor1);
+        publicacao7.setConferencia("FLOP");
+        publicacao7.setAno(2006);
+        publicacao7.setProjeto(projeto2);
+        publicacoes.add(publicacao7);
+        
+        Publicacao publicacao8 = new Publicacao();
+        publicacao8.setTitulo("Classifying an Describing Agent Cintracts and Norms");
+        publicacao8.getAutores().add(aluno2);
+        publicacao8.getAutores().add(aluno7);
+        publicacao8.setConferencia("AAMAS");
+        publicacao8.setAno(2005);
+        publicacao8.setProjeto(projeto1);
+        publicacoes.add(publicacao8);
     }
 
     /**
