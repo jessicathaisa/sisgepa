@@ -40,16 +40,14 @@ PUC-Rio 2016.1
                                     <thead>
                                         <tr>
                                             <th>Ver</th>
-                                            <th>Identificador</th>
                                             <th>Título</th>
                                             <th>Aluno</th>
                                             <th>Professor</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="orientacao in orientacoes">
+                                        <tr ng-repeat="orientacao in orientacoes | orderBy:['titulo']">
                                             <td><a href="orientacaover.html#/?id={{orientacao.identificador}}">Ver</a></td>
-                                            <td>{{orientacao.identificador}}</td>
                                             <td>{{orientacao.titulo}}</td>
                                             <td>{{orientacao.aluno.nome}}</td>
                                             <td>{{orientacao.professor.nome}}</td>
