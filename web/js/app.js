@@ -14,6 +14,7 @@ app.controller('AlunoController', AlunoController);
 app.controller('ProfessorController', ProfessorController);
 app.controller('PesquisadorController', PesquisadorController);
 app.controller('OrientacaoController', OrientacaoController);
+app.controller('PublicacaoController', PublicacaoController);
 
 
 function VerificaLoginController($scope, $http, $window) {
@@ -1025,4 +1026,46 @@ function OrientacaoController($scope, $http, $window, $location) {
                     });
         }
     };
+}
+
+
+/**************************************************/
+
+
+function PublicacaoController($scope, $http, $window, $location) {
+    this.mensagem = "";
+    var idPublicacao = $location.search().id;
+    var listar = $location.absUrl();
+    var publicacoes = {}
+    this.chamada = {};
+
+    if (listar.indexOf("publicacaolistar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "listarPublicacoes";
+        $http.post('PublicacaoServlet', this.chamada).
+                success(function (data) {
+                    $scope.publicacoes = data;
+                    
+                    for(var i = 0; i < $scope.publicacoes.length ; i++){
+                        var publicacao = $scope.publicacoes[i];
+                        
+                        if(publicacao.projeto)
+                            publicacao.projeto = publicacao.projeto.titulo;
+                        
+                        var participantes = "";
+                        for(var j=0; j< publicacao.autores.length;j++){
+                            participantes += publicacao.autores[j].nome;
+                            if(j !== publicacao.autores.length - 1)
+                                participantes += ", ";
+                        }
+                        
+                        publicacao.nomes = participantes;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
+
 }

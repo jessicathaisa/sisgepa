@@ -14,6 +14,7 @@ import java.util.List;
  * @author Jessica
  */
 public class Publicacao extends ProducaoAcademica {
+
     private List<Colaborador> autores;
     private String conferencia;
     private Projeto projeto;
@@ -21,7 +22,7 @@ public class Publicacao extends ProducaoAcademica {
     public Publicacao() {
         autores = new ArrayList<>();
     }
-    
+
     /**
      * @return the autores
      */
@@ -35,6 +36,7 @@ public class Publicacao extends ProducaoAcademica {
     public void setAutores(List<Colaborador> autores) {
         this.autores = autores;
     }
+
     /**
      * @return the projeto
      */
@@ -65,24 +67,54 @@ public class Publicacao extends ProducaoAcademica {
 
     public Publicacao copiar() {
         Publicacao novo = new Publicacao();
+
+        novo.setIdentificador(this.getIdentificador());
+        novo.setTitulo(this.getTitulo());
+        novo.setAno(this.getAno());
+        novo.setConferencia(this.getConferencia());
         
-        novo.setIdentificador(novo.getIdentificador());
-        novo.setTitulo(novo.getTitulo());
-        novo.setAno(novo.getAno());
-        novo.setConferencia(novo.getConferencia());
-        
-        
-        for(Colaborador p: this.getAutores()){
-            if(p instanceof Aluno)
-                novo.getAutores().add(((Aluno)p).copiar());
-            if(p instanceof Professor)
-                novo.getAutores().add(((Professor)p).copiar());
-            if(p instanceof Pesquisador)
-                novo.getAutores().add(((Pesquisador)p).copiar());
+        if(this.getProjeto() != null)
+            novo.setProjeto(this.getProjeto().copiar());
+
+        for (Colaborador p : this.getAutores()) {
+            if (p instanceof Aluno) {
+                novo.getAutores().add(((Aluno) p).copiar());
+            }
+            if (p instanceof Professor) {
+                novo.getAutores().add(((Professor) p).copiar());
+            }
+            if (p instanceof Pesquisador) {
+                novo.getAutores().add(((Pesquisador) p).copiar());
+            }
         }
-        
+
         return novo;
     }
-    
-    
+
+    public Publicacao copiaSimples() {
+        Publicacao novo = new Publicacao();
+
+        novo.setIdentificador(this.getIdentificador());
+        novo.setTitulo(this.getTitulo());
+        novo.setAno(this.getAno());
+        novo.setConferencia(this.getConferencia());
+
+        if(this.getProjeto() != null)
+            novo.setProjeto(this.getProjeto().copiar());
+        
+        for (Colaborador p : this.getAutores()) {
+            if (p instanceof Aluno) {
+                novo.getAutores().add(((Aluno) p).copiaSimples());
+            }
+            if (p instanceof Professor) {
+                novo.getAutores().add(((Professor) p).copiaSimples());
+            }
+            if (p instanceof Pesquisador) {
+                novo.getAutores().add(((Pesquisador) p).copiaSimples());
+            }
+        }
+
+        return novo;
+    }
+
 }

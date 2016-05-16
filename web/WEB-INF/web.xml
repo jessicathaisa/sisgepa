@@ -24,6 +24,10 @@
         <servlet-name>OrientacaoServlet</servlet-name>
         <servlet-class>com.jessica.Servlet.OrientacaoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PublicacaoServlet</servlet-name>
+        <servlet-class>com.jessica.Servlet.PublicacaoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RelatorioServlet</servlet-name>
         <url-pattern>/RelatorioServlet</url-pattern>
@@ -47,6 +51,10 @@
     <servlet-mapping>
         <servlet-name>OrientacaoServlet</servlet-name>
         <url-pattern>/OrientacaoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PublicacaoServlet</servlet-name>
+        <url-pattern>/PublicacaoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
