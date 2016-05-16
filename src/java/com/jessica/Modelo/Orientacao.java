@@ -53,6 +53,7 @@ public class Orientacao extends ProducaoAcademica {
         novo.setProfessor(professor);
         novo.setIdentificador(this.getIdentificador());
         novo.setTitulo(this.getTitulo());
+        novo.setAno(this.getAno());
         
         return novo;
     }
@@ -67,6 +68,7 @@ public class Orientacao extends ProducaoAcademica {
         novo.setProfessor(professor);
         novo.setIdentificador(this.getIdentificador());
         novo.setTitulo(this.getTitulo());
+        novo.setAno(this.getAno());
         
         return novo;
     }

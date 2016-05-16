@@ -446,6 +446,7 @@ public class Memoria {
         orientacao1.setAluno(aluno1);
         orientacao1.setTitulo("Usabilidade no Portal do Banco do Brasil");
         orientacao1.setIdentificador(1);
+        orientacao1.setAno(2005);
         orientacoes.add(orientacao1);
         
         Orientacao orientacao2 = new Orientacao();
@@ -453,6 +454,7 @@ public class Memoria {
         orientacao2.setAluno(aluno4);
         orientacao2.setTitulo("Framework para o Cálculo de Reputação de Agentes");
         orientacao2.setIdentificador(2);
+        orientacao2.setAno(2008);
         orientacoes.add(orientacao2);
         
         Orientacao orientacao3 = new Orientacao();
@@ -460,13 +462,15 @@ public class Memoria {
         orientacao3.setAluno(aluno5);
         orientacao3.setTitulo("Arquitetura para catálogos de Objetos baseado em Ontologias");
         orientacao3.setIdentificador(3);
+        orientacao3.setAno(2007);
         orientacoes.add(orientacao3);
         
         Orientacao orientacao4 = new Orientacao();
         orientacao4.setProfessor(professor3);
         orientacao4.setAluno(aluno7);
-        orientacao4.setTitulo("Framwork para Smart Cards");
+        orientacao4.setTitulo("Framework para Smart Cards");
         orientacao4.setIdentificador(4);
+        orientacao4.setAno(2012);
         orientacoes.add(orientacao4);
         
         Orientacao orientacao5 = new Orientacao();
@@ -474,6 +478,7 @@ public class Memoria {
         orientacao5.setAluno(aluno9);
         orientacao5.setTitulo("Linguagem de modelagem para Sistemas baseados em Agentes");
         orientacao5.setIdentificador(5);
+        orientacao5.setAno(2000);
         orientacoes.add(orientacao5);
     }
 

@@ -946,8 +946,16 @@ function OrientacaoController($scope, $http, $window, $location) {
             $scope.mensagem = "Campo Aluno é obrigatório!";
             return;
         }
-        if (!$scope.form.aluno) {
+        if (!$scope.form.professor) {
             $scope.mensagem = "Campo Professor é obrigatório!";
+            return;
+        }
+        if (!$scope.form.ano) {
+            $scope.mensagem = "Campo Ano é obrigatório!";
+            return;
+        }
+        if (!$scope.form.titulo) {
+            $scope.mensagem = "Campo Título é obrigatório!";
             return;
         }
         

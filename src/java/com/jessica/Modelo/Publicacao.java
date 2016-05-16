@@ -15,7 +15,6 @@ import java.util.List;
  */
 public class Publicacao extends ProducaoAcademica {
     private List<Colaborador> autores;
-    private int ano;
     private String conferencia;
     private Projeto projeto;
 
@@ -36,21 +35,6 @@ public class Publicacao extends ProducaoAcademica {
     public void setAutores(List<Colaborador> autores) {
         this.autores = autores;
     }
-
-    /**
-     * @return the ano
-     */
-    public int getAno() {
-        return ano;
-    }
-
-    /**
-     * @param ano the ano to set
-     */
-    public void setAno(int ano) {
-        this.ano = ano;
-    }
-
     /**
      * @return the projeto
      */

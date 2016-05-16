@@ -41,6 +41,7 @@ PUC-Rio 2016.1
                                         <tr>
                                             <th>Ver</th>
                                             <th>Título</th>
+                                            <th>Ano</th>
                                             <th>Aluno</th>
                                             <th>Professor</th>
                                         </tr>
@@ -49,6 +50,7 @@ PUC-Rio 2016.1
                                         <tr ng-repeat="orientacao in orientacoes | orderBy:['titulo']">
                                             <td><a href="orientacaover.html#/?id={{orientacao.identificador}}">Ver</a></td>
                                             <td>{{orientacao.titulo}}</td>
+                                            <td>{{orientacao.ano}}</td>
                                             <td>{{orientacao.aluno.nome}}</td>
                                             <td>{{orientacao.professor.nome}}</td>
                                         </tr>

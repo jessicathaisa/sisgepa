@@ -23,9 +23,10 @@ public class OrientacaoDAO extends DAO{
      * @param idAluno
      * @param idProfessor
      * @param titulo
+     * @param ano
      * @return 
      */
-    public Orientacao addOrientacao(int idAluno, int idProfessor, String titulo){
+    public Orientacao addOrientacao(int idAluno, int idProfessor, String titulo, int ano){
         Orientacao orientacao = null;
         AlunoDAO alunoDao = new AlunoDAO();
         Aluno aluno = alunoDao.buscar(idAluno);
@@ -37,6 +38,7 @@ public class OrientacaoDAO extends DAO{
             orientacao.setAluno(aluno);
             orientacao.setProfessor(professor);
             orientacao.setTitulo(titulo);
+            orientacao.setAno(ano);
             
             try {
                 List<Orientacao> orientacoes = memoria.getOrientacoes();

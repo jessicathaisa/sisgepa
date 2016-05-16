@@ -28,6 +28,7 @@ public class OrientacaoServlet extends ControladorCentral {
         public String titulo;
         public String aluno;
         public String professor;
+        public String ano;
     }
 
     @Override
@@ -68,7 +69,7 @@ public class OrientacaoServlet extends ControladorCentral {
             Orientacao orientacao = null;
 
             try {
-                orientacao = fachada.cadastrarOrientacao(Integer.parseInt(obj.aluno), Integer.parseInt(obj.professor), obj.titulo);
+                orientacao = fachada.cadastrarOrientacao(Integer.parseInt(obj.aluno), Integer.parseInt(obj.professor), obj.titulo, Integer.parseInt(obj.ano));
                 if(orientacao == null)
                     throw new Exception();
                 response.setStatus(HttpServletResponse.SC_CREATED);
@@ -82,7 +83,7 @@ public class OrientacaoServlet extends ControladorCentral {
             Orientacao orientacao = null;
 
             try {
-                orientacao = fachada.editarOrientacao(Integer.parseInt(obj.identificador), Integer.parseInt(obj.aluno), Integer.parseInt(obj.professor), obj.titulo);
+                orientacao = fachada.editarOrientacao(Integer.parseInt(obj.identificador), Integer.parseInt(obj.aluno), Integer.parseInt(obj.professor), obj.titulo, Integer.parseInt(obj.ano));
                 if(orientacao == null)
                     throw new Exception();
                 response.setStatus(HttpServletResponse.SC_OK);

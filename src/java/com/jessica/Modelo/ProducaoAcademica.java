@@ -13,6 +13,22 @@ package com.jessica.Modelo;
 public class ProducaoAcademica {
     private int identificador;
     private String titulo;
+    private int ano;
+
+    /**
+     * @return the ano
+     */
+    public int getAno() {
+        return ano;
+    }
+
+    /**
+     * @param ano the ano to set
+     */
+    public void setAno(int ano) {
+        this.ano = ano;
+    }
+
 
     /**
      * @return the identificador

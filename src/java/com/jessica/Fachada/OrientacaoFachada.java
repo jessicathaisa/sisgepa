@@ -63,10 +63,11 @@ public class OrientacaoFachada extends Fachada {
      * @param idAluno
      * @param idProfessor
      * @param titulo
+     * @param ano
      * @return
      * @throws UsuarioDuplicadoException
      */
-    public Orientacao cadastrarOrientacao(int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
+    public Orientacao cadastrarOrientacao(int idAluno, int idProfessor, String titulo, int ano) throws UsuarioDuplicadoException {
         OrientacaoDAO dao = new OrientacaoDAO();
 
         // Verifica se o usuário já existe no sistema
@@ -77,7 +78,7 @@ public class OrientacaoFachada extends Fachada {
 
         // Tenta parsear os dados vindos do cliente
         try {
-            auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo);
+            auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo, ano);
         } catch (IllegalArgumentException ilg) {
         }
 
@@ -90,10 +91,11 @@ public class OrientacaoFachada extends Fachada {
      * @param idAluno
      * @param idProfessor
      * @param titulo
+     * @param ano
      * @return
      * @throws UsuarioDuplicadoException
      */
-    public Orientacao editarOrientacao(int id, int idAluno, int idProfessor, String titulo) throws UsuarioDuplicadoException {
+    public Orientacao editarOrientacao(int id, int idAluno, int idProfessor, String titulo, int ano) throws UsuarioDuplicadoException {
         OrientacaoDAO dao = new OrientacaoDAO();
 
         // Verifica se a orientação já existe no sistema
@@ -104,7 +106,7 @@ public class OrientacaoFachada extends Fachada {
 
         // Tenta parsear os dados vindos do cliente
         if (dao.remOrientacao(auxiliar.getAluno().getIdentificador(), auxiliar.getProfessor().getIdentificador())) {
-            auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo);
+            auxiliar = dao.addOrientacao(idAluno, idProfessor, titulo, ano);
         }
 
         return auxiliar;
