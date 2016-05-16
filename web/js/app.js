@@ -883,11 +883,11 @@ function OrientacaoController($scope, $http, $window, $location) {
                     success(function (data) {
                         console.log(3);
                         $scope.form = data;
-                        
-                        for(var i = 0; i < $scope.professores.length; i++){
+
+                        for (var i = 0; i < $scope.professores.length; i++) {
                             $scope.professores[i].selecionado = $scope.professores[i].identificador === data.professor.identificador;
                         }
-                        for(var i = 0; i < $scope.alunos.length; i++){
+                        for (var i = 0; i < $scope.alunos.length; i++) {
                             $scope.alunos[i].selecionado = $scope.alunos[i].identificador === data.aluno.identificador;
                         }
                     }).
@@ -942,7 +942,7 @@ function OrientacaoController($scope, $http, $window, $location) {
 
     $scope.submitFormEditar = function () {
         $scope.mensagem = "";
-        
+
         if (!$scope.form.aluno) {
             $scope.mensagem = "Campo Aluno é obrigatório!";
             return;
@@ -959,10 +959,10 @@ function OrientacaoController($scope, $http, $window, $location) {
             $scope.mensagem = "Campo Título é obrigatório!";
             return;
         }
-        
+
         $scope.form.comando = "editarOrientacao";
-        $scope.form.aluno = ($scope.form.aluno.identificador) ? $scope.form.aluno.identificador+"" : $scope.form.aluno + "";
-        $scope.form.professor = ($scope.form.professor.identificador) ? $scope.form.professor.identificador+"" : $scope.form.professor+"";
+        $scope.form.aluno = ($scope.form.aluno.identificador) ? $scope.form.aluno.identificador + "" : $scope.form.aluno + "";
+        $scope.form.professor = ($scope.form.professor.identificador) ? $scope.form.professor.identificador + "" : $scope.form.professor + "";
         console.log($scope.form);
         req = {
             method: 'POST',
@@ -1036,7 +1036,13 @@ function PublicacaoController($scope, $http, $window, $location) {
     this.mensagem = "";
     var idPublicacao = $location.search().id;
     var listar = $location.absUrl();
-    var publicacoes = {}
+    var publicacoes = {};
+    $scope.alunos = {};
+    $scope.professores = {};
+    $scope.pesquisadores = {};
+    $scope.autores = [];
+    $scope.autoresprof = [];
+    $scope.autorespesq = [];
     this.chamada = {};
 
     if (listar.indexOf("publicacaolistar.html") >= 0) {
@@ -1045,20 +1051,20 @@ function PublicacaoController($scope, $http, $window, $location) {
         $http.post('PublicacaoServlet', this.chamada).
                 success(function (data) {
                     $scope.publicacoes = data;
-                    
-                    for(var i = 0; i < $scope.publicacoes.length ; i++){
+
+                    for (var i = 0; i < $scope.publicacoes.length; i++) {
                         var publicacao = $scope.publicacoes[i];
-                        
-                        if(publicacao.projeto)
+
+                        if (publicacao.projeto)
                             publicacao.projeto = publicacao.projeto.titulo;
-                        
+
                         var participantes = "";
-                        for(var j=0; j< publicacao.autores.length;j++){
+                        for (var j = 0; j < publicacao.autores.length; j++) {
                             participantes += publicacao.autores[j].nome;
-                            if(j !== publicacao.autores.length - 1)
+                            if (j !== publicacao.autores.length - 1)
                                 participantes += ", ";
                         }
-                        
+
                         publicacao.nomes = participantes;
                     }
                 }).
@@ -1067,5 +1073,139 @@ function PublicacaoController($scope, $http, $window, $location) {
                 });
     }
 
+    if (listar.indexOf("publicacaocadastrar.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "listarAlunos";
+        $http.post('AlunoServlet', this.chamada).
+                success(function (data) {
+                    $scope.alunos = data;
+                    for (var i = 0; i < $scope.alunos.length; i++) {
+                        var aluno = $scope.alunos[i];
+                        $scope.autores[i] = {};
+                        $scope.autores[i].identificador = aluno.identificador;
+                        $scope.autores[i].selected = false;
+                        var di = new Date(aluno.dataIngresso);
+                        aluno.dataIngresso = di.getTime();
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
 
+        this.chamada = {};
+        this.chamada.comando = "listarPesquisadores";
+        $http.post('PesquisadorServlet', this.chamada).
+                success(function (data) {
+                    $scope.pesquisadores = data;
+                    for (var i = 0; i < $scope.pesquisadores.length; i++) {
+                        var pesq = $scope.pesquisadores[i];
+                        $scope.autorespesq[i] = {};
+                        $scope.autorespesq[i].identificador = pesq.identificador;
+                        $scope.autorespesq[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+
+        this.chamada = {};
+        this.chamada.comando = "listarProfessores";
+        $http.post('ProfessorServlet', this.chamada).
+                success(function (data) {
+                    $scope.professores = data;
+                    for (var i = 0; i < $scope.professores.length; i++) {
+                        var prof = $scope.professores[i];
+                        $scope.autoresprof[i] = {};
+                        $scope.autoresprof[i].identificador = prof.identificador;
+                        $scope.autoresprof[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
+    $scope.exibeAutores = false;
+    $scope.aut =[];
+    $scope.autp =[];
+    $scope.autpe =[];
+    $scope.form = {};
+    $scope.exibeColaboradores = function () {
+        if ($scope.exibeAutores) {
+            $scope.aut = [];
+            for (var j = 0; j < $scope.autores.length; j++) {
+                if ($scope.autores[j].selected) {
+                    $scope.aut.push($scope.alunos[j].nome);
+                }
+            }
+            $scope.autp = [];
+            for (var j = 0; j < $scope.autoresprof.length; j++) {
+                if ($scope.autoresprof[j].selected) {
+                    $scope.autp.push($scope.professores[j].nome);
+                }
+            }
+            $scope.autpe = [];
+            for (var j = 0; j < $scope.autorespesq.length; j++) {
+                if ($scope.autorespesq[j].selected) {
+                    $scope.autpe.push($scope.pesquisadores[j].nome);
+                }
+            }
+        } else {
+            $scope.aut = [];
+            $scope.autp = [];
+            $scope.autpe = [];
+        }
+
+
+        $scope.exibeAutores = !$scope.exibeAutores;
+    };
+
+    $scope.submitFormCadastrar = function () {
+        $scope.mensagem = "";
+
+        if (!$scope.form.titulo) {
+            $scope.mensagem = "Campo Título é obrigatório!";
+            return;
+        }
+        if (!$scope.form.conferencia) {
+            $scope.mensagem = "Campo Conferencia é obrigatório!";
+            return;
+        }
+        if (!$scope.form.ano) {
+            $scope.mensagem = "Campo Ano é obrigatório!";
+            return;
+        }
+        if ($scope.aut.length === 0 && $scope.autp.length === 0 && $scope.autpe.length === 0 ) {
+            $scope.mensagem = "É obrigatório que a publicação tenha ao menos um autor.";
+            return;
+        }
+        $scope.form.comando = "cadastrarOrientacao";
+        req = {
+            method: 'POST',
+            url: 'OrientacaoServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: $scope.form
+        };
+
+        $http(req)
+                .success(function (data, status) {
+                    if (status === 201) {
+                        alert("Cadastro realizado com sucesso!");
+                        $window.location.href = 'orientacaolistar.html';
+                    }
+                })
+                .error(function (data, status) {
+                    if (status === 401) {
+                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                    }
+                    else if (status === 500) {
+                        $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
+                    }
+                    else if (status === 409) {
+                        $scope.mensagem = "Já existe uma orientação este aluno e este professor.";
+                    }
+                });
+    };
 }
