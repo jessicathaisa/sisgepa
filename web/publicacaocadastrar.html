@@ -110,10 +110,11 @@ PUC-Rio 2016.1
                             <button type="button" class="btn btn-primary" ng-click="exibeProjetos()" ng-hide="exibeSelecaoProjetos">Definir Projeto</button>
                             <div class="form-group" ng-show="exibeSelecaoProjetos">
                                 <h4>Projetos</h4>
-                                <div class="radio"  ng-repeat="projeto in projetos track by $index">
+                                <div class="radio">
                                     <label>
                                         <input type="radio"
                                                name="opcoesProjeto"
+                                               ng-model="identificadorProjetoSelecionado"
                                                ng-value="-1" >Nenhum
                                     </label>
                                 </div>
@@ -121,7 +122,7 @@ PUC-Rio 2016.1
                                     <label>
                                         <input type="radio"
                                                name="opcoesProjeto"
-                                               ng-model="projetos[$index].selected"
+                                               ng-model="$parent.identificadorProjetoSelecionado"
                                                ng-value="{{projeto.identificador}}" >{{projeto.titulo}}
                                     </label>
                                 </div>

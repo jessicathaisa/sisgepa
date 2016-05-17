@@ -71,6 +71,31 @@ public class PublicacaoServlet extends ControladorCentral {
             } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
+        }  else if (obj.comando != null && obj.comando.equals("editarPublicacao")) {
+            PublicacaoFachada fachada = new PublicacaoFachada();
+            try {
+                Publicacao publicacao = fachada.editarPublicacao(Integer.parseInt(obj.identificador),obj.titulo, obj.conferencia, Integer.parseInt(obj.ano));
+                
+                String[] array = obj.autores.split(" ");
+                for(String str : array){
+                    int idAutor = Integer.parseInt(str);
+                    Publicacao aux = fachada.adicionarAutor(publicacao.getIdentificador(), idAutor);
+                    if(aux == null){
+                        fachada.apagarPublicacao(publicacao.getIdentificador());
+                        throw new Exception();
+                    }
+                }
+                if(obj.projeto!=null && !"".equals(obj.projeto)){
+                    Publicacao aux = fachada.atribuirProjeto(publicacao.getIdentificador(), Integer.parseInt(obj.projeto));
+                    if(aux == null){
+                        fachada.apagarPublicacao(publicacao.getIdentificador());
+                        throw new Exception();
+                    }
+                }
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         } else if (obj.comando != null && obj.comando.equals("buscarPublicacao")) {
             PublicacaoFachada fachada = new PublicacaoFachada();
             Publicacao publicacao = fachada.buscarPublicacao(Integer.parseInt(obj.identificador));

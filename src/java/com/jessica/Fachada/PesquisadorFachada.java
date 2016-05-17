@@ -37,7 +37,7 @@ public class PesquisadorFachada extends Fachada{
 
         if (lista != null) {
             for (Pesquisador pesq : lista) {
-                Pesquisador a = pesq.copiar();
+                Pesquisador a = pesq.copiaSimples();
                 if (a.getProjetos() != null) {
                     for (Projeto p : a.getProjetos()) {
                         p.setParticipantes(null);

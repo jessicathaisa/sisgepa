@@ -59,7 +59,7 @@ PUC-Rio 2016.1
                             </div>
 
                             <hr>
-                            <div ng-show="aut.length || autp.length || autpe.length">
+                            <div ng-show="(aut.length || autp.length || autpe.length) && !exibeAutores">
                                 <h4>Autores:</h4>
                                 <ul ng-repeat="a in aut">
                                     <li>{{a}}</li>
@@ -71,7 +71,7 @@ PUC-Rio 2016.1
                                     <li>{{a}}</li>
                                 </ul> 
                             </div>
-                            <div ng-show="!aut.length && !autp.length && !autpe.length"><h4>Não há nenhum autor selecionado.</h4></div>
+                            <div ng-show="exibeAutores || (!aut.length && !autp.length && !autpe.length)"><h4>Não há nenhum autor selecionado.</h4></div>
                             
                             <button type="button" class="btn btn-primary" ng-click="exibeColaboradores()" ng-hide="exibeAutores">Definir Autores</button>
                             <div class="form-group" ng-show="exibeAutores">
@@ -103,22 +103,22 @@ PUC-Rio 2016.1
                             </div>
                             <hr>
                             
-                            <div ng-show="projetoSelecionado.titulo">
+                            <div ng-show="projetoSelecionado.titulo && !exibeSelecaoProjetos">
                                 <h4>Projeto</h4>
                                 <ul>
                                     <li>{{projetoSelecionado.titulo}}</li>
                                 </ul>
                             </div>
-                            <div ng-show="!projetoSelecionado.titulo"><h4>Não há nenhum projeto selecionado.</h4></div>
+                            <div ng-show="!projetoSelecionado.titulo || exibeSelecaoProjetos"><h4>Não há nenhum projeto selecionado.</h4></div>
                             
                             <button type="button" class="btn btn-primary" ng-click="exibeProjetos()" ng-hide="exibeSelecaoProjetos">Definir Projeto</button>
                             <div class="form-group" ng-show="exibeSelecaoProjetos">
                                 <h4>Projetos</h4>
-                                <div class="radio"  ng-repeat="projeto in projetos track by $index">
+                                <div class="radio">
                                     <label>
                                         <input type="radio"
                                                name="opcoesProjeto"
-                                               ng-model="nenhumProjetoSelecionado"
+                                               ng-model="identificadorProjetoSelecionado"
                                                ng-value="-1" >Nenhum
                                     </label>
                                 </div>
@@ -126,8 +126,8 @@ PUC-Rio 2016.1
                                     <label>
                                         <input type="radio"
                                                name="opcoesProjeto"
-                                               ng-model="projetos[$index].selected"
-                                               ng-value="{{projeto.identificador}}" >{{projeto.titulo}} | {{projeto.identificador}} | {{projetos[$index].selected}}
+                                               ng-model="$parent.identificadorProjetoSelecionado"
+                                               ng-value="{{projeto.identificador}}" >{{projeto.titulo}}
                                     </label>
                                 </div>
                                 <button type="button" class="btn btn-primary" ng-click="exibeProjetos()">Confirmar Projeto</button>

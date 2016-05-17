@@ -1188,18 +1188,19 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
     $scope.exibeProjetos = function () {
         if ($scope.exibeSelecaoProjetos) {
             $scope.projetoSelecionado = {};
+            
             for (var j = 0; j < $scope.projetos.length; j++) {
-                if ($scope.projetos[j].selected) {
+                if ($scope.projetos[j].identificador == $scope.identificadorProjetoSelecionado) {
                     $scope.projetoSelecionado = $scope.projetos[j];
                     break;
                 }
             }
+            if ($scope.identificadorProjetoSelecionado == -1)
+                $scope.projetoSelecionado = {};
         } else {
             if (listar.indexOf("publicacaocadastrar.html") >= 0) {
+                $scope.identificadorProjetoSelecionado = $scope.projetoSelecionado.identificador;
                 $scope.projetoSelecionado = {};
-                for (var j = 0; j < $scope.projetos.length; j++) {
-                    $scope.projetos[j].selected = "";
-                }
             }
         }
         $scope.exibeSelecaoProjetos = !$scope.exibeSelecaoProjetos;
@@ -1242,15 +1243,15 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
                         }
 
                         $scope.autores.map(function (value) {
-                            value.selected = existeNaLista(value.identificador)
+                            value.selected = existeNaLista(value.identificador);
                         });
 
                         $scope.autoresprof.map(function (value) {
-                            value.selected = existeNaLista(value.identificador)
+                            value.selected = existeNaLista(value.identificador);
                         });
 
                         $scope.autorespesq.map(function (value) {
-                            value.selected = existeNaLista(value.identificador)
+                            value.selected = existeNaLista(value.identificador);
                         });
                         if ($scope.form.projeto)
                             $scope.projetos.filter(function (value) {
@@ -1258,7 +1259,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
                                     value.selected = value.identificador + "";
                             });
                         else
-                            $scope.nenhumProjetoSelecionado = "-1";
+                            $scope.identificadorProjetoSelecionado = -1;
 
                         $scope.aut = [];
                         for (var j = 0; j < $scope.autores.length; j++) {
@@ -1281,8 +1282,9 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
 
                         $scope.projetoSelecionado = {};
                         for (var j = 0; j < $scope.projetos.length; j++) {
-                            if ($scope.projetos[j].selected) {
+                            if ($scope.projetos[j].identificador == $scope.form.projeto.identificador) {
                                 $scope.projetoSelecionado = $scope.projetos[j];
+                                identificadorProjetoSelecionado = $scope.projetoSelecionado.identificador;
                                 break;
                             }
                         }
@@ -1334,7 +1336,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
             }
         }
         $scope.form.autores = autores.trim();
-        $scope.form.projeto = $scope.projetoSelecionado.identificador;
+        $scope.form.projeto = $scope.projetoSelecionado.identificador || -1;
         console.log($scope.form.projeto);
         req = {
             method: 'POST',
@@ -1382,7 +1384,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
             $scope.mensagem = "É obrigatório que a publicação tenha ao menos um autor.";
             return;
         }
-        $scope.form.comando = "cadastrarPublicacao";
+        $scope.form.comando = "editarPublicacao";
         var autores = "";
         for (var j = 0; j < $scope.autorespesq.length; j++) {
             if ($scope.autorespesq[j].selected) {
@@ -1400,7 +1402,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
             }
         }
         $scope.form.autores = autores.trim();
-        $scope.form.projeto = $scope.projetoSelecionado.identificador;
+        $scope.form.projeto = $scope.projetoSelecionado.identificador || -1;
         console.log($scope.form.projeto);
         req = {
             method: 'POST',
@@ -1413,8 +1415,8 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
 
         $http(req)
                 .success(function (data, status) {
-                    if (status === 201) {
-                        alert("Cadastro realizado com sucesso!");
+                    if (status === 200) {
+                        alert("Edição realizada com sucesso!");
                         $window.location.href = 'publicacaolistar.html';
                     }
                 })

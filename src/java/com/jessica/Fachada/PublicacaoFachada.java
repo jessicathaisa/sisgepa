@@ -6,9 +6,7 @@
  */
 package com.jessica.Fachada;
 
-import com.jessica.DAO.AlunoDAO;
 import com.jessica.DAO.PublicacaoDAO;
-import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.Publicacao;
 import java.util.ArrayList;
@@ -33,7 +31,31 @@ public class PublicacaoFachada extends Fachada {
 
         return dao.addPublicacao(titulo, conferencia, ano);
     }
-
+    
+    /**
+     * Editar os dados da publicação
+     * @param id
+     * @param titulo
+     * @param conferencia
+     * @param ano
+     * @return 
+     */
+    public Publicacao editarPublicacao(int id, String titulo, String conferencia, int ano) {
+        PublicacaoDAO dao = new PublicacaoDAO();
+        
+        Publicacao pub = dao.editarPublicacao(id, titulo, conferencia, ano);
+        List<Colaborador> auxiliar = new ArrayList<>();
+        
+        for(Colaborador colaborador : pub.getAutores()){
+            auxiliar.add(colaborador);
+        }
+        for(Colaborador colaborador : auxiliar){
+            dao.remAutor(id, colaborador.getIdentificador());
+        }
+        
+        return pub;
+    }
+    
     /**
      * Adiciona autor a publicacao
      *
