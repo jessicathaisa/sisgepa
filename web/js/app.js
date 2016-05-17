@@ -1032,7 +1032,7 @@ function OrientacaoController($scope, $http, $window, $location) {
 /**************************************************/
 
 
-function PublicacaoController($scope, $http, $window, $location) {
+function PublicacaoController($scope, $http, $window, $location, $q) {
     this.mensagem = "";
     var idPublicacao = $location.search().id;
     var listar = $location.absUrl();
@@ -1074,70 +1074,77 @@ function PublicacaoController($scope, $http, $window, $location) {
                 });
     }
 
-    if (listar.indexOf("publicacaocadastrar.html") >= 0) {
-        this.chamada = {};
-        this.chamada.comando = "listarAlunos";
-        $http.post('AlunoServlet', this.chamada).
-                success(function (data) {
-                    $scope.alunos = data;
-                    for (var i = 0; i < $scope.alunos.length; i++) {
-                        var aluno = $scope.alunos[i];
-                        $scope.autores[i] = {};
-                        $scope.autores[i].identificador = aluno.identificador;
-                        $scope.autores[i].selected = false;
-                        var di = new Date(aluno.dataIngresso);
-                        aluno.dataIngresso = di.getTime();
-                    }
-                }).
-                error(function (data) {
-                    // log error
-                });
+    var carregarCheckboxes = function () {
 
-        this.chamada = {};
-        this.chamada.comando = "listarPesquisadores";
-        $http.post('PesquisadorServlet', this.chamada).
-                success(function (data) {
-                    $scope.pesquisadores = data;
-                    for (var i = 0; i < $scope.pesquisadores.length; i++) {
-                        var pesq = $scope.pesquisadores[i];
-                        $scope.autorespesq[i] = {};
-                        $scope.autorespesq[i].identificador = pesq.identificador;
-                        $scope.autorespesq[i].selected = false;
-                    }
-                }).
-                error(function (data) {
-                    // log error
-                });
+        if (listar.indexOf("publicacaocadastrar.html") >= 0 || listar.indexOf("publicacaoeditar.html") >= 0) {
+            this.chamada = {};
+            this.chamada.comando = "listarAlunos";
+            var alunoPromise = $http.post('AlunoServlet', this.chamada).
+                    success(function (data) {
+                        $scope.alunos = data;
+                        for (var i = 0; i < $scope.alunos.length; i++) {
+                            var aluno = $scope.alunos[i];
+                            $scope.autores[i] = {};
+                            $scope.autores[i].identificador = aluno.identificador;
+                            $scope.autores[i].selected = false;
+                            var di = new Date(aluno.dataIngresso);
+                            aluno.dataIngresso = di.getTime();
+                        }
+                    }).
+                    error(function (data) {
+                        // log error
+                    });
 
-        this.chamada = {};
-        this.chamada.comando = "listarProfessores";
-        $http.post('ProfessorServlet', this.chamada).
-                success(function (data) {
-                    $scope.professores = data;
-                    for (var i = 0; i < $scope.professores.length; i++) {
-                        var prof = $scope.professores[i];
-                        $scope.autoresprof[i] = {};
-                        $scope.autoresprof[i].identificador = prof.identificador;
-                        $scope.autoresprof[i].selected = false;
-                    }
-                }).
-                error(function (data) {
-                    // log error
-                });
+            this.chamada = {};
+            this.chamada.comando = "listarPesquisadores";
+            var pesquisadorPromise = $http.post('PesquisadorServlet', this.chamada).
+                    success(function (data) {
+                        $scope.pesquisadores = data;
+                        for (var i = 0; i < $scope.pesquisadores.length; i++) {
+                            var pesq = $scope.pesquisadores[i];
+                            $scope.autorespesq[i] = {};
+                            $scope.autorespesq[i].identificador = pesq.identificador;
+                            $scope.autorespesq[i].selected = false;
+                        }
+                    }).
+                    error(function (data) {
+                        // log error
+                    });
 
-        this.chamada = {};
-        this.chamada.comando = "listarProjetosEmAndamento";
-        $http.post('ProjetoServlet', this.chamada).
-                success(function (data) {
-                    $scope.projetos = data;
-                    for (var i = 0; i < $scope.projetos.length; i++) {
-                        $scope.projetos[i].selected = false;
-                    }
-                }).
-                error(function (data) {
-                    // log error
-                });
+            this.chamada = {};
+            this.chamada.comando = "listarProfessores";
+            var professorPromise = $http.post('ProfessorServlet', this.chamada).
+                    success(function (data) {
+                        $scope.professores = data;
+                        for (var i = 0; i < $scope.professores.length; i++) {
+                            var prof = $scope.professores[i];
+                            $scope.autoresprof[i] = {};
+                            $scope.autoresprof[i].identificador = prof.identificador;
+                            $scope.autoresprof[i].selected = false;
+                        }
+                    }).
+                    error(function (data) {
+                        // log error
+                    });
+
+            this.chamada = {};
+            this.chamada.comando = "listarProjetosEmAndamento";
+            var projetoPromise = $http.post('ProjetoServlet', this.chamada).
+                    success(function (data) {
+                        $scope.projetos = data;
+                        for (var i = 0; i < $scope.projetos.length; i++) {
+                            $scope.projetos[i].selected = false;
+                        }
+                    }).
+                    error(function (data) {
+                        // log error
+                    });
+
+            return $q.all([projetoPromise, professorPromise, pesquisadorPromise, alunoPromise]);
+        }
+        return $q.when(true);
     }
+
 
     $scope.exibeAutores = false;
     $scope.aut = [];
@@ -1165,9 +1172,11 @@ function PublicacaoController($scope, $http, $window, $location) {
                 }
             }
         } else {
-            $scope.aut = [];
-            $scope.autp = [];
-            $scope.autpe = [];
+            if (listar.indexOf("publicacaocadastrar.html") >= 0) {
+                $scope.aut = [];
+                $scope.autp = [];
+                $scope.autpe = [];
+            }
         }
 
 
@@ -1185,11 +1194,12 @@ function PublicacaoController($scope, $http, $window, $location) {
                     break;
                 }
             }
-            console.log($scope.projetoSelecionado);
         } else {
-            $scope.projetoSelecionado = {};
-            for (var j = 0; j < $scope.projetos.length; j++) {
-                $scope.projetos[j].selected = false;
+            if (listar.indexOf("publicacaocadastrar.html") >= 0) {
+                $scope.projetoSelecionado = {};
+                for (var j = 0; j < $scope.projetos.length; j++) {
+                    $scope.projetos[j].selected = "";
+                }
             }
         }
         $scope.exibeSelecaoProjetos = !$scope.exibeSelecaoProjetos;
@@ -1209,6 +1219,80 @@ function PublicacaoController($scope, $http, $window, $location) {
                     // log error
                 });
     }
+
+    var buscaPublicacao = function () {
+        if (listar.indexOf("publicacaoeditar.html") >= 0) {
+            this.chamada = {};
+            this.chamada.comando = "buscarPublicacao";
+            this.chamada.identificador = idPublicacao;
+            this.orientador = "";
+            // Buscar pelo id
+            return $http.post('PublicacaoServlet', this.chamada).
+                    success(function (data) {
+                        $scope.form = data;
+
+                        function existeNaLista(identificador) {
+                            var existe = $scope.form.autores.filter(function (value) {
+                                return value.identificador === identificador;
+                            });
+                            return existe && existe.length > 0;
+                        }
+
+                        $scope.autores.map(function (value) {
+                            value.selected = existeNaLista(value.identificador)
+                        });
+
+                        $scope.autoresprof.map(function (value) {
+                            value.selected = existeNaLista(value.identificador)
+                        });
+
+                        $scope.autorespesq.map(function (value) {
+                            value.selected = existeNaLista(value.identificador)
+                        });
+                        if ($scope.form.projeto)
+                            $scope.projetos.filter(function (value) {
+                                if (value.identificador === $scope.form.projeto.identificador)
+                                    value.selected = value.identificador + "";
+                            });
+                        else
+                            $scope.nenhumProjetoSelecionado = "-1";
+
+                        $scope.aut = [];
+                        for (var j = 0; j < $scope.autores.length; j++) {
+                            if ($scope.autores[j].selected) {
+                                $scope.aut.push($scope.alunos[j].nome);
+                            }
+                        }
+                        $scope.autp = [];
+                        for (var j = 0; j < $scope.autoresprof.length; j++) {
+                            if ($scope.autoresprof[j].selected) {
+                                $scope.autp.push($scope.professores[j].nome);
+                            }
+                        }
+                        $scope.autpe = [];
+                        for (var j = 0; j < $scope.autorespesq.length; j++) {
+                            if ($scope.autorespesq[j].selected) {
+                                $scope.autpe.push($scope.pesquisadores[j].nome);
+                            }
+                        }
+
+                        $scope.projetoSelecionado = {};
+                        for (var j = 0; j < $scope.projetos.length; j++) {
+                            if ($scope.projetos[j].selected) {
+                                $scope.projetoSelecionado = $scope.projetos[j];
+                                break;
+                            }
+                        }
+                    }).
+                    error(function (data) {
+                        // log error
+                    });
+        }
+
+        return $q.when(true);
+    }
+
+    carregarCheckboxes().then(buscaPublicacao);
 
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
@@ -1247,6 +1331,8 @@ function PublicacaoController($scope, $http, $window, $location) {
             }
         }
         $scope.form.autores = autores.trim();
+        $scope.form.projeto = $scope.projetoSelecionado.identificador;
+        console.log($scope.form.projeto);
         req = {
             method: 'POST',
             url: 'PublicacaoServlet',

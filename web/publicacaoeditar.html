@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<!--
+Projeto SISGEPA - Sistema de Gestao de Producao Academica
+Disciplina Projeto de Sistemas de Software
+Publicacao Carlos J. P. de Lucena
+PUC-Rio 2016.1
+-->
+<html ng-app="sisgepa">
+    <head>
+        <title>SISGEPA - Editar Publicacao</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="img/favicon.ico">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css"/>
+        <link href="css/sticky-footer.css" rel="stylesheet" type="text/css"/>
+        <link href="css/geral.css" rel="stylesheet" type="text/css"/>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/angular.min.js" type="text/javascript"></script>
+
+        <script src="js/geral.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div ng-controller="VerificaLoginController" ng-init="verificaNaoLogado()"></div>
+        <div ng-controller="VerificaPermissaoController" ng-init="verificaEhAdministrador()"></div>
+        <div id="wrapper">
+            <div id="header"></div>
+            <div id="page-content-wrapper">
+                <div class="container" ng-controller="PublicacaoController">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <form name="formulario" ng-submit="submitFormExcluir()">
+                                <h1> Editar Publicação 
+                                    <button type="submit" class="btn btn-primary">Excluir esta publicacao</button>
+                                </h1>
+                            </form>
+                        </div>                         
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-danger" role="alert" ng-show="mensagem">
+                            {{mensagem}}
+                        </div>
+                        <form name="formulario" ng-submit="submitFormEditar()">
+                            <div class="form-group">
+                                <label for="titulo">Título</label>
+                                <input type="text" class="form-control" ng-model="form.titulo" id="titulo" placeholder="Titulo da Publicação" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="conferencia">Conferência</label>
+                                <input type="text" class="form-control" ng-model="form.conferencia" id="conferencia" placeholder="Conferência" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="ano">Ano</label>
+                                <input type="number" class="form-control" ng-model="form.ano" id="ano" placeholder="Ano" required>
+                            </div>
+
+                            <hr>
+                            <div ng-show="aut.length || autp.length || autpe.length">
+                                <h4>Autores:</h4>
+                                <ul ng-repeat="a in aut">
+                                    <li>{{a}}</li>
+                                </ul> 
+                                <ul ng-repeat="a in autp">
+                                    <li>{{a}}</li>
+                                </ul> 
+                                <ul ng-repeat="a in autpe">
+                                    <li>{{a}}</li>
+                                </ul> 
+                            </div>
+                            <div ng-show="!aut.length && !autp.length && !autpe.length"><h4>Não há nenhum autor selecionado.</h4></div>
+                            
+                            <button type="button" class="btn btn-primary" ng-click="exibeColaboradores()" ng-hide="exibeAutores">Definir Autores</button>
+                            <div class="form-group" ng-show="exibeAutores">
+                                <h4>Alunos</h4>
+                                <div class="checkbox"  ng-repeat="autor in alunos track by $index">
+                                    <label class="checkbox" >
+                                        <input type="checkbox"
+                                               ng-model="autores[$index].selected"
+                                               ng-value="{{autor.identificador}}" >{{autor.nome}}
+                                    </label>
+                                </div>
+                                <h4>Professores</h4>
+                                <div class="checkbox"  ng-repeat="autorp in professores track by $index">
+                                    <label>
+                                        <input type="checkbox"
+                                               ng-model="autoresprof[$index].selected"
+                                               value="{{autorp.identificador}}" >{{autorp.nome}}
+                                    </label>
+                                </div>
+                                <h4>Pesquisadores</h4>
+                                <div class="checkbox"  ng-repeat="autorpe in pesquisadores track by $index">
+                                    <label>
+                                        <input type="checkbox"
+                                               ng-model="autorespesq[$index].selected"
+                                               value="{{autorpe.identificador}}" >{{autorpe.nome}}
+                                    </label>
+                                </div>
+                                <button type="button" class="btn btn-primary" ng-click="exibeColaboradores()">Confirmar Autores</button>
+                            </div>
+                            <hr>
+                            
+                            <div ng-show="projetoSelecionado.titulo">
+                                <h4>Projeto</h4>
+                                <ul>
+                                    <li>{{projetoSelecionado.titulo}}</li>
+                                </ul>
+                            </div>
+                            <div ng-show="!projetoSelecionado.titulo"><h4>Não há nenhum projeto selecionado.</h4></div>
+                            
+                            <button type="button" class="btn btn-primary" ng-click="exibeProjetos()" ng-hide="exibeSelecaoProjetos">Definir Projeto</button>
+                            <div class="form-group" ng-show="exibeSelecaoProjetos">
+                                <h4>Projetos</h4>
+                                <div class="radio"  ng-repeat="projeto in projetos track by $index">
+                                    <label>
+                                        <input type="radio"
+                                               name="opcoesProjeto"
+                                               ng-model="nenhumProjetoSelecionado"
+                                               ng-value="-1" >Nenhum
+                                    </label>
+                                </div>
+                                <div class="radio"  ng-repeat="projeto in projetos track by $index">
+                                    <label>
+                                        <input type="radio"
+                                               name="opcoesProjeto"
+                                               ng-model="projetos[$index].selected"
+                                               ng-value="{{projeto.identificador}}" >{{projeto.titulo}} | {{projeto.identificador}} | {{projetos[$index].selected}}
+                                    </label>
+                                </div>
+                                <button type="button" class="btn btn-primary" ng-click="exibeProjetos()">Confirmar Projeto</button>
+                            </div>
+                            <hr>
+
+
+                            <button type="submit" class="btn btn-primary" ng-show="!exibeSelecaoProjetos && !exibeAutores">Salvar</button>
+                            <a href="publicacaolistar.html#/?id={{form.identificador}}" role="button" class="btn btn-danger">Cancelar</a>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </body>
+</html>

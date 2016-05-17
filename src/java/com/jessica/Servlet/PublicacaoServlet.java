@@ -60,6 +60,13 @@ public class PublicacaoServlet extends ControladorCentral {
                         throw new Exception();
                     }
                 }
+                if(obj.projeto!=null && !"".equals(obj.projeto)){
+                    Publicacao aux = fachada.atribuirProjeto(publicacao.getIdentificador(), Integer.parseInt(obj.projeto));
+                    if(aux == null){
+                        fachada.apagarPublicacao(publicacao.getIdentificador());
+                        throw new Exception();
+                    }
+                }
                 response.setStatus(HttpServletResponse.SC_CREATED);
             } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);

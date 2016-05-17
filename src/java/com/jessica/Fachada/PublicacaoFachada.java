@@ -48,6 +48,14 @@ public class PublicacaoFachada extends Fachada {
 
         return p;
     }
+    
+    public Publicacao atribuirProjeto(int idPublicacao, int idProjeto){
+        PublicacaoDAO dao = new PublicacaoDAO();
+
+        Publicacao p = dao.setProjeto(idPublicacao, idProjeto);
+
+        return p;        
+    }
 
     /**
      * Apaga uma publicação do sistema
