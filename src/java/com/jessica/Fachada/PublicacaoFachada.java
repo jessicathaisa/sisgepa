@@ -71,6 +71,12 @@ public class PublicacaoFachada extends Fachada {
         return p;
     }
     
+    /**
+     * Atribui um projeto a uma publicação
+     * @param idPublicacao
+     * @param idProjeto
+     * @return 
+     */
     public Publicacao atribuirProjeto(int idPublicacao, int idProjeto){
         PublicacaoDAO dao = new PublicacaoDAO();
 
@@ -124,4 +130,6 @@ public class PublicacaoFachada extends Fachada {
 
         return auxiliar;
     }
+    
+    
 }

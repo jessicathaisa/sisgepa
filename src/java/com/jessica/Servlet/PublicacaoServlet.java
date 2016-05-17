@@ -105,6 +105,10 @@ public class PublicacaoServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
+        } else if (obj.comando != null && obj.comando.equals("excluirPublicacao")) {
+            PublicacaoFachada fachada = new PublicacaoFachada();
+            fachada.apagarPublicacao(Integer.parseInt(obj.identificador));
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

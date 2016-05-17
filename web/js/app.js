@@ -1429,4 +1429,39 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
                     }
                 });
     };
+    
+
+    $scope.submitFormExcluir = function () {
+        var resposta = confirm("Confirmar exclusão da publicação?");
+        if (resposta == true) {
+            $scope.mensagem = "";
+            this.chamada = {};
+            this.chamada.comando = "excluirPublicacao";
+            this.chamada.identificador = idPublicacao;
+            req = {
+                method: 'POST',
+                url: 'PublicacaoServlet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: $scope.chamada
+            };
+
+            $http(req)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            alert("Exclusão realizada com sucesso!");
+                            $window.location.href = 'publicacaolistar.html';
+                        }
+                    })
+                    .error(function (data, status) {
+                        if (status === 401) {
+                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                        }
+                        else if (status === 500) {
+                            $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
+                        }
+                    });
+        }
+    };
 }
