@@ -1040,6 +1040,7 @@ function PublicacaoController($scope, $http, $window, $location) {
     $scope.alunos = {};
     $scope.professores = {};
     $scope.pesquisadores = {};
+    $scope.projetos = {};
     $scope.autores = [];
     $scope.autoresprof = [];
     $scope.autorespesq = [];
@@ -1123,12 +1124,25 @@ function PublicacaoController($scope, $http, $window, $location) {
                 error(function (data) {
                     // log error
                 });
+
+        this.chamada = {};
+        this.chamada.comando = "listarProjetosEmAndamento";
+        $http.post('ProjetoServlet', this.chamada).
+                success(function (data) {
+                    $scope.projetos = data;
+                    for (var i = 0; i < $scope.projetos.length; i++) {
+                        $scope.projetos[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
     }
 
     $scope.exibeAutores = false;
-    $scope.aut =[];
-    $scope.autp =[];
-    $scope.autpe =[];
+    $scope.aut = [];
+    $scope.autp = [];
+    $scope.autpe = [];
     $scope.form = {};
     $scope.exibeColaboradores = function () {
         if ($scope.exibeAutores) {
@@ -1160,6 +1174,27 @@ function PublicacaoController($scope, $http, $window, $location) {
         $scope.exibeAutores = !$scope.exibeAutores;
     };
 
+    $scope.exibeSelecaoProjetos = false;
+    $scope.projetoSelecionado = {};
+    $scope.exibeProjetos = function () {
+        if ($scope.exibeSelecaoProjetos) {
+            $scope.projetoSelecionado = {};
+            for (var j = 0; j < $scope.projetos.length; j++) {
+                if ($scope.projetos[j].selected) {
+                    $scope.projetoSelecionado = $scope.projetos[j];
+                    break;
+                }
+            }
+            console.log($scope.projetoSelecionado);
+        } else {
+            $scope.projetoSelecionado = {};
+            for (var j = 0; j < $scope.projetos.length; j++) {
+                $scope.projetos[j].selected = false;
+            }
+        }
+        $scope.exibeSelecaoProjetos = !$scope.exibeSelecaoProjetos;
+    };
+
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
 
@@ -1175,14 +1210,31 @@ function PublicacaoController($scope, $http, $window, $location) {
             $scope.mensagem = "Campo Ano é obrigatório!";
             return;
         }
-        if ($scope.aut.length === 0 && $scope.autp.length === 0 && $scope.autpe.length === 0 ) {
+        if ($scope.aut.length === 0 && $scope.autp.length === 0 && $scope.autpe.length === 0) {
             $scope.mensagem = "É obrigatório que a publicação tenha ao menos um autor.";
             return;
         }
-        $scope.form.comando = "cadastrarOrientacao";
+        $scope.form.comando = "cadastrarPublicacao";
+        var autores = "";
+        for (var j = 0; j < $scope.autorespesq.length; j++) {
+            if ($scope.autorespesq[j].selected) {
+                autores += $scope.autorespesq[j].identificador + " ";
+            }
+        }
+        for (var j = 0; j < $scope.autoresprof.length; j++) {
+            if ($scope.autoresprof[j].selected) {
+                autores += $scope.autoresprof[j].identificador + " ";
+            }
+        }
+        for (var j = 0; j < $scope.autores.length; j++) {
+            if ($scope.autores[j].selected) {
+                autores += $scope.autores[j].identificador + " ";
+            }
+        }
+        $scope.form.autores = autores.trim();
         req = {
             method: 'POST',
-            url: 'OrientacaoServlet',
+            url: 'PublicacaoServlet',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -1193,7 +1245,7 @@ function PublicacaoController($scope, $http, $window, $location) {
                 .success(function (data, status) {
                     if (status === 201) {
                         alert("Cadastro realizado com sucesso!");
-                        $window.location.href = 'orientacaolistar.html';
+                        $window.location.href = 'publicacaolistar.html';
                     }
                 })
                 .error(function (data, status) {
@@ -1202,9 +1254,6 @@ function PublicacaoController($scope, $http, $window, $location) {
                     }
                     else if (status === 500) {
                         $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
-                    }
-                    else if (status === 409) {
-                        $scope.mensagem = "Já existe uma orientação este aluno e este professor.";
                     }
                 });
     };

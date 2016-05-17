@@ -78,13 +78,13 @@ public class AlunoDAO extends ColaboradorDAO{
     
         /**
      * Adiciona Aluno na memória
+     * @param id
      * @param nome
      * @param email
      * @param tipo
      * @param orientador
      * @param dataIngresso
      * @param regime
-     * @param idUsuario
      * @return 
      */
     public Aluno editarAluno(int id, String nome, String email, TipoAluno tipo, int orientador, Date dataIngresso, RegimeCurso regime){

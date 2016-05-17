@@ -28,6 +28,10 @@
         <servlet-name>PublicacaoServlet</servlet-name>
         <servlet-class>com.jessica.Servlet.PublicacaoServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ProjetoServlet</servlet-name>
+        <servlet-class>com.jessica.Servlet.ProjetoServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>RelatorioServlet</servlet-name>
         <url-pattern>/RelatorioServlet</url-pattern>
@@ -55,6 +59,10 @@
     <servlet-mapping>
         <servlet-name>PublicacaoServlet</servlet-name>
         <url-pattern>/PublicacaoServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ProjetoServlet</servlet-name>
+        <url-pattern>/ProjetoServlet</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

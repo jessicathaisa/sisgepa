@@ -41,14 +41,6 @@ public class Pesquisador extends Colaborador {
 
         novo.setUsuario(this.getUsuario().copiar());
 
-        for (ProducaoAcademica p : this.getProducoes()) {
-            if (p instanceof Publicacao) {
-                novo.getProducoes().add(((Publicacao) p).copiaSimples());
-            }
-            if (p instanceof Orientacao) {
-                novo.getProducoes().add(((Orientacao) p).copiaSimples());
-            }
-        }
         return novo;
     }
 }

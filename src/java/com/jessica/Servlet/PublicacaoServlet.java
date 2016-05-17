@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 public class PublicacaoServlet extends ControladorCentral {
 
     class Retorno {
+
         public String comando;
         public String identificador;
         public String titulo;
@@ -45,6 +46,24 @@ public class PublicacaoServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
+        } else if (obj.comando != null && obj.comando.equals("cadastrarPublicacao")) {
+            PublicacaoFachada fachada = new PublicacaoFachada();
+            try {
+                Publicacao publicacao = fachada.cadastrarPublicacao(obj.titulo, obj.conferencia, Integer.parseInt(obj.ano));
+                
+                String[] array = obj.autores.split(" ");
+                for(String str : array){
+                    int idAutor = Integer.parseInt(str);
+                    Publicacao aux = fachada.adicionarAutor(publicacao.getIdentificador(), idAutor);
+                    if(aux == null){
+                        fachada.apagarPublicacao(publicacao.getIdentificador());
+                        throw new Exception();
+                    }
+                }
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } catch (Exception ex) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

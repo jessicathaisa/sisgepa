@@ -98,9 +98,39 @@ PUC-Rio 2016.1
                                 <button type="button" class="btn btn-primary" ng-click="exibeColaboradores()">Confirmar Autores</button>
                             </div>
                             <hr>
+                            
+                            <div ng-show="projetoSelecionado.titulo">
+                                <h4>Projeto</h4>
+                                <ul>
+                                    <li>{{projetoSelecionado.titulo}}</li>
+                                </ul>
+                            </div>
+                            <div ng-show="!projetoSelecionado.titulo"><h4>Não há nenhum projeto selecionado.</h4></div>
+                            
+                            <button type="button" class="btn btn-primary" ng-click="exibeProjetos()" ng-hide="exibeSelecaoProjetos">Definir Projeto</button>
+                            <div class="form-group" ng-show="exibeSelecaoProjetos">
+                                <h4>Projetos</h4>
+                                <div class="radio"  ng-repeat="projeto in projetos track by $index">
+                                    <label>
+                                        <input type="radio"
+                                               name="opcoesProjeto"
+                                               ng-value="-1" >Nenhum
+                                    </label>
+                                </div>
+                                <div class="radio"  ng-repeat="projeto in projetos track by $index">
+                                    <label>
+                                        <input type="radio"
+                                               name="opcoesProjeto"
+                                               ng-model="projetos[$index].selected"
+                                               ng-value="{{projeto.identificador}}" >{{projeto.titulo}}
+                                    </label>
+                                </div>
+                                <button type="button" class="btn btn-primary" ng-click="exibeProjetos()">Confirmar Projeto</button>
+                            </div>
+                            <hr>
 
 
-                            <button type="submit" class="btn btn-primary" ng-show="!exibeAutores">Salvar</button>
+                            <button type="submit" class="btn btn-primary" ng-show="!exibeSelecaoProjetos && !exibeAutores">Salvar</button>
                             <a href="publicacaolistar.html" role="button" class="btn btn-danger">Cancelar</a>
                         </form>
                     </div>

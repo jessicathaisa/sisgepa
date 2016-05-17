@@ -18,6 +18,39 @@ import java.util.List;
 public class PublicacaoFachada extends Fachada {
 
     /**
+     * Cadastra um publicação no sistema
+     * @param titulo
+     * @param conferencia
+     * @param ano
+     * @return 
+     */
+    public Publicacao cadastrarPublicacao(String titulo, String conferencia, int ano){
+        PublicacaoDAO dao = new PublicacaoDAO();
+        
+        return dao.addPublicacao(titulo, conferencia, ano);
+    }
+    
+    /**
+     * Adiciona autor a publicacao
+     * @param idPublicacao
+     * @param idAutor
+     * @return 
+     */
+    public Publicacao adicionarAutor(int idPublicacao, int idAutor){
+        PublicacaoDAO dao = new PublicacaoDAO();
+        
+        Publicacao p = dao.addAutor(idPublicacao, idAutor);
+        
+        return p;
+    }
+    
+    public boolean apagarPublicacao(int id){
+        PublicacaoDAO dao = new PublicacaoDAO();
+        
+        return dao.remPublicacao(id);
+    }
+    
+    /**
      * Listar as publicacoes
      *
      * @return

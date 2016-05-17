@@ -318,4 +318,12 @@ public class ProjetoDAO extends DAO{
         
         return quantidade;
     }
+    
+    /**
+     * Lista os projetos do sistema
+     * @return 
+     */
+    public List<Projeto> listar(){
+        return memoria.getProjetos();
+    }
 }

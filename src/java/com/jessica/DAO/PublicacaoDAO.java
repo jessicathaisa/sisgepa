@@ -76,7 +76,7 @@ public class PublicacaoDAO extends DAO {
      * @param id
      * @return
      */
-    public boolean remOrientacao(int id) {
+    public boolean remPublicacao(int id) {
         List<Publicacao> publicacoes = memoria.getPublicacoes();
         Publicacao obj = null;
         for (Publicacao o : publicacoes) {
@@ -128,11 +128,19 @@ public class PublicacaoDAO extends DAO {
         Publicacao pub = buscar(idPublicacao);
         if(pub == null)
             return null;
-        ColaboradorDAO colaboradordao = new ColaboradorDAO();
-        Colaborador autor = colaboradordao.buscar(idAutor);
+        AlunoDAO alunodao = new AlunoDAO();
+        Colaborador autor = alunodao.buscar(idAutor);
+        if(autor == null){
+            ProfessorDAO professordao = new ProfessorDAO();
+            autor = professordao.buscar(idAutor);
+        }
+        if(autor == null){
+            PesquisadorDAO pesquisadorDAO = new PesquisadorDAO();
+            autor = pesquisadorDAO.buscar(idAutor);
+        }
         
         if(autor == null)
-            return pub;
+            return null;
         
         boolean autorEstaNaPublicacao = false;
         for(Colaborador colaborador : pub.getAutores()){
