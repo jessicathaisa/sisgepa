@@ -52,7 +52,7 @@ PUC-Rio 2016.1
                                         <li class="list-group-item list-group-item-heading"><strong>Título: </strong> <span>{{form.titulo}}</span></li>
                                         <li class="list-group-item list-group-item-heading"><strong>Conferência: </strong> <span>{{form.conferencia}}</span></li>
                                         <li class="list-group-item list-group-item-heading"><strong>Ano: </strong> <span>{{form.ano}}</span></li>
-                                        <li class="list-group-item list-group-item-heading"><strong>Projeto: </strong> <span ng-show="form.projeto">{{form.projeto.titulo}}</span><span ng-show="!form.projeto">Não existe projeto para esta publicação.</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Projeto: </strong> <span ng-show="form.projeto.titulo">{{form.projeto.titulo}}</span><span ng-show="!form.projeto.titulo">Não existe projeto para esta publicação.</span></li>
                                     </ul>
                                 </div>
                                 <div class="row">

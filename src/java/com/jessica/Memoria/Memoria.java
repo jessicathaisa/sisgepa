@@ -502,7 +502,7 @@ public class Memoria {
         publicacao2.setConferencia("GPCE");
         publicacao2.setAno(2007);
         publicacao2.setProjeto(null);
-        publicacao1.setIdentificador(2);
+        publicacao2.setIdentificador(2);
         publicacoes.add(publicacao2);
         
         Publicacao publicacao3 = new Publicacao();
@@ -512,7 +512,7 @@ public class Memoria {
         publicacao3.setConferencia("SBES");
         publicacao3.setAno(2006);
         publicacao3.setProjeto(null);
-        publicacao1.setIdentificador(3);
+        publicacao3.setIdentificador(3);
         publicacoes.add(publicacao3);
         
         Publicacao publicacao4 = new Publicacao();
@@ -523,7 +523,7 @@ public class Memoria {
         publicacao4.setConferencia("AOSE");
         publicacao4.setAno(2006);
         publicacao4.setProjeto(projeto1);
-        publicacao1.setIdentificador(4);
+        publicacao4.setIdentificador(4);
         publicacoes.add(publicacao4);
         
         Publicacao publicacao5 = new Publicacao();
@@ -534,7 +534,7 @@ public class Memoria {
         publicacao5.setConferencia("AAMAS");
         publicacao5.setAno(2006);
         publicacao5.setProjeto(projeto1);
-        publicacao1.setIdentificador(5);
+        publicacao5.setIdentificador(5);
         publicacoes.add(publicacao5);
         
         Publicacao publicacao6 = new Publicacao();
@@ -543,7 +543,7 @@ public class Memoria {
         publicacao6.setConferencia("SEAS");
         publicacao6.setAno(2005);
         publicacao6.setProjeto(null);
-        publicacao1.setIdentificador(6);
+        publicacao6.setIdentificador(6);
         publicacoes.add(publicacao6);
         
         Publicacao publicacao7 = new Publicacao();
@@ -553,7 +553,7 @@ public class Memoria {
         publicacao7.setConferencia("FLOP");
         publicacao7.setAno(2006);
         publicacao7.setProjeto(projeto2);
-        publicacao1.setIdentificador(7);
+        publicacao7.setIdentificador(7);
         publicacoes.add(publicacao7);
         
         Publicacao publicacao8 = new Publicacao();
@@ -563,7 +563,7 @@ public class Memoria {
         publicacao8.setConferencia("AAMAS");
         publicacao8.setAno(2005);
         publicacao8.setProjeto(projeto1);
-        publicacao1.setIdentificador(8);
+        publicacao8.setIdentificador(8);
         publicacoes.add(publicacao8);
     }
 
