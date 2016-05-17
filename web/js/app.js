@@ -1230,7 +1230,10 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
             return $http.post('PublicacaoServlet', this.chamada).
                     success(function (data) {
                         $scope.form = data;
-
+                        if (data.projeto.status === "CONCLUIDO") {
+                            alert("O Projeto desta Publicação está Concluído. Por isso ela não pode ser editada.");
+                            $window.location.href = 'publicacaover.html#/?id=' + data.identificador;
+                        }
                         function existeNaLista(identificador) {
                             var existe = $scope.form.autores.filter(function (value) {
                                 return value.identificador === identificador;
@@ -1295,6 +1298,72 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
     carregarCheckboxes().then(buscaPublicacao);
 
     $scope.submitFormCadastrar = function () {
+        $scope.mensagem = "";
+
+        if (!$scope.form.titulo) {
+            $scope.mensagem = "Campo Título é obrigatório!";
+            return;
+        }
+        if (!$scope.form.conferencia) {
+            $scope.mensagem = "Campo Conferencia é obrigatório!";
+            return;
+        }
+        if (!$scope.form.ano) {
+            $scope.mensagem = "Campo Ano é obrigatório!";
+            return;
+        }
+        if ($scope.aut.length === 0 && $scope.autp.length === 0 && $scope.autpe.length === 0) {
+            $scope.mensagem = "É obrigatório que a publicação tenha ao menos um autor.";
+            return;
+        }
+        $scope.form.comando = "cadastrarPublicacao";
+        var autores = "";
+        for (var j = 0; j < $scope.autorespesq.length; j++) {
+            if ($scope.autorespesq[j].selected) {
+                autores += $scope.autorespesq[j].identificador + " ";
+            }
+        }
+        for (var j = 0; j < $scope.autoresprof.length; j++) {
+            if ($scope.autoresprof[j].selected) {
+                autores += $scope.autoresprof[j].identificador + " ";
+            }
+        }
+        for (var j = 0; j < $scope.autores.length; j++) {
+            if ($scope.autores[j].selected) {
+                autores += $scope.autores[j].identificador + " ";
+            }
+        }
+        $scope.form.autores = autores.trim();
+        $scope.form.projeto = $scope.projetoSelecionado.identificador;
+        console.log($scope.form.projeto);
+        req = {
+            method: 'POST',
+            url: 'PublicacaoServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: $scope.form
+        };
+
+        $http(req)
+                .success(function (data, status) {
+                    if (status === 201) {
+                        alert("Cadastro realizado com sucesso!");
+                        $window.location.href = 'publicacaolistar.html';
+                    }
+                })
+                .error(function (data, status) {
+                    if (status === 401) {
+                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                    }
+                    else if (status === 500) {
+                        $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
+                    }
+                });
+    };
+
+
+    $scope.submitFormEditar = function () {
         $scope.mensagem = "";
 
         if (!$scope.form.titulo) {
