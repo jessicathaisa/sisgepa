@@ -1195,6 +1195,21 @@ function PublicacaoController($scope, $http, $window, $location) {
         $scope.exibeSelecaoProjetos = !$scope.exibeSelecaoProjetos;
     };
 
+    if (listar.indexOf("publicacaover.html") >= 0) {
+        this.chamada = {};
+        this.chamada.comando = "buscarPublicacao";
+        this.chamada.identificador = idPublicacao;
+        this.orientador = "";
+        // Buscar pelo id
+        $http.post('PublicacaoServlet', this.chamada).
+                success(function (data) {
+                    $scope.form = data;
+                }).
+                error(function (data) {
+                    // log error
+                });
+    }
+
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
 

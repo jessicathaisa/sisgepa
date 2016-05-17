@@ -64,6 +64,15 @@ public class PublicacaoServlet extends ControladorCentral {
             } catch (Exception ex) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
+        } else if (obj.comando != null && obj.comando.equals("buscarPublicacao")) {
+            PublicacaoFachada fachada = new PublicacaoFachada();
+            Publicacao publicacao = fachada.buscarPublicacao(Integer.parseInt(obj.identificador));
+            String json = gson.toJson(publicacao);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }

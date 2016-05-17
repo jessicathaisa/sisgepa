@@ -6,7 +6,10 @@
  */
 package com.jessica.Fachada;
 
+import com.jessica.DAO.AlunoDAO;
 import com.jessica.DAO.PublicacaoDAO;
+import com.jessica.Modelo.Aluno;
+import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.Publicacao;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,37 +22,61 @@ public class PublicacaoFachada extends Fachada {
 
     /**
      * Cadastra um publicação no sistema
+     *
      * @param titulo
      * @param conferencia
      * @param ano
-     * @return 
+     * @return
      */
-    public Publicacao cadastrarPublicacao(String titulo, String conferencia, int ano){
+    public Publicacao cadastrarPublicacao(String titulo, String conferencia, int ano) {
         PublicacaoDAO dao = new PublicacaoDAO();
-        
+
         return dao.addPublicacao(titulo, conferencia, ano);
     }
-    
+
     /**
      * Adiciona autor a publicacao
+     *
      * @param idPublicacao
      * @param idAutor
-     * @return 
+     * @return
      */
-    public Publicacao adicionarAutor(int idPublicacao, int idAutor){
+    public Publicacao adicionarAutor(int idPublicacao, int idAutor) {
         PublicacaoDAO dao = new PublicacaoDAO();
-        
+
         Publicacao p = dao.addAutor(idPublicacao, idAutor);
-        
+
         return p;
     }
-    
-    public boolean apagarPublicacao(int id){
+
+    /**
+     * Apaga uma publicação do sistema
+     *
+     * @param id
+     * @return
+     */
+    public boolean apagarPublicacao(int id) {
         PublicacaoDAO dao = new PublicacaoDAO();
-        
+        Publicacao pub = buscarPublicacao(id);
+        for (Colaborador colaborador : pub.getAutores()) {
+            colaborador.getProducoes().remove(pub);
+        }
+
         return dao.remPublicacao(id);
     }
-    
+
+    /**
+     * Busca publicação pelo id
+     *
+     * @param id
+     * @return
+     */
+    public Publicacao buscarPublicacao(int id) {
+        PublicacaoDAO dao = new PublicacaoDAO();
+
+        return dao.buscar(id).copiaSimples();
+    }
+
     /**
      * Listar as publicacoes
      *

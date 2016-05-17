@@ -6,16 +6,9 @@
  */
 package com.jessica.Fachada;
 
-import com.jessica.DAO.AlunoDAO;
 import com.jessica.DAO.OrientacaoDAO;
-import com.jessica.DAO.ProfessorDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
-import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.Orientacao;
-import com.jessica.Modelo.Professor;
-import com.jessica.Modelo.RegimeCurso;
-import com.jessica.Modelo.TipoAluno;
-import com.jessica.Modelo.TipoUsuario;
 import java.util.ArrayList;
 import java.util.List;
 
