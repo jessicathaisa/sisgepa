@@ -211,7 +211,7 @@ public class AlunoFachada extends Fachada {
     }
 
     /**
-     * Buscar os projetos de um aluno pelo id
+     * Buscar as producoes de um aluno pelo id
      *
      * @param id
      * @return
