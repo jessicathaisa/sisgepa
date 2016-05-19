@@ -18,6 +18,10 @@ import java.util.List;
  */
 public class ProjetoFachada extends Fachada {
     
+    /**
+     * Listar Projetos em Andamento
+     * @return 
+     */
     public List<Projeto> listarEmAndamento(){
         ProjetoDAO dao = new ProjetoDAO();
         List<Projeto> projetos = dao.listar();
@@ -28,6 +32,5 @@ public class ProjetoFachada extends Fachada {
                 projetosAux.add(projeto.copiar());
         
         return projetosAux;
-        
     }
 }

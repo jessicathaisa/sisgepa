@@ -9,7 +9,10 @@ package com.jessica.Servlet;
 import com.google.gson.Gson;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.AlunoFachada;
+import com.jessica.Fachada.ProjetoFachada;
 import com.jessica.Modelo.Aluno;
+import com.jessica.Modelo.ProducaoAcademica;
+import com.jessica.Modelo.Projeto;
 import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,6 +62,44 @@ public class AlunoServlet extends ControladorCentral {
             catch(Exception ex){
                 System.out.println(ex.getMessage());
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else if (obj.comando != null && obj.comando.equals("listarProjetosAluno")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                AlunoFachada fachada = new AlunoFachada();
+                List<Projeto> projetos = null;
+                
+                try{
+                    projetos = fachada.buscarProjetosAluno(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(projetos);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
+        } else if (obj.comando != null && obj.comando.equals("listarProducaoAluno")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                AlunoFachada fachada = new AlunoFachada();
+                List<ProducaoAcademica> producoes = null;
+                
+                try{
+                    producoes = fachada.buscarProducoesAluno(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(producoes);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
             }
         } else if (obj.comando != null && obj.comando.equals("buscarAluno")) {
             if (obj.identificador != null && obj.identificador.isEmpty()) {

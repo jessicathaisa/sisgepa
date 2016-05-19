@@ -224,19 +224,42 @@ function AlunoController($scope, $http, $window, $location) {
                     var d = new Date(data.dataIngresso);
                     $scope.form.dataIngresso = d.getTime();
 
-                    $scope.form.projetos = data.projetos;
-                    for (var i = 0; i < $scope.form.projetos.length; i++) {
-                        var proj = $scope.form.projetos[i];
-                        var di = new Date(proj.dataInicio);
-                        proj.dataInicio = di.getTime();
-                        var dt = new Date(proj.dataTermino);
-                        proj.dataTermino = dt.getTime();
 
-                        if (!proj.dataInicio)
-                            proj.dataInicio = "NÃO DEFINIDO";
-                        if (!proj.dataTermino)
-                            proj.dataTermino = "NÃO DEFINIDO";
-                    }
+                    this.chamada = {};
+                    this.chamada.comando = "listarProjetosAluno";
+                    this.chamada.identificador = idAluno;
+                    // Buscar pelo id
+                    $http.post('AlunoServlet', this.chamada).
+                            success(function (data2) {
+                                $scope.form.projetos = data2;
+                                for (var i = 0; i < $scope.form.projetos.length; i++) {
+                                    var proj = $scope.form.projetos[i];
+                                    var di = new Date(proj.dataInicio);
+                                    proj.dataInicio = di.getTime();
+                                    var dt = new Date(proj.dataTermino);
+                                    proj.dataTermino = dt.getTime();
+
+                                    if (!proj.dataInicio)
+                                        proj.dataInicio = "NÃO DEFINIDO";
+                                    if (!proj.dataTermino)
+                                        proj.dataTermino = "NÃO DEFINIDO";
+                                }
+                            }).
+                            error(function (data2) {
+                                // log error
+                            });
+
+                    this.chamada = {};
+                    this.chamada.comando = "listarProducaoAluno";
+                    this.chamada.identificador = idAluno;
+                    // Buscar pelo id
+                    $http.post('AlunoServlet', this.chamada).
+                            success(function (data3) {
+                                $scope.form.producoes = data3;
+                            }).
+                            error(function (data3) {
+                                // log error
+                            });
                 }).
                 error(function (data) {
                     // log error
@@ -252,6 +275,32 @@ function AlunoController($scope, $http, $window, $location) {
             classe = "panel-info";
 
         return "panel " + classe;
+    };
+    $scope.trazNomesAutores = function (producao) {
+        var retorno = "";
+        if(producao.conferencia){
+            for(var i = 0; i < producao.autores.length ; i++){
+                retorno += producao.autores[i].nome;
+                if(i !== producao.autores.length - 1)
+                    retorno += ", ";
+            }
+        }
+        return retorno;
+    };
+    $scope.verCorProducao = function (producao) {
+        var classe = "";
+        if (producao.aluno)
+            classe = "panel-success";
+        else if (producao.conferencia)
+            classe = "panel-info";
+
+        return "panel " + classe;
+    };
+    $scope.verTipoProducao = function (producao) {
+        if (producao.aluno)
+            return "Orientação";
+        else if (producao.conferencia)
+            return "Publicação";
     };
 
     $scope.submitFormCadastrar = function () {
@@ -1188,7 +1237,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
     $scope.exibeProjetos = function () {
         if ($scope.exibeSelecaoProjetos) {
             $scope.projetoSelecionado = {};
-            
+
             for (var j = 0; j < $scope.projetos.length; j++) {
                 if ($scope.projetos[j].identificador == $scope.identificadorProjetoSelecionado) {
                     $scope.projetoSelecionado = $scope.projetos[j];
@@ -1429,7 +1478,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
                     }
                 });
     };
-    
+
 
     $scope.submitFormExcluir = function () {
         var resposta = confirm("Confirmar exclusão da publicação?");

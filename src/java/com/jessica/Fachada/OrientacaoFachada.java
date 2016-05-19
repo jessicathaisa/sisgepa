@@ -51,6 +51,23 @@ public class OrientacaoFachada extends Fachada {
     }
 
     /**
+     * Buscar as orientações pelo id de aluno
+     *
+     * @param id
+     * @return
+     */
+    public List<Orientacao> buscarOrientacaoPorAluno(int id) {
+        OrientacaoDAO dao = new OrientacaoDAO();
+        List<Orientacao> lista = dao.buscarPorAluno(id);
+        List<Orientacao> auxiliar = new ArrayList<>();
+        for(Orientacao o : lista){
+            auxiliar.add(o.copiaSimples());
+        }
+        
+        return auxiliar;
+    }
+
+    /**
      * Cadastrar uma orientação
      *
      * @param idAluno

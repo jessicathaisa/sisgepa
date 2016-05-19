@@ -448,6 +448,8 @@ public class Memoria {
         orientacao1.setIdentificador(1);
         orientacao1.setAno(2005);
         orientacoes.add(orientacao1);
+        aluno1.getProducoes().add(orientacao1);
+        professor1.getProducoes().add(orientacao1);
         
         Orientacao orientacao2 = new Orientacao();
         orientacao2.setProfessor(professor1);
@@ -456,6 +458,8 @@ public class Memoria {
         orientacao2.setIdentificador(2);
         orientacao2.setAno(2008);
         orientacoes.add(orientacao2);
+        aluno4.getProducoes().add(orientacao2);
+        professor1.getProducoes().add(orientacao2);
         
         Orientacao orientacao3 = new Orientacao();
         orientacao3.setProfessor(professor3);
@@ -464,6 +468,8 @@ public class Memoria {
         orientacao3.setIdentificador(3);
         orientacao3.setAno(2007);
         orientacoes.add(orientacao3);
+        aluno5.getProducoes().add(orientacao3);
+        professor3.getProducoes().add(orientacao3);
         
         Orientacao orientacao4 = new Orientacao();
         orientacao4.setProfessor(professor3);
@@ -472,6 +478,8 @@ public class Memoria {
         orientacao4.setIdentificador(4);
         orientacao4.setAno(2012);
         orientacoes.add(orientacao4);
+        aluno7.getProducoes().add(orientacao4);
+        professor3.getProducoes().add(orientacao4);
         
         Orientacao orientacao5 = new Orientacao();
         orientacao5.setProfessor(professor1);
@@ -480,6 +488,8 @@ public class Memoria {
         orientacao5.setIdentificador(5);
         orientacao5.setAno(2000);
         orientacoes.add(orientacao5);
+        aluno9.getProducoes().add(orientacao5);
+        professor1.getProducoes().add(orientacao5);
         
         
         /* Publicações */
@@ -493,6 +503,9 @@ public class Memoria {
         publicacao1.setProjeto(projeto2);
         publicacao1.setIdentificador(1);
         publicacoes.add(publicacao1);
+        aluno4.getProducoes().add(publicacao1);
+        aluno8.getProducoes().add(publicacao1);
+        professor1.getProducoes().add(publicacao1);
         
         Publicacao publicacao2 = new Publicacao();
         publicacao2.setTitulo("Refactoring Product Lines");
@@ -504,6 +517,9 @@ public class Memoria {
         publicacao2.setProjeto(null);
         publicacao2.setIdentificador(2);
         publicacoes.add(publicacao2);
+        aluno1.getProducoes().add(publicacao2);
+        aluno9.getProducoes().add(publicacao2);
+        professor2.getProducoes().add(publicacao2);
         
         Publicacao publicacao3 = new Publicacao();
         publicacao3.setTitulo("Tratamento de Exceções Sensível ao Contexto");
@@ -514,6 +530,8 @@ public class Memoria {
         publicacao3.setProjeto(null);
         publicacao3.setIdentificador(3);
         publicacoes.add(publicacao3);
+        aluno6.getProducoes().add(publicacao3);
+        professor3.getProducoes().add(publicacao3);
         
         Publicacao publicacao4 = new Publicacao();
         publicacao4.setTitulo("Integrating MAS in component-based groupware environment");
@@ -525,6 +543,9 @@ public class Memoria {
         publicacao4.setProjeto(projeto1);
         publicacao4.setIdentificador(4);
         publicacoes.add(publicacao4);
+        aluno6.getProducoes().add(publicacao4);
+        aluno7.getProducoes().add(publicacao4);
+        professor3.getProducoes().add(publicacao4);
         
         Publicacao publicacao5 = new Publicacao();
         publicacao5.setTitulo("Reputing Model Based on Testimonies");
@@ -536,6 +557,9 @@ public class Memoria {
         publicacao5.setProjeto(projeto1);
         publicacao5.setIdentificador(5);
         publicacoes.add(publicacao5);
+        aluno1.getProducoes().add(publicacao5);
+        aluno9.getProducoes().add(publicacao5);
+        professor1.getProducoes().add(publicacao5);
         
         Publicacao publicacao6 = new Publicacao();
         publicacao6.setTitulo("Extensions on Interacrion Laws in Open Multi-Agent Systems");
@@ -545,6 +569,7 @@ public class Memoria {
         publicacao6.setProjeto(null);
         publicacao6.setIdentificador(6);
         publicacoes.add(publicacao6);
+        aluno8.getProducoes().add(publicacao6);
         
         Publicacao publicacao7 = new Publicacao();
         publicacao7.setTitulo("Aspect-oriented Patterns");
@@ -555,6 +580,8 @@ public class Memoria {
         publicacao7.setProjeto(projeto2);
         publicacao7.setIdentificador(7);
         publicacoes.add(publicacao7);
+        aluno4.getProducoes().add(publicacao7);
+        professor1.getProducoes().add(publicacao7);
         
         Publicacao publicacao8 = new Publicacao();
         publicacao8.setTitulo("Classifying an Describing Agent Cintracts and Norms");
@@ -565,6 +592,8 @@ public class Memoria {
         publicacao8.setProjeto(projeto1);
         publicacao8.setIdentificador(8);
         publicacoes.add(publicacao8);
+        aluno2.getProducoes().add(publicacao8);
+        aluno7.getProducoes().add(publicacao8);
     }
 
     /**

@@ -187,20 +187,48 @@ public class AlunoFachada extends Fachada {
      */
     public Aluno buscarAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
-        Aluno a = dao.buscar(id).copiar();
-        if (a.getProjetos() != null) {
-            for (Projeto p : a.getProjetos()) {
-                p.setParticipantes(null);
-            }
-        }
-        if (a.getProducoes() != null) {
-            for (ProducaoAcademica p : a.getProducoes()) {
-                if (p instanceof Publicacao) {
-                    ((Publicacao) p).setAutores(null);
-                }
-            }
-        }
+        Aluno a = dao.buscar(id).copiaSimples();
+       
         return a;
+    }
+
+    /**
+     * Buscar os projetos de um aluno pelo id
+     *
+     * @param id
+     * @return
+     */
+    public List<Projeto> buscarProjetosAluno(int id) {
+        AlunoDAO dao = new AlunoDAO();
+        Aluno a = dao.buscar(id);
+        List<Projeto> projetos = new ArrayList<>();
+        
+        for(Projeto p : a.getProjetos()){
+            projetos.add(p.copiar());
+        }
+        
+        return projetos;
+    }
+
+    /**
+     * Buscar os projetos de um aluno pelo id
+     *
+     * @param id
+     * @return
+     */
+    public List<ProducaoAcademica> buscarProducoesAluno(int id) {
+        AlunoDAO dao = new AlunoDAO();
+        Aluno a = dao.buscar(id);
+        List<ProducaoAcademica> producoes = new ArrayList<>();
+        
+        for(ProducaoAcademica p : a.getProducoes()){
+            if(p instanceof Publicacao)
+                producoes.add(((Publicacao)p).copiaSimples());
+            if(p instanceof Orientacao)
+                producoes.add(((Orientacao)p).copiaSimples());
+        }
+        
+        return producoes;
     }
 
     /**
