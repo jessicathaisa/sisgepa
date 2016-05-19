@@ -10,9 +10,10 @@ import com.google.gson.Gson;
 import com.jessica.Excecao.PossuiOrientandosException;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.ProfessorFachada;
+import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Professor;
+import com.jessica.Modelo.Projeto;
 import java.io.IOException;
-import java.text.ParseException;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -48,7 +49,45 @@ public class ProfessorServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
-        }  else if (obj.comando != null && obj.comando.equals("buscarProfessor")) {
+        } else if (obj.comando != null && obj.comando.equals("listarProjetosProfessor")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                ProfessorFachada fachada = new ProfessorFachada();
+                List<Projeto> projetos = null;
+                
+                try{
+                    projetos = fachada.buscarProjetosProfessor(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(projetos);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
+        } else if (obj.comando != null && obj.comando.equals("listarProducaoProfessor")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                ProfessorFachada fachada = new ProfessorFachada();
+                List<ProducaoAcademica> producoes = null;
+                
+                try{
+                    producoes = fachada.buscarProducoesProfessor(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(producoes);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
+        } else if (obj.comando != null && obj.comando.equals("buscarProfessor")) {
             if (obj.identificador != null && obj.identificador.isEmpty()) {
                 response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             } else {

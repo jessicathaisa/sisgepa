@@ -206,20 +206,47 @@ public class ProfessorFachada extends Fachada{
      */
     public Professor buscarProfessor(int id) {        
         ProfessorDAO dao = new ProfessorDAO();
-        Professor a = dao.buscar(id).copiar();
-        if (a.getProjetos() != null) {
-            for (Projeto p : a.getProjetos()) {
-                p.setParticipantes(null);
-            }
-        }
-        if (a.getProducoes() != null) {
-            for (ProducaoAcademica p : a.getProducoes()) {
-                if (p instanceof Publicacao) {
-                    ((Publicacao) p).setAutores(null);
-                }
-            }
-        }
+        Professor a = dao.buscar(id).copiaSimples();
         return a;
+    }
+
+    /**
+     * Buscar os projetos de um professor pelo id
+     *
+     * @param id
+     * @return
+     */
+    public List<Projeto> buscarProjetosProfessor(int id) {
+        ProfessorDAO dao = new ProfessorDAO();
+        Professor a = dao.buscar(id);
+        List<Projeto> projetos = new ArrayList<>();
+        
+        for(Projeto p : a.getProjetos()){
+            projetos.add(p.copiar());
+        }
+        
+        return projetos;
+    }
+
+    /**
+     * Buscar as producoes de um professor pelo id
+     *
+     * @param id
+     * @return
+     */
+    public List<ProducaoAcademica> buscarProducoesProfessor(int id) {
+        ProfessorDAO dao = new ProfessorDAO();
+        Professor a = dao.buscar(id);
+        List<ProducaoAcademica> producoes = new ArrayList<>();
+        
+        for(ProducaoAcademica p : a.getProducoes()){
+            if(p instanceof Publicacao)
+                producoes.add(((Publicacao)p).copiaSimples());
+            if(p instanceof Orientacao)
+                producoes.add(((Orientacao)p).copiaSimples());
+        }
+        
+        return producoes;
     }
 
 }

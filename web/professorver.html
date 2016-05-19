@@ -88,6 +88,29 @@ PUC-Rio 2016.1
                             <p ng-hide="form.projetos.length">Não existem projetos para este colaborador.</p>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="bs-callout bs-callout-primary" id="callout-glyphicons-location">
+                            <h4>Produção Acadêmica</h4>
+                            <br>
+                            <div ng-show="form.producoes.length" ng-repeat="producao in form.producoes | orderBy:'-ano'"  ng-class="verCorProducao(producao)">
+
+                                <div class="panel-heading">
+                                    <h3 class="panel-title">{{verTipoProducao(producao)}} - {{producao.titulo}}/{{producao.ano}}</h3>
+                                </div>
+                                <div class="panel-body">
+                                    <p> <strong>Identificador: </strong> {{producao.identificador}}</p>
+                                    <p> <strong>Título </strong> {{producao.titulo}}</p>
+                                    <p> <strong>Ano</strong> {{producao.ano}}</p>
+                                    <p ng-show="producao.aluno"> <strong>Aluno: </strong> {{producao.aluno.nome}}</p>
+                                    <p ng-show="producao.professor"> <strong>Professor: </strong> {{producao.professor.nome}}</p>
+                                    <p ng-show="producao.conferencia"> <strong>Autores: </strong> {{trazNomesAutores(producao)}}</p>
+                                    <p ng-show="producao.conferencia"> <strong>Conferência: </strong> {{producao.conferencia}}</p>
+                                    <p ng-show="producao.conferencia"> <strong>Projeto: </strong> {{producao.projeto.titulo}}</p>
+                                </div>
+                            </div>
+                            <p ng-hide="form.producoes.length">Não existem produções para este colaborador.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

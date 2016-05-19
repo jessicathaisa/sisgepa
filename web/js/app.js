@@ -473,19 +473,41 @@ function ProfessorController($scope, $http, $window, $location) {
                     $scope.form.senha = data.usuario.senha;
                     $scope.form.usuario = data.usuario.login;
 
-                    $scope.form.projetos = data.projetos;
-                    for (var i = 0; i < $scope.form.projetos.length; i++) {
-                        var proj = $scope.form.projetos[i];
-                        var di = new Date(proj.dataInicio);
-                        proj.dataInicio = di.getTime();
-                        var dt = new Date(proj.dataTermino);
-                        proj.dataTermino = dt.getTime();
+                    this.chamada = {};
+                    this.chamada.comando = "listarProjetosProfessor";
+                    this.chamada.identificador = idProfessor;
+                    // Buscar pelo id
+                    $http.post('ProfessorServlet', this.chamada).
+                            success(function (data2) {
+                                $scope.form.projetos = data2;
+                                for (var i = 0; i < $scope.form.projetos.length; i++) {
+                                    var proj = $scope.form.projetos[i];
+                                    var di = new Date(proj.dataInicio);
+                                    proj.dataInicio = di.getTime();
+                                    var dt = new Date(proj.dataTermino);
+                                    proj.dataTermino = dt.getTime();
 
-                        if (!proj.dataInicio)
-                            proj.dataInicio = "NÃO DEFINIDO";
-                        if (!proj.dataTermino)
-                            proj.dataTermino = "NÃO DEFINIDO";
-                    }
+                                    if (!proj.dataInicio)
+                                        proj.dataInicio = "NÃO DEFINIDO";
+                                    if (!proj.dataTermino)
+                                        proj.dataTermino = "NÃO DEFINIDO";
+                                }
+                            }).
+                            error(function (data2) {
+                                // log error
+                            });
+
+                    this.chamada = {};
+                    this.chamada.comando = "listarProducaoProfessor";
+                    this.chamada.identificador = idProfessor;
+                    // Buscar pelo id
+                    $http.post('ProfessorServlet', this.chamada).
+                            success(function (data3) {
+                                $scope.form.producoes = data3;
+                            }).
+                            error(function (data3) {
+                                // log error
+                            });
                 }).
                 error(function (data) {
                     // log error
@@ -501,6 +523,32 @@ function ProfessorController($scope, $http, $window, $location) {
             classe = "panel-info";
 
         return "panel " + classe;
+    };
+    $scope.trazNomesAutores = function (producao) {
+        var retorno = "";
+        if(producao.conferencia){
+            for(var i = 0; i < producao.autores.length ; i++){
+                retorno += producao.autores[i].nome;
+                if(i !== producao.autores.length - 1)
+                    retorno += ", ";
+            }
+        }
+        return retorno;
+    };
+    $scope.verCorProducao = function (producao) {
+        var classe = "";
+        if (producao.aluno)
+            classe = "panel-success";
+        else if (producao.conferencia)
+            classe = "panel-info";
+
+        return "panel " + classe;
+    };
+    $scope.verTipoProducao = function (producao) {
+        if (producao.aluno)
+            return "Orientação";
+        else if (producao.conferencia)
+            return "Publicação";
     };
 
     $scope.submitFormCadastrar = function () {
@@ -704,6 +752,32 @@ function PesquisadorController($scope, $http, $window, $location) {
             classe = "panel-info";
 
         return "panel " + classe;
+    };
+    $scope.trazNomesAutores = function (producao) {
+        var retorno = "";
+        if(producao.conferencia){
+            for(var i = 0; i < producao.autores.length ; i++){
+                retorno += producao.autores[i].nome;
+                if(i !== producao.autores.length - 1)
+                    retorno += ", ";
+            }
+        }
+        return retorno;
+    };
+    $scope.verCorProducao = function (producao) {
+        var classe = "";
+        if (producao.aluno)
+            classe = "panel-success";
+        else if (producao.conferencia)
+            classe = "panel-info";
+
+        return "panel " + classe;
+    };
+    $scope.verTipoProducao = function (producao) {
+        if (producao.aluno)
+            return "Orientação";
+        else if (producao.conferencia)
+            return "Publicação";
     };
 
     $scope.submitFormCadastrar = function () {
