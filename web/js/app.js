@@ -724,19 +724,43 @@ function PesquisadorController($scope, $http, $window, $location) {
                     $scope.form.senha = data.usuario.senha;
                     $scope.form.usuario = data.usuario.login;
 
-                    $scope.form.projetos = data.projetos;
-                    for (var i = 0; i < $scope.form.projetos.length; i++) {
-                        var proj = $scope.form.projetos[i];
-                        var di = new Date(proj.dataInicio);
-                        proj.dataInicio = di.getTime();
-                        var dt = new Date(proj.dataTermino);
-                        proj.dataTermino = dt.getTime();
 
-                        if (!proj.dataInicio)
-                            proj.dataInicio = "NÃO DEFINIDO";
-                        if (!proj.dataTermino)
-                            proj.dataTermino = "NÃO DEFINIDO";
-                    }
+                    this.chamada = {};
+                    this.chamada.comando = "listarProjetosPesquisador";
+                    this.chamada.identificador = idPesquisador;
+                    // Buscar pelo id
+                    $http.post('PesquisadorServlet', this.chamada).
+                            success(function (data2) {
+                                $scope.form.projetos = data2;
+                                for (var i = 0; i < $scope.form.projetos.length; i++) {
+                                    var proj = $scope.form.projetos[i];
+                                    var di = new Date(proj.dataInicio);
+                                    proj.dataInicio = di.getTime();
+                                    var dt = new Date(proj.dataTermino);
+                                    proj.dataTermino = dt.getTime();
+
+                                    if (!proj.dataInicio)
+                                        proj.dataInicio = "NÃO DEFINIDO";
+                                    if (!proj.dataTermino)
+                                        proj.dataTermino = "NÃO DEFINIDO";
+                                }
+                            }).
+                            error(function (data2) {
+                                // log error
+                            });
+
+                    this.chamada = {};
+                    this.chamada.comando = "listarProducaoPesquisador";
+                    this.chamada.identificador = idPesquisador;
+                    // Buscar pelo id
+                    $http.post('PesquisadorServlet', this.chamada).
+                            success(function (data3) {
+                                $scope.form.producoes = data3;
+                            }).
+                            error(function (data3) {
+                                // log error
+                            });
+                    
                 }).
                 error(function (data) {
                     // log error
