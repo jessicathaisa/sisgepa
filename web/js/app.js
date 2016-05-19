@@ -1354,7 +1354,7 @@ function PublicacaoController($scope, $http, $window, $location, $q) {
             return $http.post('PublicacaoServlet', this.chamada).
                     success(function (data) {
                         $scope.form = data;
-                        if (data.projeto.status === "CONCLUIDO") {
+                        if (data.projeto && data.projeto.status === "CONCLUIDO") {
                             alert("O Projeto desta Publicação está Concluído. Por isso ela não pode ser editada.");
                             $window.location.href = 'publicacaover.html#/?id=' + data.identificador;
                         }
