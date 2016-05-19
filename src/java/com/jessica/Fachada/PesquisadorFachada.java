@@ -11,6 +11,7 @@ import com.jessica.DAO.ProjetoDAO;
 import com.jessica.DAO.PublicacaoDAO;
 import com.jessica.DAO.UsuarioDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
+import com.jessica.Modelo.Orientacao;
 import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Pesquisador;
 import com.jessica.Modelo.Projeto;
@@ -181,20 +182,47 @@ public class PesquisadorFachada extends Fachada{
      */
     public Pesquisador buscarPesquisador(int id) {
         PesquisadorDAO dao = new PesquisadorDAO();
-        Pesquisador a = dao.buscar(id).copiar();
-        if (a.getProjetos() != null) {
-            for (Projeto p : a.getProjetos()) {
-                p.setParticipantes(null);
-            }
-        }
-        if (a.getProducoes() != null) {
-            for (ProducaoAcademica p : a.getProducoes()) {
-                if (p instanceof Publicacao) {
-                    ((Publicacao) p).setAutores(null);
-                }
-            }
-        }
+        Pesquisador a = dao.buscar(id).copiaSimples();
         return a;
+    }
+
+    /**
+     * Buscar os projetos de um pesquisador pelo id
+     *
+     * @param id
+     * @return
+     */
+    public List<Projeto> buscarProjetosPesquisador(int id) {
+        PesquisadorDAO dao = new PesquisadorDAO();
+        Pesquisador a = dao.buscar(id);
+        List<Projeto> projetos = new ArrayList<>();
+        
+        for(Projeto p : a.getProjetos()){
+            projetos.add(p.copiar());
+        }
+        
+        return projetos;
+    }
+
+    /**
+     * Buscar as producoes de um pesquisador pelo id
+     *
+     * @param id
+     * @return
+     */
+    public List<ProducaoAcademica> buscarProducoesPesquisador(int id) {
+        PesquisadorDAO dao = new PesquisadorDAO();
+        Pesquisador a = dao.buscar(id);
+        List<ProducaoAcademica> producoes = new ArrayList<>();
+        
+        for(ProducaoAcademica p : a.getProducoes()){
+            if(p instanceof Publicacao)
+                producoes.add(((Publicacao)p).copiaSimples());
+            if(p instanceof Orientacao)
+                producoes.add(((Orientacao)p).copiaSimples());
+        }
+        
+        return producoes;
     }
 
 }

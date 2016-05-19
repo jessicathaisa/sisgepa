@@ -7,10 +7,11 @@
 package com.jessica.Servlet;
 
 import com.google.gson.Gson;
-import com.jessica.Excecao.PossuiOrientandosException;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.PesquisadorFachada;
 import com.jessica.Modelo.Pesquisador;
+import com.jessica.Modelo.ProducaoAcademica;
+import com.jessica.Modelo.Projeto;
 import java.io.IOException;
 import java.util.List;
 import javax.servlet.ServletException;
@@ -57,6 +58,44 @@ public class PesquisadorServlet extends ControladorCentral {
                 try{
                     pesquisador = fachada.buscarPesquisador(Integer.parseInt(obj.identificador));
                     String json = gson.toJson(pesquisador);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
+        } else if (obj.comando != null && obj.comando.equals("listarProjetosPesquisador")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                PesquisadorFachada fachada = new PesquisadorFachada();
+                List<Projeto> projetos = null;
+                
+                try{
+                    projetos = fachada.buscarProjetosPesquisador(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(projetos);
+
+                    response.setContentType("application/json");
+                    response.setCharacterEncoding("UTF-8");
+                    response.getWriter().write(json);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                }catch(NumberFormatException pe){
+                    response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+                }
+            }
+        } else if (obj.comando != null && obj.comando.equals("listarProducaoPesquisador")) {
+            if (obj.identificador != null && obj.identificador.isEmpty()) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+            } else {
+                PesquisadorFachada fachada = new PesquisadorFachada();
+                List<ProducaoAcademica> producoes = null;
+                
+                try{
+                    producoes = fachada.buscarProducoesPesquisador(Integer.parseInt(obj.identificador));
+                    String json = gson.toJson(producoes);
 
                     response.setContentType("application/json");
                     response.setCharacterEncoding("UTF-8");
