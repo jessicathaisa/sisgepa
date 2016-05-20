@@ -13,12 +13,28 @@ function ProjetoController($scope, $http, $window, $location, $q) {
     var listar = $location.absUrl();
     $scope.projetos = {};
     this.chamada = {};
+    $scope.status = {};
 
     $scope.trazData = function (data) {
         if (!data)
             return "-";
         else
             return (new Date(data)).getTime();
+    };
+    
+    $scope.estaEmAndamento = function(situacao){
+        console.log(situacao );
+        return situacao === "EM_ANDAMENTO";
+    };
+    
+    $scope.estaConcluido = function(situacao){
+        console.log(situacao );
+        return situacao === "CONCLUIDO";
+    };
+    
+    $scope.estaEmElaboracao = function(situacao){
+        console.log(situacao );
+        return situacao === "EM_ELABORACAO";
     };
 
     if (listar.indexOf("projetolistar.html") >= 0) {
@@ -31,7 +47,7 @@ function ProjetoController($scope, $http, $window, $location, $q) {
                 error(function (data) {
                     // log error
                 });
-    } else if (listar.indexOf("projetover.html") >= 0) {
+    } else if (listar.indexOf("projetover.html") >= 0 || listar.indexOf("projetoeditar.html") >= 0) {
         this.chamada = {};
         this.chamada.comando = "buscarProjeto";
         this.chamada.identificador = idProjeto;
@@ -40,6 +56,11 @@ function ProjetoController($scope, $http, $window, $location, $q) {
         $http.post('ProjetoServlet', this.chamada).
                 success(function (data) {
                     $scope.form = data;
+                    $scope.status = data.status;
+                    var d = new Date(data.dataInicio);
+                    $scope.form.dataInicio = d;
+                    var d2 = new Date(data.dataTermino);
+                    $scope.form.dataTermino = d2;
                 }).
                 error(function (data) {
                     // log error
@@ -80,6 +101,8 @@ function ProjetoController($scope, $http, $window, $location, $q) {
                     }
                 });
     };
+    
+    $scope.dadosBasicosHabilitados = false;
 }
 
 
