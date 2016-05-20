@@ -9,7 +9,6 @@ app.controller('VerificaLoginController', VerificaLoginController);
 app.controller('VerificaPermissaoController', VerificaPermissaoController);
 app.controller('SendLoginController', SendLoginController);
 app.controller('SendLogoutController', SendLogoutController);
-app.controller('RelatorioController', RelatorioController);
 
 
 function VerificaLoginController($scope, $http, $window) {
@@ -118,16 +117,4 @@ function SendLogoutController($scope, $http, $window) {
                         $scope.mensagem = "Erro ao realizar logout.";
                 });
     };
-}
-
-
-function RelatorioController($scope, $http) {
-    this.relatorio = {};
-    $http.post('RelatorioServlet').
-            success(function (data) {
-                $scope.relatorio = data;
-            }).
-            error(function (data) {
-                // log error
-            });
 }
