@@ -52,7 +52,7 @@ PUC-Rio 2016.1
                                     <strong>O projeto está {{status}}. Escolha uma opção: </strong>
                                     <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoDadosBasicos()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Editar dados basicos</button>
                                     <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Alocar Participantes</button>
-                                    <button type="button" class="btn btn-success" ng-click="" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Dar Andamento</button>
+                                    <button type="button" class="btn btn-success" ng-click="darAndamento()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Dar Andamento</button>
                                     <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Publicações</button>
                                     <button type="button" class="btn btn-success" ng-click="" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Concluir</button>
                                 </div>

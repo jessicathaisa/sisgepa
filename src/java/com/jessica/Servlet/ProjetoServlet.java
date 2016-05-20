@@ -8,6 +8,7 @@ package com.jessica.Servlet;
 
 import com.google.gson.Gson;
 import com.jessica.Fachada.ProjetoFachada;
+import com.jessica.Fachada.UsuarioFachada;
 import com.jessica.Modelo.Projeto;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -95,9 +96,34 @@ public class ProjetoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("darAndamentoProjeto")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            if(!verificaEhGerente(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }                
+                    
+            try {
+                Projeto projeto = fachada.darAndamento(Integer.parseInt(obj.identificador));
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
     }
 
+    /**
+     * Verifica se o usuário é gerente.
+     * @param request
+     * @return 
+     */
+    private boolean verificaEhGerente(HttpServletRequest request){
+        String usuario = (String) request.getSession().getAttribute("usuario");
+        
+        UsuarioFachada fac = new UsuarioFachada();
+        return fac.verificaEhGerente(usuario);
+    }
 }

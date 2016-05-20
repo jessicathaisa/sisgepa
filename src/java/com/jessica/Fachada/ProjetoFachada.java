@@ -80,12 +80,34 @@ public class ProjetoFachada extends Fachada {
         return projeto;
     }
     
-    
+    /**
+     * Editar dados básicos do projeto
+     * @param id
+     * @param titulo
+     * @param dataInicio
+     * @param dataTermino
+     * @param agenciaFinanciadora
+     * @param valorFinanciado
+     * @param objetivo
+     * @param descricao
+     * @return 
+     */
     public Projeto editarProjeto(int id, String titulo, Date dataInicio, Date dataTermino, String agenciaFinanciadora, float valorFinanciado, String objetivo, String descricao){
         ProjetoDAO dao = new ProjetoDAO();
         
         Projeto projeto = dao.editarProjeto(id, titulo, dataInicio, dataTermino, agenciaFinanciadora, valorFinanciado, objetivo, descricao);
         
+        return projeto;
+    }
+    
+    /**
+     * Dá andamento a um projeto
+     * @param id
+     * @return 
+     */
+    public Projeto darAndamento(int id){
+        ProjetoDAO dao = new ProjetoDAO();
+        Projeto projeto = dao.mudarStatus(id, StatusProjeto.EM_ANDAMENTO);
         return projeto;
     }
 }
