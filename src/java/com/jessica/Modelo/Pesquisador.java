@@ -11,6 +11,10 @@ package com.jessica.Modelo;
  */
 public class Pesquisador extends Colaborador {
 
+    public Pesquisador() {
+        tipoColaborador = TipoColaborador.PESQUISADOR;
+    }
+    
     public Pesquisador copiar() {
         Pesquisador novo = new Pesquisador();
         novo.setIdentificador(this.getIdentificador());

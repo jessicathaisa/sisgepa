@@ -12,6 +12,10 @@ package com.jessica.Modelo;
  */
 public class Professor extends Colaborador {
 
+    public Professor() {
+        tipoColaborador = TipoColaborador.PROFESSOR;
+    }
+    
     public Professor copiar() {
         Professor novo = new Professor();
         novo.setIdentificador(this.getIdentificador());

@@ -20,6 +20,7 @@ public class Colaborador {
     private String email;
     private List<ProducaoAcademica> producoes;
     private List<Projeto> projetos;
+    protected TipoColaborador tipoColaborador;
 
     public Colaborador() {
         this.projetos = new ArrayList<>();
@@ -108,5 +109,19 @@ public class Colaborador {
      */
     public void setProducoes(List<ProducaoAcademica> producoes) {
         this.producoes = producoes;
+    }
+
+    /**
+     * @return the tipoColaborador
+     */
+    public TipoColaborador getTipoColaborador() {
+        return tipoColaborador;
+    }
+
+    /**
+     * @param tipoColaborador the tipoColaborador to set
+     */
+    public void setTipoColaborador(TipoColaborador tipoColaborador) {
+        this.tipoColaborador = tipoColaborador;
     }
 }

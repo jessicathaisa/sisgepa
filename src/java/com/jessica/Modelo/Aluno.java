@@ -19,6 +19,10 @@ public class Aluno extends Colaborador {
     private TipoAluno tipoAluno;
     private Professor orientador;
 
+    public Aluno() {
+        tipoColaborador = TipoColaborador.ALUNO;
+    }
+    
     /**
      * @return the regimeCurso
      */
