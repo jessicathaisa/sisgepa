@@ -4,148 +4,15 @@
  * Professor Carlos J. P. de Lucena
  * PUC-Rio 2016.1
  */
-var app = angular.module('sisgepa', []);
-app.controller('VerificaLoginController', VerificaLoginController);
-app.controller('VerificaPermissaoController', VerificaPermissaoController);
-app.controller('SendLoginController', SendLoginController);
-app.controller('SendLogoutController', SendLogoutController);
-app.controller('RelatorioController', RelatorioController);
-app.controller('AlunoController', AlunoController);
+app.controller('ProfessorController', ProfessorController);
 
-
-function VerificaLoginController($scope, $http, $window) {
-    // calling our submit function.
-    $scope.verificaLogin = function () {
-        var dados = {};
-        dados.comando = "verificaLogado";
-        req = {
-            method: 'POST',
-            url: 'UsuarioServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: dados
-        };
-        $http(req).success(function (data, status) {
-            $window.location.href = 'index.html';
-        });
-    };
-    // calling our submit function.
-    $scope.verificaNaoLogado = function () {
-        var dados = {};
-        dados.comando = "verificaLogado";
-        req = {
-            method: 'POST',
-            url: 'UsuarioServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: dados
-        };
-        $http(req).error(function (data, status) {
-            $window.location.href = 'login.html';
-        });
-    };
-}
-
-function VerificaPermissaoController($scope, $http, $window) {
-    $scope.verificaEhAdministrador = function () {
-        var dados = {};
-        dados.comando = "verificaAdministrador";
-        req = {
-            method: 'POST',
-            url: 'UsuarioServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: dados
-        };
-        $http(req).error(function (data, status) {
-            alert("Você não tem permissão para realizar esta ação. Será redirecionado para a página inicial.");
-            $window.location.href = 'index.html';
-        });
-    }
-}
-
-function SendLoginController($scope, $http, $window) {
+function ProfessorController($scope, $http, $window, $location) {
     this.mensagem = "";
-    $scope.form = {};
-    // calling our submit function.
-    $scope.submitForm = function () {
-        $scope.mensagem = "";
-        $scope.form.comando = "realizarLogin";
-        req = {
-            method: 'POST',
-            url: 'UsuarioServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: $scope.form
-        };
-
-        $http(req)
-                .success(function (data, status) {
-                    $window.location.href = 'index.html';
-                })
-                .error(function (data, status) {
-                    if (status === 401) {
-                        $scope.mensagem = "Usuário ou Senha inválidos";
-                    }
-                });
-    };
-}
-
-
-function SendLogoutController($scope, $http, $window) {
-    $scope.realizarLogout = function () {
-        $scope.mensagem = "Realizando o Logout...";
-        var dados = {};
-        dados.comando = "realizarLogout";
-        req = {
-            method: 'POST',
-            url: 'UsuarioServlet',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            data: dados
-        };
-        $http(req).success(function (data, status) {
-            $window.location.href = 'login.html';
-        })
-                .error(function (data, status) {
-                    if (status === 401)
-                        $window.location.href = 'login.html';
-                    else
-                        $scope.mensagem = "Erro ao realizar logout.";
-                });
-    };
-}
-
-
-function RelatorioController($scope, $http) {
-    this.relatorio = {};
-    $http.post('RelatorioServlet').
-            success(function (data) {
-                $scope.relatorio = data;
-            }).
-            error(function (data) {
-                // log error
-            });
-}
-
-
-/**************************************************/
-
-
-
-function AlunoController($scope, $http, $window, $location) {
-    this.mensagem = "";
-    var idAluno = $location.search().id;
+    var idProfessor = $location.search().id;
     var listar = $location.absUrl();
-
-    $scope.professores = {};
-    this.alunos = {};
+    $scope.professores = {}
     this.chamada = {};
+
     this.chamada.comando = "listarProfessores";
     $http.post('ProfessorServlet', this.chamada).
             success(function (data) {
@@ -155,77 +22,61 @@ function AlunoController($scope, $http, $window, $location) {
                 // log error
             });
 
-    if (listar.indexOf("alunolistar.html") >= 0) {
+    if (listar.indexOf("professorlistar.html") >= 0) {
         this.chamada = {};
-        this.chamada.comando = "listarAlunos";
-        $http.post('AlunoServlet', this.chamada).
+        this.chamada.comando = "listarProfessores";
+        $http.post('ProfessorServlet', this.chamada).
                 success(function (data) {
-                    $scope.alunos = data;
-                    for (var i = 0; i < $scope.alunos.length; i++) {
-                        var aluno = $scope.alunos[i];
-
-                        var di = new Date(aluno.dataIngresso);
-                        aluno.dataIngresso = di.getTime();
-                    }
+                    $scope.professores = data;
                 }).
                 error(function (data) {
                     // log error
                 });
     }
+
 
     $scope.form = {};
 
-    if (listar.indexOf("alunoeditar.html") >= 0) {
+    if (listar.indexOf("professoreditar.html") >= 0) {
         this.chamada = {};
-        this.chamada.comando = "buscarAluno";
-        this.chamada.identificador = idAluno;
+        this.chamada.comando = "buscarProfessor";
+        this.chamada.identificador = idProfessor;
         this.orientador = "";
         // Buscar pelo id
-        $http.post('AlunoServlet', this.chamada).
+        $http.post('ProfessorServlet', this.chamada).
                 success(function (data) {
                     $scope.form.identificador = data.identificador;
                     $scope.form.nome = data.nome;
                     $scope.form.email = data.email;
-                    $scope.form.tipo = data.tipoAluno;
-                    $scope.form.regime = data.regimeCurso;
                     $scope.form.tipoUsuario = data.usuario.tipo;
                     $scope.form.senha = data.usuario.senha;
                     $scope.form.usuario = data.usuario.login;
-                    $scope.form.orientador = $scope.orientador = data.orientador;
-                    var d = new Date(data.dataIngresso);
-                    $scope.form.dataIngresso = d;
                 }).
                 error(function (data) {
                     // log error
                 });
     }
 
-    if (listar.indexOf("alunover.html") >= 0) {
+    if (listar.indexOf("professorver.html") >= 0) {
         this.chamada = {};
-        this.chamada.comando = "buscarAluno";
-        this.chamada.identificador = idAluno;
+        this.chamada.comando = "buscarProfessor";
+        this.chamada.identificador = idProfessor;
         this.orientador = "";
         // Buscar pelo id
-        $http.post('AlunoServlet', this.chamada).
+        $http.post('ProfessorServlet', this.chamada).
                 success(function (data) {
                     $scope.form.identificador = data.identificador;
                     $scope.form.nome = data.nome;
                     $scope.form.email = data.email;
-                    $scope.form.tipo = data.tipoAluno;
-                    $scope.form.regime = data.regimeCurso;
                     $scope.form.tipoUsuario = data.usuario.tipo;
                     $scope.form.senha = data.usuario.senha;
                     $scope.form.usuario = data.usuario.login;
-                    $scope.form.orientador = $scope.orientador = data.orientador;
-                    var d = new Date(data.dataIngresso);
-                    $scope.form.dataIngresso = d.getTime();
-
 
                     this.chamada = {};
-                    this.chamada.comando = "listarProjetosAluno";
-                    this.chamada.identificador = idAluno;
+                    this.chamada.comando = "listarProjetosProfessor";
+                    this.chamada.identificador = idProfessor;
                     // Buscar pelo id
-                    $http.post('AlunoServlet', this.chamada).
+                    $http.post('ProfessorServlet', this.chamada).
                             success(function (data2) {
                                 $scope.form.projetos = data2;
                                 for (var i = 0; i < $scope.form.projetos.length; i++) {
@@ -246,10 +97,10 @@ function AlunoController($scope, $http, $window, $location) {
                             });
 
                     this.chamada = {};
-                    this.chamada.comando = "listarProducaoAluno";
-                    this.chamada.identificador = idAluno;
+                    this.chamada.comando = "listarProducaoProfessor";
+                    this.chamada.identificador = idProfessor;
                     // Buscar pelo id
-                    $http.post('AlunoServlet', this.chamada).
+                    $http.post('ProfessorServlet', this.chamada).
                             success(function (data3) {
                                 $scope.form.producoes = data3;
                             }).
@@ -301,10 +152,10 @@ function AlunoController($scope, $http, $window, $location) {
 
     $scope.submitFormCadastrar = function () {
         $scope.mensagem = "";
-        $scope.form.comando = "cadastrarAluno";
+        $scope.form.comando = "cadastrarProfessor";
         req = {
             method: 'POST',
-            url: 'AlunoServlet',
+            url: 'ProfessorServlet',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -315,7 +166,7 @@ function AlunoController($scope, $http, $window, $location) {
                 .success(function (data, status) {
                     if (status === 201) {
                         alert("Cadastro realizado com sucesso!");
-                        $window.location.href = 'alunolistar.html';
+                        $window.location.href = 'professorlistar.html';
                     }
                 })
                 .error(function (data, status) {
@@ -333,11 +184,10 @@ function AlunoController($scope, $http, $window, $location) {
 
     $scope.submitFormEditar = function () {
         $scope.mensagem = "";
-        $scope.form.comando = "editarAluno";
-        //$scope.form.orientador = $scope.orientador.identificador;
+        $scope.form.comando = "editarProfessor";
         req = {
             method: 'POST',
-            url: 'AlunoServlet',
+            url: 'ProfessorServlet',
             headers: {
                 'Content-Type': 'application/json'
             },
@@ -348,7 +198,7 @@ function AlunoController($scope, $http, $window, $location) {
                 .success(function (data, status) {
                     if (status === 200) {
                         alert("Edição realizada com sucesso!");
-                        $window.location.href = 'alunolistar.html';
+                        $window.location.href = 'professorlistar.html';
                     }
                 })
                 .error(function (data, status) {
@@ -369,11 +219,11 @@ function AlunoController($scope, $http, $window, $location) {
         if (resposta == true) {
             $scope.mensagem = "";
             this.chamada = {};
-            this.chamada.comando = "excluirAluno";
-            this.chamada.identificador = idAluno;
+            this.chamada.comando = "excluirProfessor";
+            this.chamada.identificador = idProfessor;
             req = {
                 method: 'POST',
-                url: 'AlunoServlet',
+                url: 'ProfessorServlet',
                 headers: {
                     'Content-Type': 'application/json'
                 },
@@ -384,7 +234,7 @@ function AlunoController($scope, $http, $window, $location) {
                     .success(function (data, status) {
                         if (status === 200) {
                             alert("Exclusão realizada com sucesso!");
-                            $window.location.href = 'alunolistar.html';
+                            $window.location.href = 'professorlistar.html';
                         }
                     })
                     .error(function (data, status) {
@@ -394,7 +244,11 @@ function AlunoController($scope, $http, $window, $location) {
                         else if (status === 500) {
                             $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
                         }
+                        else if (status === 409) {
+                            $scope.mensagem = "Este professor possui orientandos. Para excluí-lo mude o orientador dos seus alunos.";
+                        }
                     });
         }
     };
+
 }
