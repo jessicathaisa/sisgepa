@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--
+Projeto SISGEPA - Sistema de Gestao de Producao Academica
+Disciplina Projeto de Sistemas de Software
+Publicacao Carlos J. P. de Lucena
+PUC-Rio 2016.1
+-->
+<html ng-app="sisgepa">
+    <head>
+        <title>SISGEPA - Visualizar Projeto</title>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="icon" href="img/favicon.ico">
+        <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css"/>
+        <link href="css/simple-sidebar.css" rel="stylesheet" type="text/css"/>
+        <link href="css/sticky-footer.css" rel="stylesheet" type="text/css"/>
+        <link href="css/geral.css" rel="stylesheet" type="text/css"/>
+        <link href="css/callout.css" rel="stylesheet" type="text/css"/>
+
+        <script src="js/jquery.min.js" type="text/javascript"></script>
+        <script src="js/bootstrap.min.js" type="text/javascript"></script>
+        <script src="js/angular.min.js" type="text/javascript"></script>
+
+        <script src="js/geral.js" type="text/javascript"></script>
+        <script src="js/app.js" type="text/javascript"></script>
+        <script src="js/projeto.js" type="text/javascript"></script>
+    </head>
+    <body>
+        <div ng-controller="VerificaLoginController" ng-init="verificaNaoLogado()"></div>
+        <div id="wrapper">
+            <div id="header"></div>
+            <div id="page-content-wrapper">
+                <div class="container" ng-controller="ProjetoController">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h1> Visualização de Projeto </h1>
+                        </div>                        
+                    </div>
+                    <div class="row">
+                        <div class="alert alert-danger" role="alert" ng-show="mensagem">
+                            {{mensagem}}
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="bs-callout bs-callout-primary" id="callout-glyphicons-location">
+                            <h4>Projeto</h4>
+                            <br>
+                            <div class="container-fluid">
+                                <div class="row">
+                                    <ul class="list-group col-md-6">
+                                        <li class="list-group-item list-group-item-heading"><strong>Título: </strong> <span>{{form.titulo}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Data Início: </strong> <span>{{trazData(form.dataInicio) | date : "dd/MM/yyyy"}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Data Término: </strong> <span>{{trazData(form.dataTermino) | date : "dd/MM/yyyy"}}</span></li>
+                                    </ul>
+                                    <ul class="list-group col-md-6">
+                                        <li class="list-group-item list-group-item-heading"><strong>Status: </strong> <span>{{form.status}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Agência Financiadora: </strong> <span>{{form.agenciaFinanciadora}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Valor Financiado: </strong> <span>{{form.valorFinanciado| currency:"R$"}}</span></li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <ul class="list-group col-md-12">
+                                        <li class="list-group-item list-group-item-heading"><strong>Objetivo: </strong> <span>{{form.objetivo}}</span></li>
+                                        <li class="list-group-item list-group-item-heading"><strong>Descrição: </strong> <span>{{form.descricao}}</span></li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <h4>Participantes</h4>
+                                    <ul class="list-group col-md-4" ng-repeat="participante in form.participantes">
+                                        <li class="list-group-item list-group-item-heading">
+                                            <strong>{{participante.tipoColaborador}}</strong> <span>{{participante.nome}}</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="row">
+                                    <h4>Publicações</h4>
+                                    <ul class="list-group col-md-6" ng-repeat="publicacao in form.publicacoes">
+                                        <li class="list-group-item list-group-item-heading">
+                                            <strong>{{publicacao.titulo}}</strong> <span>{{publicacao.conferencia}} - {{publicacao.ano}}</span>
+                                        </li>
+                                    </ul>
+                                    <p ng-hide="form.publicacoes.length">Não existem publicações cadastrados para este projeto.</p>
+                                </div><br/><br/>
+                                <div class="row">
+                                    <a class="btn btn-primary col-md-2" href="projetoeditar.html#/?id={{form.identificador}}" role="button">Editar</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="footer"></div>
+    </body>
+</html>

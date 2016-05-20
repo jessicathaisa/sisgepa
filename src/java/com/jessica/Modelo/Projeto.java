@@ -205,4 +205,32 @@ public class Projeto {
         return novo;
     }
 
+    public Projeto copiaSimples(){
+        Projeto novo = new Projeto();
+        novo.setIdentificador(this.getIdentificador());
+        novo.setTitulo(this.getTitulo());
+        novo.setDataInicio(this.getDataInicio());
+        novo.setDataTermino(this.getDataTermino());
+        novo.setAgenciaFinanciadora(this.getAgenciaFinanciadora());
+        novo.setValorFinanciado(this.getValorFinanciado());
+        novo.setDescricao(this.getDescricao());
+        novo.setObjetivo(this.getObjetivo());
+        novo.setStatus(this.getStatus());
+        
+        novo.setPublicacoes(new ArrayList());
+        novo.setParticipantes(new ArrayList());
+        for(Colaborador col : this.getParticipantes()){
+            if(col instanceof Aluno)
+                novo.getParticipantes().add(((Aluno)col).copiaSimples());
+            if(col instanceof Professor)
+                novo.getParticipantes().add(((Professor)col).copiaSimples());
+            if(col instanceof Pesquisador)
+                novo.getParticipantes().add(((Pesquisador)col).copiaSimples());
+        }
+        for(Publicacao pub : this.getPublicacoes())
+            novo.getPublicacoes().add(pub.copiaSimples());
+        
+        return novo;
+    }
+
 }

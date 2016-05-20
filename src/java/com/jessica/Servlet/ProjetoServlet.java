@@ -34,8 +34,8 @@ public class ProjetoServlet extends ControladorCentral {
 
         if (obj.comando != null && obj.comando.equals("listarProjetosEmAndamento")) {
             ProjetoFachada fachada = new ProjetoFachada();
-            List<Projeto> orientacoes = fachada.listarEmAndamento();
-            String json = gson.toJson(orientacoes);
+            List<Projeto> projetos = fachada.listarEmAndamento();
+            String json = gson.toJson(projetos);
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");
@@ -43,8 +43,17 @@ public class ProjetoServlet extends ControladorCentral {
             response.setStatus(HttpServletResponse.SC_OK);
         } else if (obj.comando != null && obj.comando.equals("listarProjetos")) {
             ProjetoFachada fachada = new ProjetoFachada();
-            List<Projeto> orientacoes = fachada.listar();
-            String json = gson.toJson(orientacoes);
+            List<Projeto> projetos = fachada.listar();
+            String json = gson.toJson(projetos);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else if (obj.comando != null && obj.comando.equals("buscarProjeto")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            Projeto projeto = fachada.buscar(Integer.parseInt(obj.identificador));
+            String json = gson.toJson(projeto);
 
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

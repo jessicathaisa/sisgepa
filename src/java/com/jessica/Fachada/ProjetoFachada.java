@@ -33,6 +33,18 @@ public class ProjetoFachada extends Fachada {
         
         return projetosAux;
     }
+    
+    /**
+     * Buscar projeto por identificador
+     * @param id
+     * @return 
+     */
+    public Projeto buscar(int id){
+        ProjetoDAO dao = new ProjetoDAO();
+        
+        return dao.buscar(id).copiaSimples();
+    }
+    
     /**
      * Listar Projetos
      * @return 
