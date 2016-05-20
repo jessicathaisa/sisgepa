@@ -37,7 +37,7 @@ PUC-Rio 2016.1
                         <div class="col-md-12">
                             <form name="formulario" ng-submit="submitFormExcluir()">
                                 <h1> Editar Projeto 
-                                    <button type="submit" class="btn btn-primary">Excluir este Projeto</button>
+                                    <button type="submit" class="btn btn-primary" ng-disabled="!opcoesHabilitadas">Excluir este Projeto</button>
                                 </h1>
                             </form>
                         </div>                        
@@ -50,11 +50,11 @@ PUC-Rio 2016.1
                             <div class="container-fluid">
                                 <div class="well well-sm" ng-hide="estaConcluido(status)">
                                     <strong>O projeto está {{status}}. Escolha uma opção: </strong>
-                                    <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoDadosBasicos()" ng-show="estaEmElaboracao(status)">Editar dados basicos</button>
-                                    <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmElaboracao(status)">Alocar Participantes</button>
-                                    <button type="button" class="btn btn-success" ng-click="" ng-show="estaEmElaboracao(status)">Dar Andamento</button>
-                                    <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmAndamento(status)">Publicações</button>
-                                    <button type="button" class="btn btn-success" ng-click="" ng-show="estaEmAndamento(status)">Concluir</button>
+                                    <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoDadosBasicos()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Editar dados basicos</button>
+                                    <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Alocar Participantes</button>
+                                    <button type="button" class="btn btn-success" ng-click="" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Dar Andamento</button>
+                                    <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Publicações</button>
+                                    <button type="button" class="btn btn-success" ng-click="" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Concluir</button>
                                 </div>
                             </div>
                             </br>
@@ -62,36 +62,36 @@ PUC-Rio 2016.1
                                 <div class="row">
                                     <div class="form-group">
                                         <label for="nomeAluno">Título</label>
-                                        <input type="text" class="form-control" id="nomeAluno" ng-model="form.titulo" placeholder="Título do Projeto" required disabled="{{!dadosBasicosHabilitados}}">
+                                        <input type="text" class="form-control" id="nomeAluno" ng-model="form.titulo" placeholder="Título do Projeto" required ng-disabled="!dadosBasicosHabilitados">
                                     </div>
                                     <div class="form-group">
                                         <label for="dataInicio">Data Início</label>
-                                        <input type="date" class="form-control" ng-model="form.dataInicio" id="dataInicio" disabled="{{!dadosBasicosHabilitados}}">
+                                        <input type="date" class="form-control" ng-model="form.dataInicio" id="dataInicio" ng-disabled="!dadosBasicosHabilitados">
                                     </div>
                                     <div class="form-group">
                                         <label for="dataTermino">Data Término</label>
-                                        <input type="date" class="form-control" ng-model="form.dataTermino" id="dataTermino" disabled="{{!dadosBasicosHabilitados}}">
+                                        <input type="date" class="form-control" ng-model="form.dataTermino" id="dataTermino" ng-disabled="!dadosBasicosHabilitados">
                                     </div>
                                     <hr>                            
                                     <div class="form-group">
                                         <label for="agenciaFinanciadora">Agência Financiadora</label>
-                                        <input type="text" class="form-control" id="agenciaFinanciadora" ng-model="form.agenciaFinanciadora" placeholder="Agência Financiadora" disabled="{{!dadosBasicosHabilitados}}">
+                                        <input type="text" class="form-control" id="agenciaFinanciadora" ng-model="form.agenciaFinanciadora" placeholder="Agência Financiadora" ng-disabled="!dadosBasicosHabilitados">
                                     </div>
                                     <div class="form-group">
                                         <label for="valorFinanciado">Valor Financiado</label>
-                                        <input type="number" step="0.01" min="0" class="form-control" id="valorFinanciado" ng-model="form.valorFinanciado" disabled="{{!dadosBasicosHabilitados}}">
+                                        <input type="number" step="0.01" min="0" class="form-control" id="valorFinanciado" ng-model="form.valorFinanciado" ng-disabled="!dadosBasicosHabilitados">
                                     </div>
                                     <hr>                            
                                     <div class="form-group">
                                         <label for="objetivo">Objetivo</label>
-                                        <textarea class="form-control" id="objetivo" ng-model="form.objetivo" placeholder="Escreva abaixo o objetivo do projeto" disabled="{{!dadosBasicosHabilitados}}"></textarea>
+                                        <textarea class="form-control" id="objetivo" ng-model="form.objetivo" placeholder="Escreva abaixo o objetivo do projeto" ng-disabled="!dadosBasicosHabilitados"></textarea>
                                     </div>
                                     <div class="form-group">
                                         <label for="descricao">Descrição</label>
-                                        <textarea class="form-control" id="descricao" ng-model="form.descricao" placeholder="Escreva abaixo uma descrição para o projeto" disabled="{{!dadosBasicosHabilitados}}"></textarea>
+                                        <textarea class="form-control" id="descricao" ng-model="form.descricao" placeholder="Escreva abaixo uma descrição para o projeto" ng-disabled="!dadosBasicosHabilitados"></textarea>
                                     </div>
 
-                                    <button type="submit" class="btn btn-primary" ng-show="dadosBasicosHabilitados">Salvar</button>
+                                    <button type="button" class="btn btn-primary" ng-click="editarDadosBasicos()" ng-show="dadosBasicosHabilitados">Salvar</button>
                                     <a href="projetover.html#/?id={{form.identificador}}" role="button" class="btn btn-danger">Cancelar</a>
                                 </div>
                             </div>

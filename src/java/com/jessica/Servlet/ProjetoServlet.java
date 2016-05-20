@@ -81,6 +81,20 @@ public class ProjetoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("editarProjeto")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            
+            try {
+                Date dataInicio = obj.dataInicio != null && !"".equals(obj.dataInicio) ? sdf.parse(obj.dataInicio) : null;
+                Date dataTermino = obj.dataTermino != null && !"".equals(obj.dataTermino) ? sdf.parse(obj.dataTermino) : null;
+                Float valor = obj.valorFinanciado != null && !"".equals(obj.valorFinanciado) ? Float.parseFloat(obj.valorFinanciado) : 0;
+                Projeto projeto = fachada.editarProjeto(Integer.parseInt(obj.identificador), obj.titulo, dataInicio, dataTermino, obj.agenciaFinanciadora, valor, obj.objetivo, obj.descricao);
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
