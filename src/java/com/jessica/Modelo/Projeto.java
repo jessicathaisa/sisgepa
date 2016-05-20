@@ -187,6 +187,10 @@ public class Projeto {
         this.publicacoes = publicacoes;
     }
 
+    /**
+     * Realiza um copia do objeto
+     * @return 
+     */
     public Projeto copiar(){
         Projeto novo = new Projeto();
         novo.setIdentificador(this.getIdentificador());
@@ -205,6 +209,10 @@ public class Projeto {
         return novo;
     }
 
+    /**
+     * Realiza uma cópia do objeto evitando erros de referencias circulares
+     * @return 
+     */
     public Projeto copiaSimples(){
         Projeto novo = new Projeto();
         novo.setIdentificador(this.getIdentificador());

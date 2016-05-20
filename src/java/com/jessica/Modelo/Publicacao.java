@@ -65,6 +65,10 @@ public class Publicacao extends ProducaoAcademica {
         this.conferencia = conferencia;
     }
 
+    /**
+     * Realiza uma cópia do objeto
+     * @return 
+     */
     public Publicacao copiar() {
         Publicacao novo = new Publicacao();
 
@@ -91,6 +95,10 @@ public class Publicacao extends ProducaoAcademica {
         return novo;
     }
 
+    /**
+     * Realiza uma cópia do objeto evitando erros de referencias circulares
+     * @return 
+     */
     public Publicacao copiaSimples() {
         Publicacao novo = new Publicacao();
 

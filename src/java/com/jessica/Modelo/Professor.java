@@ -16,6 +16,10 @@ public class Professor extends Colaborador {
         tipoColaborador = TipoColaborador.PROFESSOR;
     }
     
+    /**
+     * Realiza uma cópia do objeto
+     * @return 
+     */
     public Professor copiar() {
         Professor novo = new Professor();
         novo.setIdentificador(this.getIdentificador());
@@ -38,6 +42,10 @@ public class Professor extends Colaborador {
         return novo;
     }
 
+    /**
+     * Realiza uma cópia do objeto evitando erros de referencias circulares
+     * @return 
+     */
     public Professor copiaSimples() {
         Professor novo = new Professor();
         novo.setIdentificador(this.getIdentificador());

@@ -71,6 +71,10 @@ public class Usuario {
         this.tipo = tipo;
     }
     
+    /**
+     * Realiza uma cópia do objeto
+     * @return 
+     */
     public Usuario copiar(){
         Usuario novo = new Usuario();
         novo.setIdentificador(this.identificador);

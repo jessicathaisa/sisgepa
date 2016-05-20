@@ -15,6 +15,10 @@ public class Pesquisador extends Colaborador {
         tipoColaborador = TipoColaborador.PESQUISADOR;
     }
     
+    /**
+     * Realiza uma cópia do objeto
+     * @return 
+     */
     public Pesquisador copiar() {
         Pesquisador novo = new Pesquisador();
         novo.setIdentificador(this.getIdentificador());
@@ -37,6 +41,10 @@ public class Pesquisador extends Colaborador {
         return novo;
     }
 
+    /**
+     * Realiza uma cópia do objeto evitando erros de referencias circulares
+     * @return 
+     */
     public Pesquisador copiaSimples() {
         Pesquisador novo = new Pesquisador();
         novo.setIdentificador(this.getIdentificador());

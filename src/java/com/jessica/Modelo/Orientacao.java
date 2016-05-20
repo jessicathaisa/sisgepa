@@ -43,6 +43,10 @@ public class Orientacao extends ProducaoAcademica {
         this.professor = professor;
     }
 
+    /**
+     * Realiza uma cópia do objeto
+     * @return 
+     */
     public Orientacao copiar(){
         Orientacao novo = new Orientacao();
         
@@ -58,6 +62,10 @@ public class Orientacao extends ProducaoAcademica {
         return novo;
     }
 
+    /**
+     * Realiza uma cópia do objeto evitando erros de referencias circulares
+     * @return 
+     */
     public Orientacao copiaSimples(){
         Orientacao novo = new Orientacao();
         

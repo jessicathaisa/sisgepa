@@ -93,6 +93,10 @@ public class Aluno extends Colaborador {
         this.dataIngresso = dataIngresso;
     }
 
+    /**
+     * Realiza uma cópia do objeto
+     * @return 
+     */
     public Aluno copiar(){
        Aluno novo = new Aluno();
        
@@ -119,6 +123,11 @@ public class Aluno extends Colaborador {
         }
        return novo;
     }
+    
+    /**
+     * Realiza uma cópia do objeto evitando erros de referencias circulares
+     * @return 
+     */
     public Aluno copiaSimples(){
        Aluno novo = new Aluno();
        
