@@ -33,4 +33,18 @@ public class ProjetoFachada extends Fachada {
         
         return projetosAux;
     }
+    /**
+     * Listar Projetos
+     * @return 
+     */
+    public List<Projeto> listar(){
+        ProjetoDAO dao = new ProjetoDAO();
+        List<Projeto> projetos = dao.listar();
+        List<Projeto> projetosAux = new ArrayList();
+        
+        for(Projeto projeto : projetos)
+                projetosAux.add(projeto.copiar());
+        
+        return projetosAux;
+    }
 }

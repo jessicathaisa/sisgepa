@@ -7,7 +7,7 @@ PUC-Rio 2016.1
 -->
 <html ng-app="sisgepa">
     <head>
-        <title>SISGEPA - Publicações</title>
+        <title>SISGEPA - Projetos</title>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -22,15 +22,16 @@ PUC-Rio 2016.1
 
         <script src="js/geral.js" type="text/javascript"></script>
         <script src="js/app.js" type="text/javascript"></script>
+        <script src="js/projeto.js" type="text/javascript"></script>
     </head>
     <body>
         <div ng-controller="VerificaLoginController" ng-init="verificaNaoLogado()"></div>
         <div id="wrapper">
             <div id="header"></div>
             <div id="page-content-wrapper">
-                <div class="container" ng-controller="PublicacaoController">
+                <div class="container" ng-controller="ProjetoController">
                     <div class="page-header">
-                        <h1>Publicações <small><a href="publicacaocadastrar.html">Novo Publicação</a></small></h1>
+                        <h1>Projetos <small><a href="projetocadastrar.html">Novo Projeto</a></small></h1>
                     </div>
                     <div class="row">&nbsp;</div>
                     <div class="row">
@@ -41,23 +42,25 @@ PUC-Rio 2016.1
                                         <tr>
                                             <th>Ver</th>
                                             <th>Título</th>
-                                            <th>Conferência</th>
-                                            <th>Ano</th>
-                                            <th>Participantes</th>
-                                            <th>Projeto</th>
+                                            <th>Início</th>
+                                            <th>Término</th>
+                                            <th>Agência Financiadora</th>
+                                            <th>Valor Financiado</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr ng-repeat="publicacao in publicacoes | orderBy:['-ano', 'titulo']">
-                                            <td><a href="publicacaover.html#/?id={{publicacao.identificador}}">Ver</a></td>
-                                            <td>{{publicacao.titulo}}</td>
-                                            <td>{{publicacao.conferencia}}</td>
-                                            <td>{{publicacao.ano}}</td>
-                                            <td>{{publicacao.nomes}}</td>
-                                            <td>{{publicacao.projeto}}</td>
+                                        <tr ng-repeat="projeto in projetos | orderBy:['status', '-dataTermino']">
+                                            <td><a href="projetover.html#/?id={{projeto.identificador}}">Ver</a></td>
+                                            <td>{{projeto.titulo}}</td>
+                                            <td>{{trazData(projeto.dataInicio) | date : "dd/MM/yyyy"}}</td>
+                                            <td>{{trazData(projeto.dataTermino) | date : "dd/MM/yyyy"}}</td>
+                                            <td>{{projeto.agenciaFinanciadora}}</td>
+                                            <td>{{projeto.valorFinanciado | currency:"R$"}}</td>
+                                            <td>{{projeto.status}}</td>
                                         </tr>
-                                        <tr ng-hide="publicacoes.length">
-                                            <td colspan="6">Não existem publicações cadastrados.</td>
+                                        <tr ng-hide="projetos.length">
+                                            <td colspan="7">Não existem projetos cadastrados.</td>
                                         </tr>
                                     </tbody>
                                 </table>

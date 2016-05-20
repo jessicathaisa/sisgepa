@@ -41,6 +41,15 @@ public class ProjetoServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
+        } else if (obj.comando != null && obj.comando.equals("listarProjetos")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            List<Projeto> orientacoes = fachada.listar();
+            String json = gson.toJson(orientacoes);
+
+            response.setContentType("application/json");
+            response.setCharacterEncoding("UTF-8");
+            response.getWriter().write(json);
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
