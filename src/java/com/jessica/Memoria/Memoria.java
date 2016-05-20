@@ -506,6 +506,7 @@ public class Memoria {
         aluno4.getProducoes().add(publicacao1);
         aluno8.getProducoes().add(publicacao1);
         professor1.getProducoes().add(publicacao1);
+        projeto2.getPublicacoes().add(publicacao1);
         
         Publicacao publicacao2 = new Publicacao();
         publicacao2.setTitulo("Refactoring Product Lines");
@@ -546,6 +547,7 @@ public class Memoria {
         aluno6.getProducoes().add(publicacao4);
         aluno7.getProducoes().add(publicacao4);
         professor3.getProducoes().add(publicacao4);
+        projeto1.getPublicacoes().add(publicacao4);
         
         Publicacao publicacao5 = new Publicacao();
         publicacao5.setTitulo("Reputing Model Based on Testimonies");
@@ -560,6 +562,7 @@ public class Memoria {
         aluno1.getProducoes().add(publicacao5);
         aluno9.getProducoes().add(publicacao5);
         professor1.getProducoes().add(publicacao5);
+        projeto1.getPublicacoes().add(publicacao5);
         
         Publicacao publicacao6 = new Publicacao();
         publicacao6.setTitulo("Extensions on Interacrion Laws in Open Multi-Agent Systems");
@@ -582,6 +585,7 @@ public class Memoria {
         publicacoes.add(publicacao7);
         aluno4.getProducoes().add(publicacao7);
         professor1.getProducoes().add(publicacao7);
+        projeto2.getPublicacoes().add(publicacao7);
         
         Publicacao publicacao8 = new Publicacao();
         publicacao8.setTitulo("Classifying an Describing Agent Cintracts and Norms");
@@ -594,6 +598,7 @@ public class Memoria {
         publicacoes.add(publicacao8);
         aluno2.getProducoes().add(publicacao8);
         aluno7.getProducoes().add(publicacao8);
+        projeto1.getPublicacoes().add(publicacao8);
     }
 
     /**
