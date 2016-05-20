@@ -73,6 +73,7 @@ PUC-Rio 2016.1
                                             <strong>{{participante.tipoColaborador}}</strong> <span>{{participante.nome}}</span>
                                         </li>
                                     </ul>
+                                    <p ng-hide="form.participantes.length">Não existem participantes cadastrados para este projeto.</p>
                                 </div>
                                 <div class="row">
                                     <h4>Publicações</h4>
@@ -81,7 +82,7 @@ PUC-Rio 2016.1
                                             <strong>{{publicacao.titulo}}</strong> <span>{{publicacao.conferencia}} - {{publicacao.ano}}</span>
                                         </li>
                                     </ul>
-                                    <p ng-hide="form.publicacoes.length">Não existem publicações cadastrados para este projeto.</p>
+                                    <p ng-hide="form.publicacoes.length">Não existem publicações cadastradas para este projeto.</p>
                                 </div><br/><br/>
                                 <div class="row">
                                     <a class="btn btn-primary col-md-2" href="projetoeditar.html#/?id={{form.identificador}}" role="button">Editar</a>
