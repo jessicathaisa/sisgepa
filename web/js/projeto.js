@@ -45,6 +45,41 @@ function ProjetoController($scope, $http, $window, $location, $q) {
                     // log error
                 });
     }
+    
+    $scope.submitFormCadastrar = function () {
+        $scope.mensagem = "";
+        $scope.form.comando = "cadastrarProjeto";
+        
+        if($scope.form.dataInicio && $scope.form.dataTermino && ($scope.form.dataInicio > $scope.form.dataTermino)){
+            $scope.mensagem = "Data de início não pode ser maior que a de término";
+            return;
+        }
+        
+        req = {
+            method: 'POST',
+            url: 'ProjetoServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: $scope.form
+        };
+
+        $http(req)
+                .success(function (data, status) {
+                    if (status === 201) {
+                        alert("Cadastro realizado com sucesso!");
+                        $window.location.href = 'projetolistar.html';
+                    }
+                })
+                .error(function (data, status) {
+                    if (status === 401) {
+                        $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                    }
+                    else if (status === 500) {
+                        $scope.mensagem = "Houve um problema ao reconhecer os dados digitados.";
+                    }
+                });
+    };
 }
 
 

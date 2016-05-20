@@ -10,6 +10,7 @@ import com.jessica.DAO.ProjetoDAO;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.StatusProjeto;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -58,5 +59,13 @@ public class ProjetoFachada extends Fachada {
                 projetosAux.add(projeto.copiar());
         
         return projetosAux;
+    }
+    
+    public Projeto cadastrarProjeto(String titulo, Date dataInicio, Date dataTermino, String agenciaFinanciadora, float valorFinanciado, String objetivo, String descricao){
+        ProjetoDAO dao = new ProjetoDAO();
+        
+        Projeto projeto = dao.addProjeto(titulo, dataInicio, dataTermino, agenciaFinanciadora, valorFinanciado, objetivo, descricao);
+        
+        return projeto;
     }
 }

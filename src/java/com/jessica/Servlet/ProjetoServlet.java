@@ -10,6 +10,8 @@ import com.google.gson.Gson;
 import com.jessica.Fachada.ProjetoFachada;
 import com.jessica.Modelo.Projeto;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -25,12 +27,18 @@ public class ProjetoServlet extends ControladorCentral {
         public String comando;
         public String identificador;
         public String titulo;
+        public String dataInicio;
+        public String dataTermino;
+        public String agenciaFinanciadora;
+        public String valorFinanciado;
+        public String objetivo;
+        public String descricao;
     }
     
     @Override
     void processa(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Gson gson = new Gson();
-        OrientacaoServlet.Retorno obj = (OrientacaoServlet.Retorno) gson.fromJson(request.getReader(), OrientacaoServlet.Retorno.class);
+        Retorno obj = (Retorno) gson.fromJson(request.getReader(), Retorno.class);
 
         if (obj.comando != null && obj.comando.equals("listarProjetosEmAndamento")) {
             ProjetoFachada fachada = new ProjetoFachada();
@@ -59,6 +67,20 @@ public class ProjetoServlet extends ControladorCentral {
             response.setCharacterEncoding("UTF-8");
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
+        } else if (obj.comando != null && obj.comando.equals("cadastrarProjeto")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            
+            try {
+                Date dataInicio = obj.dataInicio != null && !"".equals(obj.dataInicio) ? sdf.parse(obj.dataInicio) : null;
+                Date dataTermino = obj.dataTermino != null && !"".equals(obj.dataTermino) ? sdf.parse(obj.dataTermino) : null;
+                Float valor = obj.valorFinanciado != null && !"".equals(obj.valorFinanciado) ? Float.parseFloat(obj.valorFinanciado) : 0;
+                Projeto projeto = fachada.cadastrarProjeto(obj.titulo, dataInicio, dataTermino, obj.agenciaFinanciadora, valor, obj.objetivo, obj.descricao);
+
+                response.setStatus(HttpServletResponse.SC_CREATED);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
