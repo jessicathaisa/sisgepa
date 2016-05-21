@@ -35,6 +35,7 @@ public class ProjetoServlet extends ControladorCentral {
         public String objetivo;
         public String descricao;
         public String participantes;
+        public String publicacoes;
     }
     
     @Override
@@ -132,6 +133,20 @@ public class ProjetoServlet extends ControladorCentral {
                 for(String str : array){
                     int idParticipante = Integer.parseInt(str);
                     Projeto aux = fachada.adicionarParticipante(Integer.parseInt(obj.identificador), idParticipante);
+                }
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else if (obj.comando != null && obj.comando.equals("gerirPublicacoes")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            try {
+                fachada.removerTodasPublicacoes(Integer.parseInt(obj.identificador));
+                String[] array = obj.publicacoes.split(" ");
+                for(String str : array){
+                    int idPublicacao = Integer.parseInt(str);
+                    Projeto aux = fachada.adicionarPublicacao(Integer.parseInt(obj.identificador), idPublicacao);
                 }
 
                 response.setStatus(HttpServletResponse.SC_OK);

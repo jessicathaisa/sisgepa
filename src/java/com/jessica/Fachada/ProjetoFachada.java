@@ -9,6 +9,7 @@ package com.jessica.Fachada;
 import com.jessica.DAO.ProjetoDAO;
 import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.Projeto;
+import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.StatusProjeto;
 import java.util.ArrayList;
 import java.util.Date;
@@ -146,5 +147,30 @@ public class ProjetoFachada extends Fachada {
         
         for(Colaborador c : colaboradores)
             dao.remParticipante(idProjeto, c.getIdentificador());
+    }
+    
+    /**
+     * Adiciona uma publicação ao projeto
+     * @param idProjeto
+     * @param idPublicacao
+     * @return 
+     */
+    public Projeto adicionarPublicacao(int idProjeto, int idPublicacao){
+        ProjetoDAO dao = new ProjetoDAO();
+        
+        return dao.addParticipante(idProjeto, idPublicacao);
+    }
+    
+    /**
+     * Remove todos as publicações do projeto
+     * @param idProjeto
+     */
+    public void removerTodasPublicacoes(int idProjeto){
+        ProjetoDAO dao = new ProjetoDAO();
+        
+        List<Publicacao> publicacoes = buscar(idProjeto).getPublicacoes();
+        
+        for(Publicacao c : publicacoes)
+            dao.remPublicacao(idProjeto, c.getIdentificador());
     }
 }
