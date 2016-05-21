@@ -7,7 +7,7 @@
 
 app.controller('ProjetoController', ProjetoController);
 
-function ProjetoController($scope, $http, $window, $location, $q) {
+function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll) {
     this.mensagem = "";
     var idProjeto = $location.search().id;
     var listar = $location.absUrl();
@@ -16,6 +16,9 @@ function ProjetoController($scope, $http, $window, $location, $q) {
     $scope.status = {};
     $scope.dadosBasicosHabilitados = false;
     $scope.opcoesHabilitadas = true;
+    $scope.autores = [];
+    $scope.autoresprof = [];
+    $scope.autorespesq = [];
 
     $scope.trazData = function (data) {
         if (!data)
@@ -38,6 +41,7 @@ function ProjetoController($scope, $http, $window, $location, $q) {
 
     $scope.habilitaTodosBotoes = function () {
         $scope.dadosBasicosHabilitados = false;
+        $scope.participantesHabilitados = false;
         $scope.opcoesHabilitadas = true;
     };
 
@@ -47,6 +51,78 @@ function ProjetoController($scope, $http, $window, $location, $q) {
         $scope.opcoesHabilitadas = false;
         $scope.dadosBasicosHabilitados = true;
         $scope.mensagem = "";
+    };
+
+
+    $scope.iniciarEdicaoParticipantes = function () {
+        $scope.participantesHabilitados = true;
+        $location.hash("participantes");
+        $anchorScroll();
+        
+        this.chamada = {};
+        this.chamada.comando = "listarAlunos";
+        var alunoPromise = $http.post('AlunoServlet', this.chamada).
+                success(function (data) {
+                    $scope.alunos = data;
+                    for (var i = 0; i < $scope.alunos.length; i++) {
+                        var aluno = $scope.alunos[i];
+                        $scope.autores[i] = {};
+                        $scope.autores[i].identificador = aluno.identificador;
+                        $scope.autores[i].selected = false;
+                        var di = new Date(aluno.dataIngresso);
+                        aluno.dataIngresso = di.getTime();
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+
+        this.chamada = {};
+        this.chamada.comando = "listarPesquisadores";
+        var pesquisadorPromise = $http.post('PesquisadorServlet', this.chamada).
+                success(function (data) {
+                    $scope.pesquisadores = data;
+                    for (var i = 0; i < $scope.pesquisadores.length; i++) {
+                        var pesq = $scope.pesquisadores[i];
+                        $scope.autorespesq[i] = {};
+                        $scope.autorespesq[i].identificador = pesq.identificador;
+                        $scope.autorespesq[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+
+        this.chamada = {};
+        this.chamada.comando = "listarProfessores";
+        var professorPromise = $http.post('ProfessorServlet', this.chamada).
+                success(function (data) {
+                    $scope.professores = data;
+                    for (var i = 0; i < $scope.professores.length; i++) {
+                        var prof = $scope.professores[i];
+                        $scope.autoresprof[i] = {};
+                        $scope.autoresprof[i].identificador = prof.identificador;
+                        $scope.autoresprof[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+
+        this.chamada = {};
+        this.chamada.comando = "listarProjetosEmAndamento";
+        var projetoPromise = $http.post('ProjetoServlet', this.chamada).
+                success(function (data) {
+                    $scope.projetos = data;
+                    for (var i = 0; i < $scope.projetos.length; i++) {
+                        $scope.projetos[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+
+        return $q.all([projetoPromise, professorPromise, pesquisadorPromise, alunoPromise]);
     };
 
     if (listar.indexOf("projetolistar.html") >= 0) {

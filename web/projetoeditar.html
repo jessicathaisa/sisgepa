@@ -51,15 +51,19 @@ PUC-Rio 2016.1
                                 <div class="well well-sm" ng-hide="estaConcluido(status)">
                                     <strong>O projeto está {{status}}. Escolha uma opção: </strong>
                                     <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoDadosBasicos()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Editar dados basicos</button>
-                                    <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Alocar Participantes</button>
+                                    <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoParticipantes()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Alocar Participantes</button>
                                     <button type="button" class="btn btn-success" ng-click="darAndamento()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Dar Andamento</button>
                                     <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Publicações</button>
                                     <button type="button" class="btn btn-success" ng-click="concluir()" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Concluir</button>
+                                    <a href="projetover.html#/?id={{form.identificador}}" role="button" class="btn btn-danger">Cancelar</a>
                                 </div>
                             </div>
                             </br>
                             <div class="container-fluid" id="dadosBasicos">
                                 <div class="row">
+                                    <h3>
+                                        Dados Básicos
+                                    </h3>
                                     <div class="form-group">
                                         <label for="nomeAluno">Título</label>
                                         <input type="text" class="form-control" id="nomeAluno" ng-model="form.titulo" placeholder="Título do Projeto" required ng-disabled="!dadosBasicosHabilitados">
@@ -92,7 +96,44 @@ PUC-Rio 2016.1
                                     </div>
 
                                     <button type="button" class="btn btn-primary" ng-click="editarDadosBasicos()" ng-show="dadosBasicosHabilitados">Salvar</button>
-                                    <a href="projetover.html#/?id={{form.identificador}}" role="button" class="btn btn-danger">Cancelar</a>
+                                </div>
+                            </div>
+                            <div class="container-fluid" id="participantes">
+                                <div class="row">
+                                    <h3>
+                                        Participantes
+                                    </h3>
+                                    <p ng-show="!(alunos || professores || pesquisadores)"> Não há participantes!</p>
+                                    <div class="form-group" ng-show="alunos || professores || pesquisadores">
+                                        <h4 ng-show="alunos">Alunos</h4>
+                                        <div class="checkbox"  ng-repeat="autor in alunos track by $index">
+                                            <label class="checkbox" >
+                                                <input type="checkbox"
+                                                       ng-model="autores[$index].selected"
+                                                       ng-value="{{autor.identificador}}"
+                                                       ng-disabled="!participantesHabilitados">{{autor.nome}}
+                                            </label>
+                                        </div>
+                                        <h4 ng-show="professores">Professores</h4>
+                                        <div class="checkbox"  ng-repeat="autorp in professores track by $index">
+                                            <label>
+                                                <input type="checkbox"
+                                                       ng-model="autoresprof[$index].selected"
+                                                       value="{{autorp.identificador}}" 
+                                                       ng-disabled="!participantesHabilitados">>{{autorp.nome}}
+                                            </label>
+                                        </div>
+                                        <h4 ng-show="pesquisadores">Pesquisadores</h4>
+                                        <div class="checkbox"  ng-repeat="autorpe in pesquisadores track by $index">
+                                            <label>
+                                                <input type="checkbox"
+                                                       ng-model="autorespesq[$index].selected"
+                                                       value="{{autorpe.identificador}}" 
+                                                       ng-disabled="!participantesHabilitados">>{{autorpe.nome}}
+                                            </label>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" ng-click="exibeColaboradores()">Confirmar Autores</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
