@@ -7,6 +7,7 @@
 package com.jessica.Fachada;
 
 import com.jessica.DAO.ProjetoDAO;
+import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.StatusProjeto;
 import java.util.ArrayList;
@@ -120,5 +121,30 @@ public class ProjetoFachada extends Fachada {
         ProjetoDAO dao = new ProjetoDAO();
         Projeto projeto = dao.mudarStatus(id, StatusProjeto.CONCLUIDO);
         return projeto;
+    }
+    
+    /**
+     * Adiciona um participante ao projeto
+     * @param idProjeto
+     * @param idParticipantes
+     * @return 
+     */
+    public Projeto adicionarParticipante(int idProjeto, int idParticipantes){
+        ProjetoDAO dao = new ProjetoDAO();
+        
+        return dao.addParticipante(idProjeto, idParticipantes);
+    }
+    
+    /**
+     * Remove todos os participantes do projeto
+     * @param idProjeto
+     */
+    public void removerTodosParticipantes(int idProjeto){
+        ProjetoDAO dao = new ProjetoDAO();
+        
+        List<Colaborador> colaboradores = buscar(idProjeto).getParticipantes();
+        
+        for(Colaborador c : colaboradores)
+            dao.remParticipante(idProjeto, c.getIdentificador());
     }
 }

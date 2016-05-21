@@ -125,9 +125,16 @@ public class ProjetoDAO extends DAO{
         Projeto p = buscar(idProjeto);
         if(p == null)
             return null;
-        ColaboradorDAO colaboradordao = new ColaboradorDAO();
-        Colaborador participante = colaboradordao.buscar(idParticipante);
-        
+        AlunoDAO alunodao = new AlunoDAO();
+        Colaborador participante = alunodao.buscar(idParticipante);
+        if(participante == null){
+            ProfessorDAO professordao = new ProfessorDAO();
+            participante = professordao.buscar(idParticipante);
+        }
+        if(participante == null){
+            PesquisadorDAO pesquisadorDAO = new PesquisadorDAO();
+            participante = pesquisadorDAO.buscar(idParticipante);
+        }
         if(participante == null)
             return p;
         
@@ -157,9 +164,16 @@ public class ProjetoDAO extends DAO{
         Projeto p = buscar(idProjeto);
         if(p == null)
             return null;
-        ColaboradorDAO colaboradordao = new ColaboradorDAO();
-        Colaborador participante = colaboradordao.buscar(idParticipante);
-        
+        AlunoDAO alunodao = new AlunoDAO();
+        Colaborador participante = alunodao.buscar(idParticipante);
+        if(participante == null){
+            ProfessorDAO professordao = new ProfessorDAO();
+            participante = professordao.buscar(idParticipante);
+        }
+        if(participante == null){
+            PesquisadorDAO pesquisadorDAO = new PesquisadorDAO();
+            participante = pesquisadorDAO.buscar(idParticipante);
+        }
         if(participante == null)
             return p;
         

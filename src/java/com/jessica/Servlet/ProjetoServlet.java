@@ -34,6 +34,7 @@ public class ProjetoServlet extends ControladorCentral {
         public String valorFinanciado;
         public String objetivo;
         public String descricao;
+        public String participantes;
     }
     
     @Override
@@ -115,10 +116,23 @@ public class ProjetoServlet extends ControladorCentral {
             if(!verificaEhGerente(request)){
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
                 return;
-            }                
-                    
+            }   
             try {
                 Projeto projeto = fachada.darConcluir(Integer.parseInt(obj.identificador));
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else if (obj.comando != null && obj.comando.equals("alocarParticipantes")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            try {
+                fachada.removerTodosParticipantes(Integer.parseInt(obj.identificador));
+                String[] array = obj.participantes.split(" ");
+                for(String str : array){
+                    int idParticipante = Integer.parseInt(str);
+                    Projeto aux = fachada.adicionarParticipante(Integer.parseInt(obj.identificador), idParticipante);
+                }
 
                 response.setStatus(HttpServletResponse.SC_OK);
             } catch (Exception e) {
