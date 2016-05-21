@@ -44,6 +44,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     $scope.habilitaTodosBotoes = function () {
         $scope.dadosBasicosHabilitados = false;
         $scope.participantesHabilitados = false;
+        $scope.publicacoesHabilitadas = false;
         $scope.opcoesHabilitadas = true;
     };
 
@@ -61,6 +62,15 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         $scope.opcoesHabilitadas = false;
         $scope.participantesHabilitados = true;
         $location.hash("participantes");
+        $anchorScroll();
+    };
+    
+    $scope.iniciarEdicaoPublicacoes = function () {
+        $scope.habilitaTodosBotoes();
+
+        $scope.opcoesHabilitadas = false;
+        $scope.publicacoesHabilitadas = true;
+        $location.hash("publicacoes");
         $anchorScroll();
     };
     
@@ -438,6 +448,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                 }
             }
             $scope.form.participantes = participantes.trim();
+            $scope.form.publicacoes = "";
 
             $scope.mensagem = "";
             $scope.form.comando = "alocarParticipantes";
@@ -473,6 +484,11 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     $scope.confirmarGerirPublicacoes = function () {
         $scope.habilitaTodosBotoes();
         $scope.opcoesHabilitadas = false;
+        if (!$scope.estaEmAndamento($scope.status)) {
+            $scope.mensagem = "Não é possível adicionar publicações a um projeto que não esteja em andamento";
+            $scope.habilitaTodosBotoes();
+            return;
+        }
 
         var resultado = confirm("Confirmar a operação de Gerir Publicações ao projeto?");
         if (!resultado)
@@ -485,7 +501,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                 }
             }
             $scope.form.publicacoes = publicacoes.trim();
-
+            $scope.form.participantes = "";
             $scope.mensagem = "";
             $scope.form.comando = "gerirPublicacoes";
             req = {

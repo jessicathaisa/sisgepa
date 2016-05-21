@@ -53,7 +53,7 @@ PUC-Rio 2016.1
                                     <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoDadosBasicos()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Editar dados basicos</button>
                                     <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoParticipantes()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Alocar Participantes</button>
                                     <button type="button" class="btn btn-success" ng-click="darAndamento()" ng-show="estaEmElaboracao(status)" ng-disabled="!opcoesHabilitadas">Dar Andamento</button>
-                                    <button type="button" class="btn btn-primary" ng-click="" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Publicações</button>
+                                    <button type="button" class="btn btn-primary" ng-click="iniciarEdicaoPublicacoes()" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Publicações</button>
                                     <button type="button" class="btn btn-success" ng-click="concluir()" ng-show="estaEmAndamento(status)" ng-disabled="!opcoesHabilitadas">Concluir</button>
                                     <a href="projetover.html#/?id={{form.identificador}}" role="button" class="btn btn-danger">Cancelar</a>
                                 </div>
@@ -154,7 +154,7 @@ PUC-Rio 2016.1
                                                        ng-disabled="!publicacoesHabilitadas">{{pub.titulo}} / {{pub.conferencia}} / {{pub.ano}}
                                             </label>
                                         </div>
-                                        <button type="button" class="btn btn-primary" ng-click="confirmarGerirPublicacoes()" ng-show="publicacoesHabilitadas">Confirmar Participantes</button>
+                                        <button type="button" class="btn btn-primary" ng-click="confirmarGerirPublicacoes()" ng-show="publicacoesHabilitadas">Confirmar Publicações</button>
                                     </div>
                                 </div>
                             </div>

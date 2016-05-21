@@ -158,7 +158,7 @@ public class ProjetoFachada extends Fachada {
     public Projeto adicionarPublicacao(int idProjeto, int idPublicacao){
         ProjetoDAO dao = new ProjetoDAO();
         
-        return dao.addParticipante(idProjeto, idPublicacao);
+        return dao.addPublicacao(idProjeto, idPublicacao);
     }
     
     /**
