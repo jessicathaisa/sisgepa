@@ -110,6 +110,20 @@ public class ProjetoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("concluirProjeto")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            if(!verificaEhGerente(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }                
+                    
+            try {
+                Projeto projeto = fachada.darConcluir(Integer.parseInt(obj.identificador));
+
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (Exception e) {
+                response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
@@ -124,6 +138,6 @@ public class ProjetoServlet extends ControladorCentral {
         String usuario = (String) request.getSession().getAttribute("usuario");
         
         UsuarioFachada fac = new UsuarioFachada();
-        return fac.verificaEhGerente(usuario);
+        return fac.verificaEhGerente(usuario) || fac.verificaEhAdministrador(usuario);
     }
 }

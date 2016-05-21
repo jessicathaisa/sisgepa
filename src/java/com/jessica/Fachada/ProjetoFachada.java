@@ -110,4 +110,15 @@ public class ProjetoFachada extends Fachada {
         Projeto projeto = dao.mudarStatus(id, StatusProjeto.EM_ANDAMENTO);
         return projeto;
     }
+    
+    /**
+     * Conclui a um projeto
+     * @param id
+     * @return 
+     */
+    public Projeto darConcluir(int id){
+        ProjetoDAO dao = new ProjetoDAO();
+        Projeto projeto = dao.mudarStatus(id, StatusProjeto.CONCLUIDO);
+        return projeto;
+    }
 }
