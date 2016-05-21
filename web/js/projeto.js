@@ -19,6 +19,8 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     $scope.participantes = [];
     $scope.participantesprof = [];
     $scope.participantespesq = [];
+    $scope.publicacoes = [];
+    $scope.pubs = [];
 
     $scope.trazData = function (data) {
         if (!data)
@@ -127,13 +129,34 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                 error(function (data) {
                     // log error
                 });
-        return $q.all([professorPromise, pesquisadorPromise, alunoPromise]);
+        this.chamada = {};
+        this.chamada.comando = "listarPublicacoes";
+        var publicacaoPromise = $http.post('PublicacaoServlet', this.chamada).
+                success(function (data) {
+                    $scope.pubs = data;
+                    for (var i = 0; i < $scope.pubs.length; i++) {
+                        var pub = $scope.pubs[i];
+                        $scope.publicacoes[i] = {};
+                        $scope.publicacoes[i].identificador = pub.identificador;
+                        $scope.publicacoes[i].selected = false;
+                    }
+                }).
+                error(function (data) {
+                    // log error
+                });
+        return $q.all([professorPromise, pesquisadorPromise, alunoPromise, publicacaoPromise]);
     };
 
     var marcaSelecionados = function () {
 
         function existeNaLista(identificador) {
             var existe = $scope.form.participantes.filter(function (value) {
+                return value.identificador === identificador;
+            });
+            return existe && existe.length > 0;
+        }
+        function existeNaListaPublicacoes(identificador) {
+            var existe = $scope.form.publicacoes.filter(function (value) {
                 return value.identificador === identificador;
             });
             return existe && existe.length > 0;
@@ -149,6 +172,10 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
 
         $scope.participantespesq.map(function (value) {
             value.selected = existeNaLista(value.identificador);
+        });
+        
+        $scope.publicacoes.map(function (value) {
+            value.selected = existeNaListaPublicacoes(value.identificador);
         });
     };
 
@@ -414,6 +441,53 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
 
             $scope.mensagem = "";
             $scope.form.comando = "alocarParticipantes";
+            req = {
+                method: 'POST',
+                url: 'ProjetoServlet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: $scope.form
+            };
+
+            $http(req)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            alert("Edição realizada com sucesso!");
+                            $window.location.href = 'projetover.html#/?id=' + idProjeto;
+                        }
+                    })
+                    .error(function (data, status) {
+                        if (status === 401) {
+                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                        }
+                        else if (status === 500) {
+                            $scope.mensagem = "Houve um problema no servidor. Tente mais tarde.";
+                        }
+                        $scope.habilitaTodosBotoes();
+                    });
+            $scope.habilitaTodosBotoes();
+        }
+    };
+
+    $scope.confirmarGerirPublicacoes = function () {
+        $scope.habilitaTodosBotoes();
+        $scope.opcoesHabilitadas = false;
+
+        var resultado = confirm("Confirmar a operação de Gerir Publicações ao projeto?");
+        if (!resultado)
+            $scope.habilitaTodosBotoes();
+        else {
+            var publicacoes = "";
+            for (var j = 0; j < $scope.publicacoes.length; j++) {
+                if ($scope.publicacoes[j].selected) {
+                    publicacoes += $scope.publicacoes[j].identificador + " ";
+                }
+            }
+            $scope.form.publicacoes = publicacoes.trim();
+
+            $scope.mensagem = "";
+            $scope.form.comando = "gerirPublicacoes";
             req = {
                 method: 'POST',
                 url: 'ProjetoServlet',

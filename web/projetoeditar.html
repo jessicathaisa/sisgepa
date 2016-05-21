@@ -137,6 +137,27 @@ PUC-Rio 2016.1
                                     </div>
                                 </div>
                             </div>
+                            
+                            <div class="container-fluid" id="publicacoes">
+                                <div class="row">
+                                    <h3>
+                                        Publicações
+                                    </h3>
+                                    <p ng-show="!(publicacoes)"> Não há publicações!</p>
+                                    
+                                    <div class="form-group" ng-show="publicacoes">
+                                        <div class="checkbox"  ng-repeat="pub in pubs track by $index">
+                                            <label class="checkbox" >
+                                                <input type="checkbox"
+                                                       ng-model="publicacoes[$index].selected"
+                                                       ng-value="{{pub.identificador}}"
+                                                       ng-disabled="!publicacoesHabilitadas">{{pub.titulo}} / {{pub.conferencia}} / {{pub.ano}}
+                                            </label>
+                                        </div>
+                                        <button type="button" class="btn btn-primary" ng-click="confirmarGerirPublicacoes()" ng-show="publicacoesHabilitadas">Confirmar Participantes</button>
+                                    </div>
+                                </div>
+                            </div>
                         </form>
                     </div>
                 </div>
