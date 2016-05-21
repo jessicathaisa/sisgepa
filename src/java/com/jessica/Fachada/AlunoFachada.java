@@ -18,6 +18,7 @@ import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.RegimeCurso;
+import com.jessica.Modelo.StatusProjeto;
 import com.jessica.Modelo.TipoAluno;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
@@ -208,6 +209,22 @@ public class AlunoFachada extends Fachada {
         }
         
         return projetos;
+    }
+    
+    /**
+     * Retirna o total de projetos em andamento do aluno
+     * @param id
+     * @return 
+     */
+    public int totalProjetosEmAndamento(int id){
+        List<Projeto> projetos = buscarProjetosAluno(id);
+        int quantidade = 0;
+        
+        for(Projeto p : projetos)
+            if(p.getStatus() == StatusProjeto.EM_ANDAMENTO)
+                quantidade++;
+        
+        return quantidade;
     }
 
     /**

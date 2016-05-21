@@ -104,35 +104,36 @@ PUC-Rio 2016.1
                                         Participantes
                                     </h3>
                                     <p ng-show="!(alunos || professores || pesquisadores)"> Não há participantes!</p>
+                                    
                                     <div class="form-group" ng-show="alunos || professores || pesquisadores">
                                         <h4 ng-show="alunos">Alunos</h4>
-                                        <div class="checkbox"  ng-repeat="autor in alunos track by $index">
+                                        <div class="checkbox"  ng-repeat="parta in alunos track by $index">
                                             <label class="checkbox" >
                                                 <input type="checkbox"
-                                                       ng-model="autores[$index].selected"
-                                                       ng-value="{{autor.identificador}}"
-                                                       ng-disabled="!participantesHabilitados">{{autor.nome}}
+                                                       ng-model="participantes[$index].selected"
+                                                       ng-value="{{parta.identificador}}"
+                                                       ng-disabled="!participantesHabilitados"><strong>{{parta.tipoAluno}}</strong> {{parta.nome}} <strong ng-show="parta.projetosEmAndamento >= 2 && parta.tipoAluno == 'GRADUACAO'" class="text-danger">Participa de {{parta.projetosEmAndamento}} projetos em andamento.</strong>
                                             </label>
                                         </div>
                                         <h4 ng-show="professores">Professores</h4>
-                                        <div class="checkbox"  ng-repeat="autorp in professores track by $index">
+                                        <div class="checkbox"  ng-repeat="partpr in professores track by $index">
                                             <label>
                                                 <input type="checkbox"
-                                                       ng-model="autoresprof[$index].selected"
-                                                       value="{{autorp.identificador}}" 
-                                                       ng-disabled="!participantesHabilitados">>{{autorp.nome}}
+                                                       ng-model="participantesprof[$index].selected"
+                                                       value="{{partpr.identificador}}" 
+                                                       ng-disabled="!participantesHabilitados">{{partpr.nome}}
                                             </label>
                                         </div>
                                         <h4 ng-show="pesquisadores">Pesquisadores</h4>
-                                        <div class="checkbox"  ng-repeat="autorpe in pesquisadores track by $index">
+                                        <div class="checkbox"  ng-repeat="partpe in pesquisadores track by $index">
                                             <label>
                                                 <input type="checkbox"
-                                                       ng-model="autorespesq[$index].selected"
-                                                       value="{{autorpe.identificador}}" 
-                                                       ng-disabled="!participantesHabilitados">>{{autorpe.nome}}
+                                                       ng-model="aparticipantespesq[$index].selected"
+                                                       value="{{partpe.identificador}}" 
+                                                       ng-disabled="!participantesHabilitados">{{partpe.nome}}
                                             </label>
                                         </div>
-                                        <button type="button" class="btn btn-primary" ng-click="exibeColaboradores()">Confirmar Autores</button>
+                                        <button type="button" class="btn btn-primary" ng-click="confirmarAlocarParticipantes()" ng-show="participantesHabilitados">Confirmar Participantes</button>
                                     </div>
                                 </div>
                             </div>

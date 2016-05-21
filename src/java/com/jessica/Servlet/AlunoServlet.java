@@ -9,7 +9,6 @@ package com.jessica.Servlet;
 import com.google.gson.Gson;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Fachada.AlunoFachada;
-import com.jessica.Fachada.ProjetoFachada;
 import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Projeto;
@@ -51,15 +50,14 @@ public class AlunoServlet extends ControladorCentral {
         if (obj.comando != null && obj.comando.equals("listarAlunos")) {
             AlunoFachada fachada = new AlunoFachada();
             List<Aluno> alunos = fachada.listarAlunos();
-            try{
+            try {
                 String json = gson.toJson(alunos);
 
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");
                 response.getWriter().write(json);
                 response.setStatus(HttpServletResponse.SC_OK);
-            }
-            catch(Exception ex){
+            } catch (Exception ex) {
                 System.out.println(ex.getMessage());
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
@@ -69,8 +67,8 @@ public class AlunoServlet extends ControladorCentral {
             } else {
                 AlunoFachada fachada = new AlunoFachada();
                 List<Projeto> projetos = null;
-                
-                try{
+
+                try {
                     projetos = fachada.buscarProjetosAluno(Integer.parseInt(obj.identificador));
                     String json = gson.toJson(projetos);
 
@@ -78,7 +76,7 @@ public class AlunoServlet extends ControladorCentral {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                     response.setStatus(HttpServletResponse.SC_OK);
-                }catch(NumberFormatException pe){
+                } catch (NumberFormatException pe) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
             }
@@ -88,8 +86,8 @@ public class AlunoServlet extends ControladorCentral {
             } else {
                 AlunoFachada fachada = new AlunoFachada();
                 List<ProducaoAcademica> producoes = null;
-                
-                try{
+
+                try {
                     producoes = fachada.buscarProducoesAluno(Integer.parseInt(obj.identificador));
                     String json = gson.toJson(producoes);
 
@@ -97,7 +95,7 @@ public class AlunoServlet extends ControladorCentral {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                     response.setStatus(HttpServletResponse.SC_OK);
-                }catch(NumberFormatException pe){
+                } catch (NumberFormatException pe) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
             }
@@ -107,8 +105,8 @@ public class AlunoServlet extends ControladorCentral {
             } else {
                 AlunoFachada fachada = new AlunoFachada();
                 Aluno aluno = null;
-                
-                try{
+
+                try {
                     aluno = fachada.buscarAluno(Integer.parseInt(obj.identificador));
                     String json = gson.toJson(aluno);
 
@@ -116,7 +114,7 @@ public class AlunoServlet extends ControladorCentral {
                     response.setCharacterEncoding("UTF-8");
                     response.getWriter().write(json);
                     response.setStatus(HttpServletResponse.SC_OK);
-                }catch(NumberFormatException pe){
+                } catch (NumberFormatException pe) {
                     response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
                 }
             }
@@ -153,6 +151,21 @@ public class AlunoServlet extends ControladorCentral {
                 response.setStatus(HttpServletResponse.SC_CONFLICT);
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+            }
+        } else if (obj.comando != null && obj.comando.equals("quantidadeProjetosEmAndamento")) {
+            AlunoFachada fachada = new AlunoFachada();
+            int quantidade = 0;
+
+            try {
+                quantidade = fachada.totalProjetosEmAndamento(Integer.parseInt(obj.identificador));
+                String json = gson.toJson(quantidade);
+
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write(json);
+                response.setStatus(HttpServletResponse.SC_OK);
+            } catch (NumberFormatException pe) {
+                response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
             }
         } else if (obj.comando != null && obj.comando.equals("excluirAluno")) {
             AlunoFachada fachada = new AlunoFachada();

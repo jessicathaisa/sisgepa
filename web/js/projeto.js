@@ -16,9 +16,9 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     $scope.status = {};
     $scope.dadosBasicosHabilitados = false;
     $scope.opcoesHabilitadas = true;
-    $scope.autores = [];
-    $scope.autoresprof = [];
-    $scope.autorespesq = [];
+    $scope.participantes = [];
+    $scope.participantesprof = [];
+    $scope.participantespesq = [];
 
     $scope.trazData = function (data) {
         if (!data)
@@ -53,24 +53,43 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         $scope.mensagem = "";
     };
 
-
     $scope.iniciarEdicaoParticipantes = function () {
+        $scope.habilitaTodosBotoes();
+
+        $scope.opcoesHabilitadas = false;
         $scope.participantesHabilitados = true;
         $location.hash("participantes");
         $anchorScroll();
-        
+    };
+    
+    var verificaQuantidadeProjetosEmAndamentoAluno = function(id){
+        this.chamada = {};
+        this.chamada.identificador = id;
+        this.chamada.comando = "quantidadeProjetosEmAndamento";
+        return $http.post('AlunoServlet', this.chamada).
+            success(function (data) {
+                return data;
+            });
+    };
+            
+
+    var carregarCheckbox = function () {
         this.chamada = {};
         this.chamada.comando = "listarAlunos";
         var alunoPromise = $http.post('AlunoServlet', this.chamada).
                 success(function (data) {
                     $scope.alunos = data;
+                    $scope.alunos.map(function(aluno) {
+                       verificaQuantidadeProjetosEmAndamentoAluno(aluno.identificador)
+                            .success(function(result) {
+                               aluno.projetosEmAndamento = result;   
+                            });
+                    });
                     for (var i = 0; i < $scope.alunos.length; i++) {
                         var aluno = $scope.alunos[i];
-                        $scope.autores[i] = {};
-                        $scope.autores[i].identificador = aluno.identificador;
-                        $scope.autores[i].selected = false;
-                        var di = new Date(aluno.dataIngresso);
-                        aluno.dataIngresso = di.getTime();
+                        $scope.participantes[i] = {};
+                        $scope.participantes[i].identificador = aluno.identificador;
+                        $scope.participantes[i].selected = false;
                     }
                 }).
                 error(function (data) {
@@ -84,9 +103,9 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                     $scope.pesquisadores = data;
                     for (var i = 0; i < $scope.pesquisadores.length; i++) {
                         var pesq = $scope.pesquisadores[i];
-                        $scope.autorespesq[i] = {};
-                        $scope.autorespesq[i].identificador = pesq.identificador;
-                        $scope.autorespesq[i].selected = false;
+                        $scope.participantespesq[i] = {};
+                        $scope.participantespesq[i].identificador = pesq.identificador;
+                        $scope.participantespesq[i].selected = false;
                     }
                 }).
                 error(function (data) {
@@ -100,29 +119,37 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                     $scope.professores = data;
                     for (var i = 0; i < $scope.professores.length; i++) {
                         var prof = $scope.professores[i];
-                        $scope.autoresprof[i] = {};
-                        $scope.autoresprof[i].identificador = prof.identificador;
-                        $scope.autoresprof[i].selected = false;
+                        $scope.participantesprof[i] = {};
+                        $scope.participantesprof[i].identificador = prof.identificador;
+                        $scope.participantesprof[i].selected = false;
                     }
                 }).
                 error(function (data) {
                     // log error
                 });
+        return $q.all([professorPromise, pesquisadorPromise, alunoPromise]);
+    };
 
-        this.chamada = {};
-        this.chamada.comando = "listarProjetosEmAndamento";
-        var projetoPromise = $http.post('ProjetoServlet', this.chamada).
-                success(function (data) {
-                    $scope.projetos = data;
-                    for (var i = 0; i < $scope.projetos.length; i++) {
-                        $scope.projetos[i].selected = false;
-                    }
-                }).
-                error(function (data) {
-                    // log error
-                });
+    var marcaSelecionados = function () {
 
-        return $q.all([projetoPromise, professorPromise, pesquisadorPromise, alunoPromise]);
+        function existeNaLista(identificador) {
+            var existe = $scope.form.participantes.filter(function (value) {
+                return value.identificador === identificador;
+            });
+            return existe && existe.length > 0;
+        }
+
+        $scope.participantes.map(function (value) {
+            value.selected = existeNaLista(value.identificador);
+        });
+
+        $scope.participantesprof.map(function (value) {
+            value.selected = existeNaLista(value.identificador);
+        });
+
+        $scope.participantespesq.map(function (value) {
+            value.selected = existeNaLista(value.identificador);
+        });
     };
 
     if (listar.indexOf("projetolistar.html") >= 0) {
@@ -153,6 +180,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                 error(function (data) {
                     // log error
                 });
+        carregarCheckbox().then(marcaSelecionados);
     }
 
     $scope.submitFormCadastrar = function () {
@@ -338,6 +366,63 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                     .error(function (data, status) {
                         if (status === 401) {
                             $scope.mensagem = "Você não tem permissão para realizar esta ação (Precisa ser Gerente ou Administrador).";
+                        }
+                        else if (status === 500) {
+                            $scope.mensagem = "Houve um problema no servidor. Tente mais tarde.";
+                        }
+                        $scope.habilitaTodosBotoes();
+                    });
+            $scope.habilitaTodosBotoes();
+        }
+    };
+
+    $scope.confirmarAlocarParticipantes = function () {
+        $scope.habilitaTodosBotoes();
+        $scope.opcoesHabilitadas = false;
+
+        var resultado = confirm("Confirmar a operação de Alocar Participantes ao projeto?");
+        if (!resultado)
+            $scope.habilitaTodosBotoes();
+        else {
+            var participantes = "";
+            for (var j = 0; j < $scope.participantespesq.length; j++) {
+                if ($scope.participantespesq[j].selected) {
+                    participantes += $scope.participantespesq[j].identificador + " ";
+                }
+            }
+            for (var j = 0; j < $scope.participantesprof.length; j++) {
+                if ($scope.participantesprof[j].selected) {
+                    participantes += $scope.participantesprof[j].identificador + " ";
+                }
+            }
+            for (var j = 0; j < $scope.participantes.length; j++) {
+                if ($scope.participantes[j].selected) {
+                    participantes += $scope.participantes[j].identificador + " ";
+                }
+            }
+            $scope.form.participantes = participantes.trim();
+
+            $scope.mensagem = "";
+            $scope.form.comando = "alocarParticipantes";
+            req = {
+                method: 'POST',
+                url: 'ProjetoServlet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: $scope.form
+            };
+
+            $http(req)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            alert("Edição realizada com sucesso!");
+                            $window.location.href = 'projetover.html#/?id=' + idProjeto;
+                        }
+                    })
+                    .error(function (data, status) {
+                        if (status === 401) {
+                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
                         }
                         else if (status === 500) {
                             $scope.mensagem = "Houve um problema no servidor. Tente mais tarde.";
