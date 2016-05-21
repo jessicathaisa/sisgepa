@@ -257,7 +257,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     };
 
     $scope.todosOsDadosPreenchidos = function (form) {
-        if (form.dataInicio !== "" && form.dataTermino !== "" && form.titulo !== "" && form.descricao !== ""
+        if (form.dataInicio != "Invalid Date" && form.dataTermino != "Invalid Date" && form.titulo !== "" && form.descricao !== ""
                 && form.objetivo !== "" && form.agenciaFinanciadora !== "" && form.valorFinanciado !== "")
             return true;
         return false;
@@ -266,6 +266,12 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     $scope.possuiProfessor = function (form) {
         for (var i = 0; i < form.participantes.length; i++)
             if (form.participantes[i].tipoColaborador === "PROFESSOR")
+                return true;
+        return false;
+    };
+    $scope.possuiAlunosGraduacaoCom2Andamento = function (form) {
+        for (var i = 0; i < $scope.alunos.length; i++)
+            if ($scope.alunos[i].tipoAluno === "GRADUACAO" && $scope.alunos[i].projetosEmAndamento >= 2)
                 return true;
         return false;
     };
@@ -291,7 +297,11 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
             $scope.habilitaTodosBotoes();
             return;
         }
-
+        if ($scope.possuiAlunosGraduacaoCom2Andamento($scope.form)) {
+            $scope.mensagem = "Não é possível dar andamento ao projeto pois um aluno de graduação só pode estar em até 2 projetos em andamento";
+            $scope.habilitaTodosBotoes();
+            return;
+        }
 
         var resultado = confirm("Confirmar a operação de DAR ANDAMENTO ao projeto?");
         if (!resultado)
