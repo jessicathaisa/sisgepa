@@ -146,7 +146,7 @@ PUC-Rio 2016.1
                                     <p ng-show="!(publicacoes)"> Não há publicações!</p>
                                     
                                     <div class="form-group" ng-show="publicacoes">
-                                        <div class="checkbox"  ng-repeat="pub in pubs track by $index">
+                                        <div class="checkbox"  ng-repeat="pub in pubs | orderBy:['-ano','titulo']  track by $index">
                                             <label class="checkbox" >
                                                 <input type="checkbox"
                                                        ng-model="publicacoes[$index].selected"

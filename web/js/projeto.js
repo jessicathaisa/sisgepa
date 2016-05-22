@@ -149,6 +149,10 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                         $scope.publicacoes[i] = {};
                         $scope.publicacoes[i].identificador = pub.identificador;
                         $scope.publicacoes[i].selected = false;
+                        if(pub.projeto && pub.projeto.identificador != idProjeto)
+                            pub.podeExibir = false;
+                        else
+                            pub.podeExibir = true;
                     }
                 }).
                 error(function (data) {
@@ -160,13 +164,13 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
     var marcaSelecionados = function () {
 
         function existeNaLista(identificador) {
-            var existe = $scope.form.participantes.filter(function (value) {
+            var existe = $scope.form.participantes && $scope.form.participantes.filter(function (value) {
                 return value.identificador === identificador;
             });
             return existe && existe.length > 0;
         }
         function existeNaListaPublicacoes(identificador) {
-            var existe = $scope.form.publicacoes.filter(function (value) {
+            var existe = $scope.form.publicacoes && $scope.form.publicacoes.filter(function (value) {
                 return value.identificador === identificador;
             });
             return existe && existe.length > 0;
