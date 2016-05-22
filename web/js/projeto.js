@@ -64,7 +64,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         $location.hash("participantes");
         $anchorScroll();
     };
-    
+
     $scope.iniciarEdicaoPublicacoes = function () {
         $scope.habilitaTodosBotoes();
 
@@ -73,17 +73,17 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         $location.hash("publicacoes");
         $anchorScroll();
     };
-    
-    var verificaQuantidadeProjetosEmAndamentoAluno = function(id){
+
+    var verificaQuantidadeProjetosEmAndamentoAluno = function (id) {
         this.chamada = {};
         this.chamada.identificador = id;
         this.chamada.comando = "quantidadeProjetosEmAndamento";
         return $http.post('AlunoServlet', this.chamada).
-            success(function (data) {
-                return data;
-            });
+                success(function (data) {
+                    return data;
+                });
     };
-            
+
 
     var carregarCheckbox = function () {
         this.chamada = {};
@@ -91,11 +91,11 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         var alunoPromise = $http.post('AlunoServlet', this.chamada).
                 success(function (data) {
                     $scope.alunos = data;
-                    $scope.alunos.map(function(aluno) {
-                       verificaQuantidadeProjetosEmAndamentoAluno(aluno.identificador)
-                            .success(function(result) {
-                               aluno.projetosEmAndamento = result;   
-                            });
+                    $scope.alunos.map(function (aluno) {
+                        verificaQuantidadeProjetosEmAndamentoAluno(aluno.identificador)
+                                .success(function (result) {
+                                    aluno.projetosEmAndamento = result;
+                                });
                     });
                     for (var i = 0; i < $scope.alunos.length; i++) {
                         var aluno = $scope.alunos[i];
@@ -149,7 +149,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
                         $scope.publicacoes[i] = {};
                         $scope.publicacoes[i].identificador = pub.identificador;
                         $scope.publicacoes[i].selected = false;
-                        if(pub.projeto && pub.projeto.identificador != idProjeto)
+                        if (pub.projeto && pub.projeto.identificador != idProjeto)
                             pub.podeExibir = false;
                         else
                             pub.podeExibir = true;
@@ -187,7 +187,7 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         $scope.participantespesq.map(function (value) {
             value.selected = existeNaLista(value.identificador);
         });
-        
+
         $scope.publicacoes.map(function (value) {
             value.selected = existeNaListaPublicacoes(value.identificador);
         });
@@ -270,6 +270,8 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
             $scope.mensagem = "Não é possível editar os dados de um projeto que não está em elaboração";
             return;
         }
+        $scope.form.participantes = "";
+        $scope.form.publicacoes = "";
 
         req = {
             method: 'POST',
@@ -350,6 +352,10 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         else {
             $scope.mensagem = "";
             $scope.form.comando = "darAndamentoProjeto";
+
+            $scope.form.participantes = "";
+            $scope.form.publicacoes = "";
+
             req = {
                 method: 'POST',
                 url: 'ProjetoServlet',
@@ -398,6 +404,8 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
         else {
             $scope.mensagem = "";
             $scope.form.comando = "concluirProjeto";
+            $scope.form.participantes = "";
+            $scope.form.publicacoes = "";
             req = {
                 method: 'POST',
                 url: 'ProjetoServlet',
