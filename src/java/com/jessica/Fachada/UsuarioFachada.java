@@ -47,6 +47,6 @@ public class UsuarioFachada extends Fachada{
     public boolean verificaEhGerente(String login){
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuario = dao.buscar(login);
-        return usuario.getTipo().equals(TipoUsuario.GERENTE);
+        return usuario.getTipo().equals(TipoUsuario.GERENTE) || usuario.getTipo().equals(TipoUsuario.ADMINISTRADOR);
     }
 }

@@ -62,6 +62,23 @@ function VerificaPermissaoController($scope, $http, $window) {
             alert("Você não tem permissão para realizar esta ação. Será redirecionado para a página inicial.");
             $window.location.href = 'index.html';
         });
+    };
+    
+    $scope.verificaEhGerente = function () {
+        var dados = {};
+        dados.comando = "verificaGerente";
+        req = {
+            method: 'POST',
+            url: 'UsuarioServlet',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: dados
+        };
+        $http(req).error(function (data, status) {
+            alert("Você não tem permissão para realizar esta ação. Será redirecionado para a página inicial.");
+            $window.location.href = 'index.html';
+        });
     }
 }
 

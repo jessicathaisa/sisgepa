@@ -57,6 +57,15 @@ public class UsuarioServlet extends ControladorCentral {
             else
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         }
+        else if(obj.comando != null && obj.comando.equals("verificaGerente")){
+            UsuarioFachada usuarioFachada = new UsuarioFachada();
+            boolean sim = usuarioFachada.verificaEhGerente((String)request.getSession().getAttribute("usuario"));
+            
+            if(sim)
+                response.setStatus(HttpServletResponse.SC_OK);
+            else
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        }
         else if(obj.comando != null && obj.comando.equals("realizarLogout")){
             if(logado){
                 realizarLogout(request, response);

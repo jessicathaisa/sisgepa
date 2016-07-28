@@ -71,6 +71,12 @@ public class ProjetoServlet extends ControladorCentral {
             response.getWriter().write(json);
             response.setStatus(HttpServletResponse.SC_OK);
         } else if (obj.comando != null && obj.comando.equals("cadastrarProjeto")) {
+            
+            if(!verificaEhAdministrador(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            
             ProjetoFachada fachada = new ProjetoFachada();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             
@@ -85,6 +91,12 @@ public class ProjetoServlet extends ControladorCentral {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else if (obj.comando != null && obj.comando.equals("editarProjeto")) {
+            
+            if(!verificaEhAdministrador(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            
             ProjetoFachada fachada = new ProjetoFachada();
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             
@@ -126,6 +138,12 @@ public class ProjetoServlet extends ControladorCentral {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else if (obj.comando != null && obj.comando.equals("alocarParticipantes")) {
+            
+            if(!verificaEhAdministrador(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            
             ProjetoFachada fachada = new ProjetoFachada();
             try {
                 fachada.removerTodosParticipantes(Integer.parseInt(obj.identificador));
@@ -140,6 +158,12 @@ public class ProjetoServlet extends ControladorCentral {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else if (obj.comando != null && obj.comando.equals("gerirPublicacoes")) {
+            
+            if(!verificaEhAdministrador(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            
             ProjetoFachada fachada = new ProjetoFachada();
             try {
                 fachada.removerTodasPublicacoes(Integer.parseInt(obj.identificador));
@@ -154,6 +178,12 @@ public class ProjetoServlet extends ControladorCentral {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
         } else if (obj.comando != null && obj.comando.equals("excluirProjeto")) {
+            
+            if(!verificaEhAdministrador(request)){
+                response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+                return;
+            }
+            
             ProjetoFachada fachada = new ProjetoFachada();
             fachada.apagarProjeto(Integer.parseInt(obj.identificador));
             response.setStatus(HttpServletResponse.SC_OK);
@@ -172,5 +202,17 @@ public class ProjetoServlet extends ControladorCentral {
         
         UsuarioFachada fac = new UsuarioFachada();
         return fac.verificaEhGerente(usuario) || fac.verificaEhAdministrador(usuario);
+    }
+
+    /**
+     * Verifica se o usuário é administrador.
+     * @param request
+     * @return 
+     */
+    private boolean verificaEhAdministrador(HttpServletRequest request){
+        String usuario = (String) request.getSession().getAttribute("usuario");
+        
+        UsuarioFachada fac = new UsuarioFachada();
+        return fac.verificaEhAdministrador(usuario);
     }
 }
