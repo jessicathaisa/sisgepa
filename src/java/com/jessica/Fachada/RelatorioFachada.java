@@ -16,7 +16,7 @@ import com.jessica.Modelo.StatusProjeto;
  *
  * @author Jessica
  */
-public class RelatorioFachada extends Fachada {
+public class RelatorioFachada{
     public Relatorio buscaRelatorio(){
         Relatorio relatorio = new Relatorio();
         

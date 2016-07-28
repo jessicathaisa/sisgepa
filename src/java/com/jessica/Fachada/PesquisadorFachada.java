@@ -25,7 +25,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class PesquisadorFachada extends Fachada{
+public class PesquisadorFachada{
     /**
      * Lista os pesquisadores existentes no sistema
      * @return 

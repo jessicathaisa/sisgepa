@@ -18,7 +18,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class PublicacaoFachada extends Fachada {
+public class PublicacaoFachada{
 
     /**
      * Cadastra um publicação no sistema

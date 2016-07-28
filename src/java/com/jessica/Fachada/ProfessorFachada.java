@@ -29,7 +29,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class ProfessorFachada extends Fachada{
+public class ProfessorFachada{
     /**
      * Lista os professores existentes no sistema
      * @return 

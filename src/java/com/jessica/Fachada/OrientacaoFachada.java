@@ -16,7 +16,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class OrientacaoFachada extends Fachada {
+public class OrientacaoFachada {
 
     /**
      * Listar as orientações

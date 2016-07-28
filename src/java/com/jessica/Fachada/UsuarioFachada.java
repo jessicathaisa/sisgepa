@@ -14,7 +14,7 @@ import com.jessica.Modelo.Usuario;
  *
  * @author Jessica
  */
-public class UsuarioFachada extends Fachada{
+public class UsuarioFachada{
     
     /**
      * Verifica se o usuário informado possui permissão de acesso com a sneha informada

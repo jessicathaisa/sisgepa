@@ -20,7 +20,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class ProjetoFachada extends Fachada {
+public class ProjetoFachada{
     
     /**
      * Listar Projetos em Andamento

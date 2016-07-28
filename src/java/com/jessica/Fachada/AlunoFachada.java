@@ -31,7 +31,7 @@ import java.util.List;
  *
  * @author Jessica
  */
-public class AlunoFachada extends Fachada {
+public class AlunoFachada {
 
     /**
      * Cadastra um aluno

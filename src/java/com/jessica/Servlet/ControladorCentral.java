@@ -6,7 +6,6 @@
  */
 package com.jessica.Servlet;
 
-import com.jessica.Fachada.Fachada;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -20,7 +19,6 @@ import javax.servlet.http.HttpSession;
  */
 abstract class ControladorCentral extends HttpServlet {
 
-    protected Fachada fachada = null;
     protected boolean logado = false;
     
     /**
