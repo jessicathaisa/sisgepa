@@ -12,6 +12,7 @@ import com.jessica.DAO.ProjetoDAO;
 import com.jessica.DAO.PublicacaoDAO;
 import com.jessica.DAO.UsuarioDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
+import com.jessica.TratarReferenciaCircular;
 import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.Orientacao;
 import com.jessica.Modelo.ProducaoAcademica;
@@ -188,8 +189,7 @@ public class AlunoFachada extends Fachada {
      */
     public Aluno buscarAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
-        Aluno a = dao.buscar(id).copiaSimples();
-       
+        Aluno a = TratarReferenciaCircular.tratar(dao.buscar(id));
         return a;
     }
 
@@ -202,12 +202,7 @@ public class AlunoFachada extends Fachada {
     public List<Projeto> buscarProjetosAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
         Aluno a = dao.buscar(id);
-        List<Projeto> projetos = new ArrayList<>();
-        
-        for(Projeto p : a.getProjetos()){
-            projetos.add(p.copiar());
-        }
-        
+        List<Projeto> projetos = TratarReferenciaCircular.tratarLista(a.getProjetos());
         return projetos;
     }
     
@@ -236,15 +231,7 @@ public class AlunoFachada extends Fachada {
     public List<ProducaoAcademica> buscarProducoesAluno(int id) {
         AlunoDAO dao = new AlunoDAO();
         Aluno a = dao.buscar(id);
-        List<ProducaoAcademica> producoes = new ArrayList<>();
-        
-        for(ProducaoAcademica p : a.getProducoes()){
-            if(p instanceof Publicacao)
-                producoes.add(((Publicacao)p).copiaSimples());
-            if(p instanceof Orientacao)
-                producoes.add(((Orientacao)p).copiaSimples());
-        }
-        
+        List<ProducaoAcademica> producoes = TratarReferenciaCircular.tratarLista(a.getProducoes());
         return producoes;
     }
 
@@ -257,27 +244,6 @@ public class AlunoFachada extends Fachada {
         AlunoDAO dao = new AlunoDAO();
 
         List<Aluno> lista = dao.listar();
-        List<Aluno> listaAuxiliar = new ArrayList<>();
-
-        if (lista != null) {
-            for (Aluno aluno : lista) {
-                Aluno a = aluno.copiaSimples();
-                if (a.getProjetos() != null) {
-                    for (Projeto p : a.getProjetos()) {
-                        p.setParticipantes(null);
-                    }
-                }
-                if (a.getProducoes() != null) {
-                    for (ProducaoAcademica p : a.getProducoes()) {
-                        if (p instanceof Publicacao) {
-                            ((Publicacao) p).setAutores(null);
-                        }
-                    }
-                }
-                listaAuxiliar.add(a);
-            }
-        }
-
-        return listaAuxiliar;
+        return TratarReferenciaCircular.tratarLista(lista);
     }
 }
