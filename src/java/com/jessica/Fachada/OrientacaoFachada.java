@@ -9,7 +9,7 @@ package com.jessica.Fachada;
 import com.jessica.DAO.OrientacaoDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Modelo.Orientacao;
-import java.util.ArrayList;
+import com.jessica.TratarReferenciaCircular;
 import java.util.List;
 
 /**
@@ -25,15 +25,8 @@ public class OrientacaoFachada extends Fachada {
      */
     public List<Orientacao> listarOrientacoes() {
         OrientacaoDAO dao = new OrientacaoDAO();
-        List<Orientacao> auxiliar = new ArrayList<>();
         List<Orientacao> lista = dao.listar();
-
-        for (Orientacao o : lista) {
-            Orientacao aux = o.copiaSimples();
-            auxiliar.add(aux);
-        }
-
-        return auxiliar;
+        return TratarReferenciaCircular.tratarLista(lista);
     }
 
     /**
@@ -44,10 +37,9 @@ public class OrientacaoFachada extends Fachada {
      */
     public Orientacao buscarOrientacao(int id) {
         OrientacaoDAO dao = new OrientacaoDAO();
-        Orientacao auxiliar = dao.buscar(id);
-        Orientacao o = auxiliar.copiaSimples();
+        Orientacao o = dao.buscar(id);
 
-        return o;
+        return TratarReferenciaCircular.tratar(o);
     }
 
     /**
@@ -59,12 +51,7 @@ public class OrientacaoFachada extends Fachada {
     public List<Orientacao> buscarOrientacaoPorAluno(int id) {
         OrientacaoDAO dao = new OrientacaoDAO();
         List<Orientacao> lista = dao.buscarPorAluno(id);
-        List<Orientacao> auxiliar = new ArrayList<>();
-        for(Orientacao o : lista){
-            auxiliar.add(o.copiaSimples());
-        }
-        
-        return auxiliar;
+        return TratarReferenciaCircular.tratarLista(lista);
     }
 
     /**

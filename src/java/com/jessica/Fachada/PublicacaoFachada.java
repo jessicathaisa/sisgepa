@@ -8,7 +8,9 @@ package com.jessica.Fachada;
 
 import com.jessica.DAO.PublicacaoDAO;
 import com.jessica.Modelo.Colaborador;
+import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Publicacao;
+import com.jessica.TratarReferenciaCircular;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -93,9 +95,13 @@ public class PublicacaoFachada extends Fachada {
      */
     public boolean apagarPublicacao(int id) {
         PublicacaoDAO dao = new PublicacaoDAO();
-        Publicacao pub = buscarPublicacao(id);
+        Publicacao pub = dao.buscar(id);
         for (Colaborador colaborador : pub.getAutores()) {
-            colaborador.getProducoes().remove(pub);
+            for(ProducaoAcademica pr : new ArrayList<>(colaborador.getProducoes())){
+                if(pr.getIdentificador() == pub.getIdentificador()){
+                    colaborador.getProducoes().remove(pr);
+                }
+            }
         }
 
         return dao.remPublicacao(id);
@@ -110,7 +116,7 @@ public class PublicacaoFachada extends Fachada {
     public Publicacao buscarPublicacao(int id) {
         PublicacaoDAO dao = new PublicacaoDAO();
 
-        return dao.buscar(id).copiaSimples();
+        return TratarReferenciaCircular.tratar(dao.buscar(id));
     }
 
     /**
@@ -120,16 +126,7 @@ public class PublicacaoFachada extends Fachada {
      */
     public List<Publicacao> listarPublicacoes() {
         PublicacaoDAO dao = new PublicacaoDAO();
-        List<Publicacao> auxiliar = new ArrayList<>();
         List<Publicacao> lista = dao.listar();
-
-        for (Publicacao o : lista) {
-            Publicacao aux = o.copiaSimples();
-            auxiliar.add(aux);
-        }
-
-        return auxiliar;
+        return TratarReferenciaCircular.tratarLista(lista);
     }
-    
-    
 }

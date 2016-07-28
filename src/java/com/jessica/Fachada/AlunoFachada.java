@@ -160,12 +160,12 @@ public class AlunoFachada extends Fachada {
         OrientacaoDAO oridao = new OrientacaoDAO();
         try {
             Aluno aluno = dao.buscar(id);
-
-            for (Projeto projeto : aluno.getProjetos()) {
+            List<Projeto> auxiliar = new ArrayList<>(aluno.getProjetos());
+            for (Projeto projeto : auxiliar) {
                 projdao.remParticipante(projeto.getIdentificador(), aluno.getIdentificador());
             }
 
-            for (ProducaoAcademica producao : aluno.getProducoes()) {
+            for (ProducaoAcademica producao : new ArrayList<>(aluno.getProducoes())) {
                 if (producao instanceof Publicacao) {
                     pubdao.remAutor(producao.getIdentificador(), aluno.getIdentificador());
                 } else if (producao instanceof Orientacao) {

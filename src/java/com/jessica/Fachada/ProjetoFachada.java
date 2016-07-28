@@ -11,6 +11,7 @@ import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.StatusProjeto;
+import com.jessica.TratarReferenciaCircular;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class ProjetoFachada extends Fachada {
         
         for(Projeto projeto : projetos)
             if(projeto.getStatus() == StatusProjeto.EM_ANDAMENTO)
-                projetosAux.add(projeto.copiar());
+                projetosAux.add(TratarReferenciaCircular.tratar(projeto));
         
         return projetosAux;
     }
@@ -45,7 +46,7 @@ public class ProjetoFachada extends Fachada {
     public Projeto buscar(int id){
         ProjetoDAO dao = new ProjetoDAO();
         
-        return dao.buscar(id).copiaSimples();
+        return TratarReferenciaCircular.tratar(dao.buscar(id));
     }
     
     /**
@@ -55,12 +56,8 @@ public class ProjetoFachada extends Fachada {
     public List<Projeto> listar(){
         ProjetoDAO dao = new ProjetoDAO();
         List<Projeto> projetos = dao.listar();
-        List<Projeto> projetosAux = new ArrayList();
         
-        for(Projeto projeto : projetos)
-                projetosAux.add(projeto.copiar());
-        
-        return projetosAux;
+        return TratarReferenciaCircular.tratarLista(projetos);
     }
     
     /**

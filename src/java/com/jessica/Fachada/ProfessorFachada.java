@@ -21,6 +21,7 @@ import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
+import com.jessica.TratarReferenciaCircular;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,28 +38,7 @@ public class ProfessorFachada extends Fachada{
         ProfessorDAO dao = new ProfessorDAO();
 
         List<Professor> lista = dao.listar();
-        List<Professor> listaAuxiliar = new ArrayList<>();
-
-        if (lista != null) {
-            for (Professor pesq : lista) {
-                Professor a = pesq.copiaSimples();
-                if (a.getProjetos() != null) {
-                    for (Projeto p : a.getProjetos()) {
-                        p.setParticipantes(null);
-                    }
-                }
-                if (a.getProducoes() != null) {
-                    for (ProducaoAcademica p : a.getProducoes()) {
-                        if (p instanceof Publicacao) {
-                            ((Publicacao) p).setAutores(null);
-                        }
-                    }
-                }
-                listaAuxiliar.add(a);
-            }
-        }
-
-        return listaAuxiliar;
+        return TratarReferenciaCircular.tratarLista(lista);
     }
     
     /**
@@ -177,11 +157,11 @@ public class ProfessorFachada extends Fachada{
                 throw new PossuiOrientandosException();
             
             /*Remove dos projetos em que participa*/
-            for(Projeto projeto : professor.getProjetos()){
+            for(Projeto projeto : new ArrayList<>(professor.getProjetos())){
                 projdao.remParticipante(projeto.getIdentificador(), professor.getIdentificador());
             }
             
-            for(ProducaoAcademica producao : professor.getProducoes()){
+            for(ProducaoAcademica producao : new ArrayList<>(professor.getProducoes())){
                 if(producao instanceof Publicacao)
                     pubdao.remAutor(producao.getIdentificador(), professor.getIdentificador());
                 else if(producao instanceof Orientacao){
@@ -206,8 +186,8 @@ public class ProfessorFachada extends Fachada{
      */
     public Professor buscarProfessor(int id) {        
         ProfessorDAO dao = new ProfessorDAO();
-        Professor a = dao.buscar(id).copiaSimples();
-        return a;
+        Professor a = dao.buscar(id);
+        return TratarReferenciaCircular.tratar(a);
     }
 
     /**
@@ -219,12 +199,7 @@ public class ProfessorFachada extends Fachada{
     public List<Projeto> buscarProjetosProfessor(int id) {
         ProfessorDAO dao = new ProfessorDAO();
         Professor a = dao.buscar(id);
-        List<Projeto> projetos = new ArrayList<>();
-        
-        for(Projeto p : a.getProjetos()){
-            projetos.add(p.copiar());
-        }
-        
+        List<Projeto> projetos = TratarReferenciaCircular.tratarLista(a.getProjetos());
         return projetos;
     }
 
@@ -237,15 +212,7 @@ public class ProfessorFachada extends Fachada{
     public List<ProducaoAcademica> buscarProducoesProfessor(int id) {
         ProfessorDAO dao = new ProfessorDAO();
         Professor a = dao.buscar(id);
-        List<ProducaoAcademica> producoes = new ArrayList<>();
-        
-        for(ProducaoAcademica p : a.getProducoes()){
-            if(p instanceof Publicacao)
-                producoes.add(((Publicacao)p).copiaSimples());
-            if(p instanceof Orientacao)
-                producoes.add(((Orientacao)p).copiaSimples());
-        }
-        
+        List<ProducaoAcademica> producoes = TratarReferenciaCircular.tratarLista(a.getProducoes());        
         return producoes;
     }
 

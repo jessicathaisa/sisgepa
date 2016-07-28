@@ -93,7 +93,7 @@ public class TratarReferenciaCircular {
             if(object == null) {
                 return null;
             }
-            if(PROFUNDIDADE.get(uuid) > 4) {
+            if(PROFUNDIDADE.get(uuid) > 5) {
                 return null;
             }
             

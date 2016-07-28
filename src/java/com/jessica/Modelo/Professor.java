@@ -15,46 +15,4 @@ public class Professor extends Colaborador {
     public Professor() {
         tipoColaborador = TipoColaborador.PROFESSOR;
     }
-    
-    /**
-     * Realiza uma cópia do objeto
-     * @return 
-     */
-    public Professor copiar() {
-        Professor novo = new Professor();
-        novo.setIdentificador(this.getIdentificador());
-        novo.setNome(this.getNome());
-        novo.setEmail(this.getEmail());
-
-        novo.setUsuario(this.getUsuario().copiar());
-
-        for (Projeto p : this.getProjetos()) {
-            novo.getProjetos().add(p.copiar());
-        }
-        for (ProducaoAcademica p : this.getProducoes()) {
-            if (p instanceof Publicacao) {
-                novo.getProducoes().add(((Publicacao) p).copiar());
-            }
-            if (p instanceof Orientacao) {
-                novo.getProducoes().add(((Orientacao) p).copiar());
-            }
-        }
-        return novo;
-    }
-
-    /**
-     * Realiza uma cópia do objeto evitando erros de referencias circulares
-     * @return 
-     */
-    public Professor copiaSimples() {
-        Professor novo = new Professor();
-        novo.setIdentificador(this.getIdentificador());
-        novo.setNome(this.getNome());
-        novo.setEmail(this.getEmail());
-
-        novo.setUsuario(this.getUsuario().copiar());
-
-        return novo;
-    }
-
 }
