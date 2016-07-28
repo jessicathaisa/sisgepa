@@ -170,4 +170,17 @@ public class ProjetoFachada extends Fachada {
         for(Publicacao c : publicacoes)
             dao.remPublicacao(idProjeto, c.getIdentificador());
     }
+    /**
+     * Apaga um projeto do sistema
+     *
+     * @param id
+     * @return
+     */
+    public boolean apagarProjeto(int id) {
+        ProjetoDAO dao = new ProjetoDAO();
+        removerTodosParticipantes(id);
+        removerTodasPublicacoes(id);
+
+        return dao.remProjeto(id);
+    }
 }

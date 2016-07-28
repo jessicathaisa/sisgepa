@@ -544,6 +544,41 @@ function ProjetoController($scope, $http, $window, $location, $q, $anchorScroll)
             $scope.habilitaTodosBotoes();
         }
     };
+
+
+    $scope.submitFormExcluir = function () {
+        var resposta = confirm("Confirmar exclusão do projeto?");
+        if (resposta == true) {
+            $scope.mensagem = "";
+            this.chamada = {};
+            this.chamada.comando = "excluirProjeto";
+            this.chamada.identificador = idProjeto;
+            req = {
+                method: 'POST',
+                url: 'ProjetoServlet',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                data: $scope.chamada
+            };
+
+            $http(req)
+                    .success(function (data, status) {
+                        if (status === 200) {
+                            alert("Exclusão realizada com sucesso!");
+                            $window.location.href = 'projetolistar.html';
+                        }
+                    })
+                    .error(function (data, status) {
+                        if (status === 401) {
+                            $scope.mensagem = "Você não tem permissão para realizar esta ação.";
+                        }
+                        else if (status === 500) {
+                            $scope.mensagem = "Não foi possível processar a operação, favor tente mais tarde.";
+                        }
+                    });
+        }
+    };
 }
 
 

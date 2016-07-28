@@ -249,6 +249,7 @@ public class ProjetoDAO extends DAO{
         }
         
         if(publicacaoEstaNoProjeto){
+            publicacao.setProjeto(null);
             p.getPublicacoes().remove(publicacao);
         }
         

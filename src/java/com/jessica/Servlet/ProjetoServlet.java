@@ -153,6 +153,10 @@ public class ProjetoServlet extends ControladorCentral {
             } catch (Exception e) {
                 response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             }
+        } else if (obj.comando != null && obj.comando.equals("excluirProjeto")) {
+            ProjetoFachada fachada = new ProjetoFachada();
+            fachada.apagarProjeto(Integer.parseInt(obj.identificador));
+            response.setStatus(HttpServletResponse.SC_OK);
         } else {
             response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         }
