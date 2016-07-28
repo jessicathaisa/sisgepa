@@ -21,7 +21,6 @@ import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.TipoUsuario;
 import com.jessica.Modelo.Usuario;
-import com.jessica.TratarReferenciaCircular;
 import java.util.ArrayList;
 import java.util.List;
 

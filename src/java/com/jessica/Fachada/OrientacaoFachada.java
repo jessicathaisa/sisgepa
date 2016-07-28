@@ -9,7 +9,6 @@ package com.jessica.Fachada;
 import com.jessica.DAO.OrientacaoDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
 import com.jessica.Modelo.Orientacao;
-import com.jessica.TratarReferenciaCircular;
 import java.util.List;
 
 /**

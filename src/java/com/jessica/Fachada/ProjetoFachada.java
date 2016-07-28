@@ -11,7 +11,6 @@ import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.Projeto;
 import com.jessica.Modelo.Publicacao;
 import com.jessica.Modelo.StatusProjeto;
-import com.jessica.TratarReferenciaCircular;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;

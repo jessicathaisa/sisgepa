@@ -12,7 +12,6 @@ import com.jessica.DAO.ProjetoDAO;
 import com.jessica.DAO.PublicacaoDAO;
 import com.jessica.DAO.UsuarioDAO;
 import com.jessica.Excecao.UsuarioDuplicadoException;
-import com.jessica.TratarReferenciaCircular;
 import com.jessica.Modelo.Aluno;
 import com.jessica.Modelo.Orientacao;
 import com.jessica.Modelo.ProducaoAcademica;

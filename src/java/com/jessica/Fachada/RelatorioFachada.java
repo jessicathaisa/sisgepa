@@ -17,6 +17,10 @@ import com.jessica.Modelo.StatusProjeto;
  * @author Jessica
  */
 public class RelatorioFachada{
+    /**
+     * Gera o relatório da produção acadêmica
+     * @return 
+     */
     public Relatorio buscaRelatorio(){
         Relatorio relatorio = new Relatorio();
         

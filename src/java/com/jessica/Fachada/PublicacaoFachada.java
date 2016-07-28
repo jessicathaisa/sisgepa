@@ -10,7 +10,6 @@ import com.jessica.DAO.PublicacaoDAO;
 import com.jessica.Modelo.Colaborador;
 import com.jessica.Modelo.ProducaoAcademica;
 import com.jessica.Modelo.Publicacao;
-import com.jessica.TratarReferenciaCircular;
 import java.util.ArrayList;
 import java.util.List;
 
