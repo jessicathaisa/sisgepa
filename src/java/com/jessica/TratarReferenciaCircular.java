@@ -49,6 +49,23 @@ public class TratarReferenciaCircular {
      * Trata a referência circular de uma lista
      * @param <T>
      * @param object Lista da qual a referência circular deve ser tratada
+     * @return 
+     */
+    public static <T> List<T> tratarLista(List<T> object) {
+        UUID context = UUID.randomUUID();
+        CONTEXTO.put(context, new HashSet<>());
+        PROFUNDIDADE.put(context, 0);
+        
+        List<T> result = tratarLista(object, context);
+
+        CONTEXTO.remove(context);
+        return result;
+    }
+
+    /**
+     * Trata a referência circular de uma lista
+     * @param <T>
+     * @param object Lista da qual a referência circular deve ser tratada
      * @param uuid
      * @return 
      */
